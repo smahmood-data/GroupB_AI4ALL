@@ -14,11 +14,5 @@ A lightweight Python project scaffold for data preparation, feature engineering,
 
 1. Create and activate a virtual environment.
 2. Install dependencies from `requirements.txt`.
-3. Use the notebooks for exploration and the modules in `src/` for repeatable steps.
+3. Use the notebooks for exploration and write the modules in `src/` for repeatable steps.
 
-## Suggested Workflow
-
-- Start with `notebooks/01-initial-eda.ipynb`.
-- Build features in `src/features.py`.
-- Train a model in `src/train_model.py`.
-- Evaluate results in `src/evaluate.py`.

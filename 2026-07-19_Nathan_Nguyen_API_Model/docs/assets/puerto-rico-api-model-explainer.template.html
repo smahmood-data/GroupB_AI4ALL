@@ -1,0 +1,870 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Plain-language explainer for the Puerto Rico API-powered dengue forecasting and outbreak alert model.">
+  <title>Puerto Rico API dengue model — architecture and results</title>
+  <style>
+    :root {
+      --ink: #152c3b;
+      --muted: #61727b;
+      --paper: #f4f1e9;
+      --card: #fffdf8;
+      --line: #d9d4c8;
+      --navy: #1f5268;
+      --teal: #2c8b86;
+      --aqua: #a9ddd5;
+      --coral: #e76f51;
+      --coral-soft: #f8d8cf;
+      --mustard: #d39b35;
+      --mustard-soft: #f4e5bd;
+      --green: #4a8f63;
+      --green-soft: #dcebdc;
+      --danger: #a23d37;
+      --shadow: 0 18px 45px rgba(21, 44, 59, .08);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 0%, rgba(169, 221, 213, .35), transparent 31rem),
+        radial-gradient(circle at 100% 24%, rgba(244, 229, 189, .48), transparent 28rem),
+        var(--paper);
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+    a { color: var(--navy); text-underline-offset: 3px; }
+    a:hover { color: var(--coral); }
+    button, select { font: inherit; }
+    code {
+      padding: .13rem .36rem;
+      border: 1px solid var(--line);
+      border-radius: .42rem;
+      background: #f3f0e8;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: .88em;
+      overflow-wrap: anywhere;
+    }
+    .page { width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: 28px 0 72px; }
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+    .brand { display: flex; align-items: center; gap: 11px; font-weight: 800; letter-spacing: -.02em; }
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: var(--navy);
+      color: white;
+      box-shadow: 7px 7px 0 var(--aqua);
+    }
+    .nav-links { display: flex; flex-wrap: wrap; gap: 10px; }
+    .nav-links a {
+      color: var(--ink);
+      text-decoration: none;
+      font-size: .9rem;
+      font-weight: 700;
+      padding: 8px 12px;
+      border-radius: 999px;
+    }
+    .nav-links a:hover { background: var(--card); }
+    .hero {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr);
+      gap: 46px;
+      padding: clamp(30px, 6vw, 68px);
+      background:
+        radial-gradient(circle at 100% 0%, rgba(169, 221, 213, .13), transparent 17rem),
+        var(--ink);
+      color: white;
+      border-radius: 34px;
+      box-shadow: var(--shadow);
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: rgba(169, 221, 213, .14);
+      color: #c9f0e8;
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--aqua); }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 {
+      max-width: 760px;
+      margin: 20px 0 20px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2.75rem, 7vw, 5.7rem);
+      line-height: 1.02;
+      letter-spacing: -.055em;
+      font-weight: 700;
+    }
+    h2 {
+      margin-bottom: 12px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2rem, 4vw, 3.15rem);
+      line-height: 1.02;
+      letter-spacing: -.035em;
+    }
+    h3 { margin-bottom: 8px; font-size: 1.1rem; line-height: 1.25; }
+    .hero-copy { max-width: 700px; font-size: 1.1rem; color: #dce7e9; }
+    .hero-note {
+      align-self: end;
+      position: relative;
+      z-index: 1;
+      padding: 24px;
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 20px;
+      background: rgba(255,255,255,.07);
+      backdrop-filter: blur(8px);
+    }
+    .hero-note strong { display: block; margin-bottom: 6px; color: var(--aqua); font-size: 1.1rem; }
+    .hero-note p { margin: 0; color: #dce7e9; }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin: 18px 0 54px;
+    }
+    .stat {
+      min-width: 0;
+      padding: 23px;
+      border: 1px solid rgba(21,44,59,.08);
+      border-radius: 20px;
+      background: var(--card);
+      box-shadow: 0 8px 24px rgba(21,44,59,.04);
+    }
+    .stat-label { color: var(--muted); font-size: .8rem; font-weight: 800; letter-spacing: .045em; text-transform: uppercase; }
+    .stat-value { display: block; margin: 8px 0 4px; font-family: Georgia, serif; font-size: 2.25rem; line-height: 1; letter-spacing: -.04em; }
+    .stat-caption { color: var(--muted); font-size: .86rem; }
+    .section { margin-top: 64px; scroll-margin-top: 24px; }
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, .62fr);
+      gap: 32px;
+      align-items: end;
+      margin-bottom: 24px;
+    }
+    .section-kicker { margin-bottom: 8px; color: var(--coral); font-size: .78rem; font-weight: 900; letter-spacing: .11em; text-transform: uppercase; }
+    .section-head p { margin: 0; color: var(--muted); }
+    .grid-2, .grid-3 { display: grid; gap: 18px; }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .card {
+      min-width: 0;
+      padding: 25px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--card);
+      box-shadow: 0 10px 30px rgba(21,44,59,.035);
+    }
+    .source-card { position: relative; padding-top: 62px; }
+    .source-index {
+      position: absolute;
+      top: 20px;
+      left: 22px;
+      width: 29px;
+      height: 29px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      color: white;
+      background: var(--navy);
+      font-weight: 900;
+      font-size: .8rem;
+    }
+    .source-card p, .objective p, .limitation p { color: var(--muted); }
+    .source-card a { font-weight: 800; }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      max-width: 100%;
+      padding: 6px 9px;
+      border-radius: 999px;
+      background: #edf1ef;
+      color: var(--muted);
+      font-size: .76rem;
+      font-weight: 800;
+      overflow-wrap: anywhere;
+    }
+    .architecture {
+      overflow: hidden;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: linear-gradient(145deg, #fffdf8, #eef5f2);
+    }
+    .architecture svg { display: block; width: 100%; height: auto; }
+    .architecture text { font-family: Inter, ui-sans-serif, system-ui, sans-serif; fill: var(--ink); }
+    .architecture .small { fill: var(--muted); font-size: 13px; }
+    .architecture .title { font-size: 16px; font-weight: 850; }
+    .architecture .box { fill: #fffdf8; stroke: #b8c4c1; stroke-width: 1.5; }
+    .architecture .api { fill: #dff2ed; stroke: var(--teal); }
+    .architecture .model { fill: #edf3f5; stroke: var(--navy); }
+    .architecture .out { fill: #fbe5de; stroke: var(--coral); }
+    .architecture .line { fill: none; stroke: #80959b; stroke-width: 2; }
+    .objective { border-top: 6px solid var(--teal); }
+    .objective.recall { border-top-color: var(--coral); }
+    .objective-number { font-family: Georgia, serif; font-size: 2.8rem; color: var(--teal); line-height: 1; }
+    .recall .objective-number { color: var(--coral); }
+    .metric-list { display: grid; gap: 16px; }
+    .metric-row { display: grid; grid-template-columns: minmax(155px, .75fr) minmax(120px, 1.6fr) 58px; gap: 12px; align-items: center; }
+    .metric-label { font-size: .88rem; font-weight: 750; }
+    .track { position: relative; height: 13px; overflow: hidden; border-radius: 999px; background: #e9e5dd; }
+    .fill { height: 100%; border-radius: inherit; background: var(--teal); }
+    .fill.coral { background: var(--coral); }
+    .fill.mustard { background: var(--mustard); }
+    .metric-number { text-align: right; font-variant-numeric: tabular-nums; font-weight: 850; }
+    .chart-card { padding: 26px; }
+    .chart-title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; margin-bottom: 18px; }
+    .chart-title-row p { margin: 0; color: var(--muted); }
+    .chart-legend { display: flex; flex-wrap: wrap; gap: 12px; color: var(--muted); font-size: .8rem; font-weight: 750; }
+    .legend-item { display: inline-flex; align-items: center; gap: 6px; }
+    .swatch { width: 22px; height: 4px; border-radius: 4px; background: var(--ink); }
+    .swatch.p50 { background: var(--teal); }
+    .swatch.threshold { background: var(--mustard); }
+    .swatch.band { height: 10px; background: rgba(44,139,134,.18); border: 1px solid rgba(44,139,134,.42); }
+    .controls { display: flex; flex-wrap: wrap; gap: 9px; margin: 18px 0; }
+    .control-button, .year-select {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px 13px;
+      color: var(--ink);
+      background: white;
+      cursor: pointer;
+      font-weight: 750;
+    }
+    .control-button[aria-pressed="true"] { border-color: var(--navy); background: var(--navy); color: white; }
+    .year-label { display: inline-flex; align-items: center; gap: 7px; color: var(--muted); font-size: .82rem; font-weight: 800; }
+    .chart-wrap { position: relative; width: 100%; min-height: 410px; }
+    canvas { display: block; width: 100%; height: 410px; border-radius: 14px; background: #fffefb; }
+    .tooltip {
+      position: absolute;
+      z-index: 3;
+      display: none;
+      pointer-events: none;
+      min-width: 175px;
+      padding: 11px 13px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(255,253,248,.97);
+      box-shadow: var(--shadow);
+      font-size: .8rem;
+    }
+    .tooltip strong { display: block; margin-bottom: 4px; }
+    .chart-caption { margin: 13px 0 0; color: var(--muted); font-size: .86rem; }
+    .mae-group { display: grid; gap: 23px; }
+    .mae-variant { display: grid; gap: 8px; }
+    .variant-name { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-weight: 850; }
+    .mae-bars { display: grid; gap: 8px; }
+    .mae-row { display: grid; grid-template-columns: 112px minmax(0, 1fr) 52px; gap: 10px; align-items: center; font-size: .82rem; }
+    .mae-track { height: 17px; border-radius: 6px; background: #ece8e0; overflow: hidden; }
+    .mae-fill { height: 100%; min-width: 2px; background: var(--navy); border-radius: inherit; }
+    .mae-fill.normal { background: var(--teal); }
+    .mae-fill.outbreak { background: var(--coral); }
+    .mae-value { text-align: right; font-weight: 850; font-variant-numeric: tabular-nums; }
+    .callout {
+      margin-top: 18px;
+      padding: 18px 20px;
+      border-left: 5px solid var(--mustard);
+      border-radius: 12px;
+      background: var(--mustard-soft);
+    }
+    .callout strong { display: block; margin-bottom: 4px; }
+    .confusions { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 18px; }
+    .matrix { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 7px; margin-top: 14px; }
+    .matrix-cell { min-height: 95px; display: grid; align-content: center; justify-items: center; padding: 10px; border-radius: 14px; text-align: center; }
+    .matrix-cell.good { background: var(--green-soft); }
+    .matrix-cell.warn { background: var(--coral-soft); }
+    .matrix-cell strong { font-family: Georgia, serif; font-size: 2rem; line-height: 1; }
+    .matrix-cell span { margin-top: 5px; color: var(--muted); font-size: .77rem; font-weight: 750; }
+    .year-bars { display: grid; gap: 18px; }
+    .year-row { display: grid; grid-template-columns: 52px minmax(0,1fr) 86px; gap: 12px; align-items: center; }
+    .year-track { height: 28px; overflow: hidden; border-radius: 8px; background: #dfe9e6; }
+    .year-outbreak { height: 100%; background: var(--coral); }
+    .year-count { text-align: right; font-weight: 850; font-size: .86rem; }
+    .coverage-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px; }
+    .coverage-card { padding: 18px; border-radius: 16px; background: #f2f1eb; }
+    .coverage-card strong { display: block; font-size: 1.25rem; }
+    .coverage-card p { margin: 5px 0 0; color: var(--muted); font-size: .84rem; }
+    .coverage-scale { position: relative; height: 10px; margin: 16px 0 9px; border-radius: 999px; background: #ddd8cf; }
+    .coverage-actual { height: 100%; border-radius: inherit; background: var(--teal); }
+    .coverage-target { position: absolute; top: -5px; width: 2px; height: 20px; background: var(--coral); }
+    .live-list { display: grid; gap: 15px; }
+    .live-row { padding: 20px; border: 1px solid var(--line); border-radius: 17px; background: #fffefb; }
+    .live-top { display: flex; justify-content: space-between; gap: 15px; align-items: flex-start; }
+    .live-date { font-weight: 900; }
+    .live-status { padding: 5px 8px; border-radius: 999px; background: var(--coral-soft); color: var(--danger); font-size: .74rem; font-weight: 900; }
+    .live-status.no-alert { background: var(--green-soft); color: #316c48; }
+    .range { position: relative; height: 42px; margin: 19px 0 9px; border-top: 2px solid #ded9cf; }
+    .range-point { position: absolute; top: -8px; width: 3px; height: 17px; background: var(--ink); }
+    .range-point.p50 { background: var(--teal); }
+    .range-point.p80 { background: var(--navy); }
+    .range-point.p90 { background: var(--coral); }
+    .range-point.threshold { background: var(--mustard); }
+    .range-labels { display: flex; flex-wrap: wrap; gap: 6px 12px; margin: -8px 0 10px; color: var(--muted); font-size: .74rem; font-weight: 800; }
+    .live-meta { display: flex; flex-wrap: wrap; gap: 7px; color: var(--muted); font-size: .78rem; }
+    .warning {
+      padding: 24px;
+      border: 1px solid #e0b4a8;
+      border-radius: 20px;
+      background: #fff5f1;
+    }
+    .warning h3 { color: var(--danger); }
+    .warning p:last-child { margin-bottom: 0; }
+    .file-table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 20px; background: var(--card); }
+    table { width: 100%; border-collapse: collapse; min-width: 720px; }
+    th, td { padding: 15px 17px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { color: var(--muted); background: #f2f1eb; font-size: .75rem; letter-spacing: .06em; text-transform: uppercase; }
+    tr:last-child td { border-bottom: 0; }
+    td:first-child { font-weight: 800; }
+    .file-link { overflow-wrap: anywhere; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .82rem; }
+    .footer { margin-top: 70px; padding-top: 24px; border-top: 1px solid var(--line); color: var(--muted); font-size: .84rem; }
+    .footer-grid { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+    @media (max-width: 900px) {
+      .hero, .section-head { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .grid-3 { grid-template-columns: 1fr; }
+      .architecture { overflow-x: auto; }
+      .architecture svg { min-width: 780px; }
+    }
+    @media (max-width: 680px) {
+      .page { width: min(100% - 20px, 1180px); padding-top: 14px; }
+      .nav { align-items: flex-start; }
+      .nav-links { display: none; }
+      .hero { padding: 30px 24px; border-radius: 25px; }
+      .stats, .grid-2, .confusions, .coverage-grid { grid-template-columns: 1fr; }
+      .section { margin-top: 48px; }
+      .card, .chart-card { padding: 20px; }
+      .metric-row { grid-template-columns: minmax(112px,.8fr) minmax(80px,1fr) 50px; }
+      .chart-title-row, .live-top { flex-direction: column; }
+      .chart-wrap, canvas { min-height: 350px; height: 350px; }
+      .mae-row { grid-template-columns: 94px minmax(0,1fr) 48px; }
+    }
+    @media print {
+      body { background: white; }
+      .page { width: 100%; padding: 0; }
+      .nav-links, .controls { display: none; }
+      .hero, .card, .architecture { box-shadow: none; break-inside: avoid; }
+      .section { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <nav class="nav" aria-label="Explainer navigation">
+      <div class="brand"><span class="brand-mark">PR</span><span>Dengue Signal Lab</span></div>
+      <div class="nav-links">
+        <a href="#architecture">Architecture</a>
+        <a href="#models">Three models</a>
+        <a href="#results">Results</a>
+        <a href="#validation">Validation</a>
+        <a href="#files">Relevant files</a>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <div>
+        <span class="eyebrow"><span class="dot"></span>API-only operational model</span>
+        <h1>Puerto Rico dengue forecast, explained.</h1>
+        <p class="hero-copy">
+          This page covers only the new Puerto Rico-wide system trained from public
+          health and weather APIs. It does not use the historical DengAI/Kaggle city
+          dataset or the San Juan/Iquitos notebook results.
+        </p>
+      </div>
+      <aside class="hero-note">
+        <strong>Two answers, kept separate</strong>
+        <p><b>MAE-focused:</b> how many cases are likely? <br><b>Recall-focused:</b> should the system warn about an outbreak?</p>
+      </aside>
+    </header>
+
+    <section class="stats" aria-label="Key model facts">
+      <div class="stat"><span class="stat-label">Official training history</span><span class="stat-value" id="trainingRows">—</span><span class="stat-caption">complete Puerto Rico weeks</span></div>
+      <div class="stat"><span class="stat-label">Best case MAE</span><span class="stat-value" id="bestMae">—</span><span class="stat-caption">with eight exact recent weeks</span></div>
+      <div class="stat"><span class="stat-label">Best classifier F1</span><span class="stat-value" id="bestF1">—</span><span class="stat-caption">weather + recent cases</span></div>
+      <div class="stat"><span class="stat-label">Held-out weeks</span><span class="stat-value">125</span><span class="stat-caption">2024 through May 2026</span></div>
+    </section>
+
+    <section class="section" id="sources">
+      <div class="section-head">
+        <div><div class="section-kicker">Inputs</div><h2>Two live API sources</h2></div>
+        <p>The operational target is the entire island. The pipeline uses the same source families for historical training and current scoring.</p>
+      </div>
+      <div class="grid-3">
+        <article class="card source-card">
+          <span class="source-index">01</span>
+          <h3>Puerto Rico Department of Health</h3>
+          <p>Daily PCR and IgM dengue counts are added together. Hospitalizations are retained as a supporting signal, and only complete Monday–Sunday weeks are kept.</p>
+          <a href="https://biostatistics.salud.pr.gov/swagger/index.html">Official API documentation ↗</a>
+        </article>
+        <article class="card source-card">
+          <span class="source-index">02</span>
+          <h3>Open-Meteo</h3>
+          <p>Temperature, rainfall, rainy hours, dew point, shallow soil moisture, humidity, and evapotranspiration are sampled across six island locations. Daily rain also becomes weekly heavy-rain frequency and longest-dry-spell features.</p>
+          <a href="https://open-meteo.com/">Weather API documentation ↗</a>
+        </article>
+        <article class="card source-card">
+          <span class="source-index">03</span>
+          <h3>Time-safe weekly features</h3>
+          <p>Weather uses independent lags and rolling summaries. Heavy-rain frequency and longest dry spell feed the MAE-focused case models only; held-out tests showed they improved case error but weakened the alert classifier. Case and hospitalization features are anchored to an exact prior week or the latest delayed report.</p>
+          <span class="pill">No future validation values are used</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="architecture">
+      <div class="section-head">
+        <div><div class="section-kicker">Architecture</div><h2>One pipeline, two objectives</h2></div>
+        <p>The system selects exact cases, delayed cases, or weather only based on what truly exists at forecast time, then produces a case estimate and a separate outbreak alert.</p>
+      </div>
+      <figure class="architecture">
+        <svg viewBox="0 0 1080 590" role="img" aria-labelledby="architectureTitle architectureDescription">
+          <title id="architectureTitle">Puerto Rico operational dengue model architecture</title>
+          <desc id="architectureDescription">Official case and weather APIs feed weekly features. The pipeline selects exact-case, delayed-case, or weather-only models and produces case quantiles and a recall-focused outbreak alert.</desc>
+          <rect class="box api" x="50" y="35" width="290" height="92" rx="18"/>
+          <text class="title" x="195" y="69" text-anchor="middle">Health API</text>
+          <text class="small" x="195" y="94" text-anchor="middle">PCR + IgM cases · hospitalizations</text>
+          <text class="small" x="195" y="113" text-anchor="middle">385 complete island weeks</text>
+
+          <rect class="box api" x="740" y="35" width="290" height="92" rx="18"/>
+          <text class="title" x="885" y="69" text-anchor="middle">Weather API</text>
+          <text class="small" x="885" y="94" text-anchor="middle">Six Puerto Rico locations</text>
+          <text class="small" x="885" y="113" text-anchor="middle">Rain pattern · moisture · heat · ET₀</text>
+
+          <path class="line" d="M195 127 C195 175 405 154 468 201"/>
+          <path class="line" d="M885 127 C885 175 675 154 612 201"/>
+          <rect class="box" x="390" y="202" width="300" height="98" rx="18"/>
+          <text class="title" x="540" y="237" text-anchor="middle">Leakage-safe features</text>
+          <text class="small" x="540" y="262" text-anchor="middle">Weather lags remain separate from case lags</text>
+          <text class="small" x="540" y="282" text-anchor="middle">Expanding-year validation</text>
+
+          <path class="line" d="M540 300 L540 343"/>
+          <rect class="box model" x="380" y="345" width="320" height="78" rx="18"/>
+          <text class="title" x="540" y="375" text-anchor="middle">Availability router</text>
+          <text class="small" x="540" y="400" text-anchor="middle">Exact history → delayed history → weather only</text>
+
+          <path class="line" d="M380 384 C285 384 245 427 245 462"/>
+          <path class="line" d="M700 384 C795 384 835 427 835 462"/>
+          <text class="small" x="325" y="414" text-anchor="middle">Case-count objective</text>
+          <text class="small" x="755" y="414" text-anchor="middle">Alert objective</text>
+
+          <rect class="box out" x="65" y="465" width="360" height="92" rx="18"/>
+          <text class="title" x="245" y="498" text-anchor="middle">MAE-focused case forecast</text>
+          <text class="small" x="245" y="523" text-anchor="middle">P50 median + P80/P90 upper estimates</text>
+          <text class="small" x="245" y="543" text-anchor="middle">Compared with the seasonal case threshold</text>
+
+          <rect class="box out" x="655" y="465" width="360" height="92" rx="18"/>
+          <text class="title" x="835" y="498" text-anchor="middle">Recall-focused outbreak alert</text>
+          <text class="small" x="835" y="523" text-anchor="middle">Calibrated probability + recall gate</text>
+          <text class="small" x="835" y="543" text-anchor="middle">Independent from the P50 case estimate</text>
+        </svg>
+      </figure>
+
+      <div class="grid-2" style="margin-top:18px">
+        <article class="card objective">
+          <div class="objective-number">01</div>
+          <h3>MAE-focused case model</h3>
+          <p>P50 is a median forecast from a gradient-boosted quantile regressor. Exact reports use a learned change; delayed reports keep the old count as P50 when held-out corrections cannot beat that persistence baseline.</p>
+          <span class="pill">Primary score: mean absolute error</span>
+        </article>
+        <article class="card objective recall">
+          <div class="objective-number">02</div>
+          <h3>Recall-focused alert model</h3>
+          <p>A calibrated logistic classifier estimates outbreak probability. Its alert gate is selected on later held-out weeks to target at least 80% recall.</p>
+          <span class="pill">Primary policy: catch outbreaks, accept more alerts</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="models">
+      <div class="section-head">
+        <div><div class="section-kicker">Data availability</div><h2>The three models, with examples</h2></div>
+        <p>The router uses the strongest case history that genuinely exists: exact recent cases first, then delayed cases, then weather only.</p>
+      </div>
+      <div class="grid-3">
+        <article class="card objective">
+          <div class="objective-number">01</div>
+          <h3>Weather only</h3>
+          <p><b>Definition:</b> Uses weather patterns and seasonality without any usable case history.</p>
+          <p><b>Example:</b> To predict July 13 when no continuous case reports are available, the model relies on temperature, rain, humidity, soil moisture, and related weather lags.</p>
+          <span class="pill">Always available · least accurate</span>
+        </article>
+        <article class="card objective">
+          <div class="objective-number">02</div>
+          <h3>Weather + delayed cases</h3>
+          <p><b>Definition:</b> Uses weather plus the newest case report available, even when that report is several weeks old. The model is told the report's age.</p>
+          <p><b>Example:</b> To predict July 13 when the newest report is May 18, it uses the May 18 count, the eight weeks leading to it, hospitalizations, current weather, and an eight-week report age. In the committed example, P50/P80/P90 are 11/33/51 cases.</p>
+          <span class="pill">Realistic during reporting delays</span>
+        </article>
+        <article class="card objective">
+          <div class="objective-number">03</div>
+          <h3>Weather + exact recent cases</h3>
+          <p><b>Definition:</b> Uses weather plus all eight case-report weeks immediately before the prediction week.</p>
+          <p><b>Example:</b> To predict July 13, reports must be available for every week through July 6 and back through May 18. Those exact recent trends give the model its strongest case-count signal.</p>
+          <span class="pill">Most accurate · requires current reports</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="results">
+      <div class="section-head">
+        <div><div class="section-kicker">Held-out results</div><h2>Delayed cases bridge the live data gap</h2></div>
+        <p>Each result uses 125 later weeks that were not used to fit that fold. Lower MAE is better; higher precision, recall, F1, and PR-AUC are better.</p>
+      </div>
+      <div class="grid-2">
+        <article class="card chart-card">
+          <div class="chart-title-row"><div><h3>Case-count error</h3><p>P50 MAE, measured in weekly cases</p></div><span class="pill">↓ lower is better</span></div>
+          <div class="mae-group" id="maeChart"></div>
+          <div class="callout" id="maeConclusion"><strong>The honest conclusion</strong>Loading current champion results…</div>
+        </article>
+        <article class="card chart-card">
+          <div class="chart-title-row"><div><h3>Outbreak classifier</h3><p>Alert performance on the same later weeks</p></div><span class="pill">target recall ≥ 80%</span></div>
+          <div class="metric-list" id="classifierChart"></div>
+          <p class="chart-caption">Exact recent cases produce the best F1. The delayed classifier trades some recall for better precision than weather only; weather only catches every held-out outbreak but raises the most alerts.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="validation">
+      <div class="section-head">
+        <div><div class="section-kicker">Prediction vs. actual</div><h2>Explore every held-out week</h2></div>
+        <p>Switch model variants or isolate a year. The shaded region spans P80 to P90; it is an experimental upper range, not a guaranteed interval.</p>
+      </div>
+      <article class="card chart-card">
+        <div class="chart-title-row">
+          <div><h3>Weekly dengue cases</h3><p id="chartSummary">Actual cases compared with model output</p></div>
+          <div class="chart-legend" aria-label="Chart legend">
+            <span class="legend-item"><span class="swatch"></span>Actual</span>
+            <span class="legend-item"><span class="swatch p50"></span>P50</span>
+            <span class="legend-item"><span class="swatch threshold"></span>Threshold</span>
+            <span class="legend-item"><span class="swatch band"></span>P80–P90</span>
+          </div>
+        </div>
+        <div class="controls" aria-label="Validation chart controls">
+          <button class="control-button" type="button" data-variant="weather_plus_delayed_cases" aria-pressed="true">Weather + delayed cases</button>
+          <button class="control-button" type="button" data-variant="weather_plus_recent_cases" aria-pressed="false">Weather + recent cases</button>
+          <button class="control-button" type="button" data-variant="weather_only" aria-pressed="false">Weather only</button>
+          <label class="year-label" for="yearSelect">Year <select class="year-select" id="yearSelect"><option value="all">All held-out weeks</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026 through May</option></select></label>
+        </div>
+        <div class="chart-wrap"><canvas id="validationChart" role="img" aria-label="Actual and predicted weekly dengue cases over held-out time"></canvas><div class="tooltip" id="chartTooltip"></div></div>
+        <p class="chart-caption">Hover over the chart for exact values. On touch devices, tap near a week.</p>
+      </article>
+
+      <div class="grid-2" style="margin-top:18px">
+        <article class="card chart-card">
+          <div class="chart-title-row"><div><h3>Why every 2024 week is labeled outbreak</h3><p>Actual cases exceeded thresholds learned from earlier years</p></div></div>
+          <div class="year-bars" id="outbreakYearChart"></div>
+          <div class="callout"><strong>Not a coding rule that forces 52 weeks</strong>In 2024, weekly cases ranged from 43 to 214 while the earlier seasonal thresholds ranged from 9 to 50. Every week genuinely crossed its time-safe threshold.</div>
+        </article>
+        <article class="card chart-card">
+          <div class="chart-title-row"><div><h3>Upper-range coverage</h3><p>How often actual cases fell below P80 or P90</p></div></div>
+          <div class="coverage-grid" id="coverageChart"></div>
+          <p class="chart-caption">Red tick = intended target. Filled bar = observed coverage. Time-calibrated upper cushions improve coverage, but these remain research ranges.</p>
+        </article>
+      </div>
+
+      <div class="confusions" id="confusionMatrices" style="margin-top:18px"></div>
+    </section>
+
+    <section class="section" id="live">
+      <div class="section-head">
+        <div><div class="section-kicker">Operational example</div><h2>What one API run returns</h2></div>
+        <p>These are the latest committed example rows for the champion. They will change as the scheduled pipeline receives new API data.</p>
+      </div>
+      <article class="card"><div class="live-list" id="livePredictions"></div></article>
+    </section>
+
+    <section class="section" id="limitations">
+      <div class="section-head">
+        <div><div class="section-kicker">Interpret carefully</div><h2>What the results do not prove</h2></div>
+        <p>This is a research forecasting system, not an official Puerto Rico Department of Health outbreak declaration.</p>
+      </div>
+      <div class="grid-3">
+        <article class="warning limitation"><h3>Delayed P50 is conservative</h3><p>At an eight-week reporting delay, learned P50 corrections did not beat carrying the latest report forward. The delayed route therefore uses that report as P50, while weather and history still shape the classifier and upper range.</p></article>
+        <article class="warning limitation"><h3>Upper quantiles need calibration</h3><p>P80 and P90 do not yet contain 80% and 90% of held-out outcomes. Treat them as scenario estimates, not statistical guarantees.</p></article>
+        <article class="warning limitation"><h3>The label is statistical</h3><p>An outbreak means cases meet or exceed the historical 75th percentile for that seasonal neighborhood using earlier years only. It is not a clinical definition.</p></article>
+      </div>
+    </section>
+
+    <section class="section" id="files">
+      <div class="section-head">
+        <div><div class="section-kicker">Code map</div><h2>Relevant files</h2></div>
+        <p>Start with the orchestrator for the full flow, then open the model file for training, scoring, MAE monitoring, and promotion logic.</p>
+      </div>
+      <div class="file-table-wrap">
+        <table>
+          <thead><tr><th>File</th><th>What to look for</th><th>Relevant section</th></tr></thead>
+          <tbody>
+            <tr><td><a class="file-link" href="../src/continuous_pipeline.py">src/continuous_pipeline.py</a></td><td>API ingestion, weekly prediction, monthly retraining, and monitoring commands</td><td><code>ingest_sources</code>, <code>train_and_guard</code>, <code>predict_and_monitor</code></td></tr>
+            <tr><td><a class="file-link" href="../src/official_case_data.py">src/official_case_data.py</a></td><td>Official health API download, PCR + IgM + hospitalization normalization, complete-week rules, revision audit</td><td><code>fetch_puerto_rico_snapshot</code>, <code>merge_case_snapshot</code></td></tr>
+            <tr><td><a class="file-link" href="../src/near_realtime_outbreak_detection.py">src/near_realtime_outbreak_detection.py</a></td><td>Weather fields, objective-specific feature lists, independent lags, calibrated classifier, recall gate</td><td><code>weather_feature_columns</code>, <code>case_forecast_weather_feature_columns</code>, <code>choose_recall_gate</code></td></tr>
+            <tr><td><a class="file-link" href="../src/puerto_rico_operational.py">src/puerto_rico_operational.py</a></td><td>Puerto Rico aggregation, P50/P80/P90 models, validation, live routing, promotion guardrails</td><td><code>fit_time_aware_case_forecaster</code>, <code>score_champion</code>, <code>evaluate_promotion</code></td></tr>
+            <tr><td><a class="file-link" href="../config/operations.json">config/operations.json</a></td><td>Six weather locations, 80% recall target, reporting delay, MAE tolerances</td><td>Operational policy values</td></tr>
+            <tr><td><a class="file-link" href="../models/operational/pr/champion.json">models/operational/pr/champion.json</a></td><td>Current model version, cutoff, gates, and held-out metrics displayed here</td><td>Champion metadata</td></tr>
+            <tr><td><a class="file-link" href="../models/operational/pr/validation_predictions.csv">models/operational/pr/validation_predictions.csv</a></td><td>All 375 time-held-out case forecasts behind the interactive graph</td><td>125 rows per variant</td></tr>
+            <tr><td><a class="file-link" href="../data/operational/predictions.csv">data/operational/predictions.csv</a></td><td>Versioned live P50/P80/P90 estimates, reliability, probabilities, alerts, and later outcomes</td><td>Operational prediction log</td></tr>
+            <tr><td><a class="file-link" href="../.github/workflows/weekly-operational-update.yml">.github/workflows/weekly-operational-update.yml</a></td><td>Scheduled API refresh, prediction, monitoring, tests, and bot commit</td><td>Weekly automation</td></tr>
+            <tr><td><a class="file-link" href="../.github/workflows/monthly-guarded-retraining.yml">.github/workflows/monthly-guarded-retraining.yml</a></td><td>Scheduled candidate training and guarded promotion</td><td>Monthly automation</td></tr>
+            <tr><td><a class="file-link" href="../src/generate_api_model_explainer.py">src/generate_api_model_explainer.py</a></td><td>Regenerates this page from the current champion and validation artifacts</td><td><code>build_explainer</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-grid"><span id="modelFooter">Puerto Rico operational model</span><span>API-only explainer · research use</span></div>
+    </footer>
+  </main>
+
+  <script>
+    const MODEL = __MODEL_METADATA__;
+    const VALIDATION = __VALIDATION_ROWS__;
+    const LIVE = __LIVE_PREDICTIONS__;
+
+    const variants = {
+      weather_only: { label: "Weather only", short: "Weather only", color: "#d39b35" },
+      weather_plus_delayed_cases: { label: "Weather + delayed case history", short: "Delayed cases", color: "#e76f51" },
+      weather_plus_recent_cases: { label: "Weather + eight exact recent case weeks", short: "Weather + recent cases", color: "#2c8b86" }
+    };
+
+    const fmt = (number, digits = 1) => Number(number).toFixed(digits);
+    const percent = (number, digits = 1) => `${(Number(number) * 100).toFixed(digits)}%`;
+    const escapeHtml = (value) => String(value).replace(/[&<>'"]/g, character => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[character]));
+
+    document.getElementById("trainingRows").textContent = MODEL.training_rows;
+    document.getElementById("bestMae").textContent = fmt(MODEL.weather_plus_recent_cases_case_forecast_metrics.mae, 2);
+    document.getElementById("bestF1").textContent = fmt(MODEL.weather_plus_recent_cases_metrics.f1, 3);
+    document.getElementById("modelFooter").textContent = `${MODEL.model_version} · trained through ${MODEL.training_data_cutoff}`;
+
+    function renderMaeChart() {
+      const groups = [
+        ["weather_only", MODEL.weather_only_case_forecast_metrics],
+        ["weather_plus_delayed_cases", MODEL.weather_plus_delayed_cases_case_forecast_metrics],
+        ["weather_plus_recent_cases", MODEL.weather_plus_recent_cases_case_forecast_metrics]
+      ];
+      const max = 80;
+      document.getElementById("maeChart").innerHTML = groups.map(([key, metrics]) => `
+        <div class="mae-variant">
+          <div class="variant-name"><span>${variants[key].label}</span><span class="pill">${fmt(metrics.held_out_rows, 0)} weeks</span></div>
+          <div class="mae-bars">
+            ${[["Overall", metrics.mae, ""], ["Normal week", metrics.normal_week_mae, "normal"], ["Outbreak week", metrics.outbreak_week_mae, "outbreak"]].map(([label, value, css]) => `
+              <div class="mae-row"><span>${label}</span><div class="mae-track"><div class="mae-fill ${css}" style="width:${Math.min(100, value / max * 100)}%"></div></div><span class="mae-value">${fmt(value, 2)}</span></div>
+            `).join("")}
+          </div>
+        </div>`).join("");
+      const weatherMae = MODEL.weather_only_case_forecast_metrics.mae;
+      const delayed = MODEL.weather_plus_delayed_cases_case_forecast_metrics;
+      const recentMae = MODEL.weather_plus_recent_cases_case_forecast_metrics.mae;
+      document.getElementById("maeConclusion").innerHTML = `<strong>The honest conclusion</strong>Delayed reports cut MAE from ${fmt(weatherMae,2)} to ${fmt(delayed.mae,2)}. Its P50 uses the eight-week persistence fallback because learned corrections did not beat ${fmt(delayed.persistence_mae,2)}. With exact recent reports, MAE falls to ${fmt(recentMae,2)}.`;
+    }
+
+    function renderClassifierChart() {
+      const rows = [
+        ["Precision", "precision"], ["Recall", "recall"], ["F1", "f1"], ["PR-AUC", "pr_auc"]
+      ];
+      const weather = MODEL.weather_only_metrics;
+      const delayed = MODEL.weather_plus_delayed_cases_metrics;
+      const cases = MODEL.weather_plus_recent_cases_metrics;
+      document.getElementById("classifierChart").innerHTML = rows.map(([label, key]) => `
+        <div>
+          <div class="metric-row"><span class="metric-label">${label} · recent cases</span><div class="track"><div class="fill" style="width:${cases[key] * 100}%"></div></div><span class="metric-number">${percent(cases[key])}</span></div>
+          <div class="metric-row" style="margin-top:5px"><span class="metric-label">${label} · delayed</span><div class="track"><div class="fill" style="width:${delayed[key] * 100}%;background:#e76f51"></div></div><span class="metric-number">${percent(delayed[key])}</span></div>
+          <div class="metric-row" style="margin-top:5px"><span class="metric-label">${label} · weather</span><div class="track"><div class="fill mustard" style="width:${weather[key] * 100}%"></div></div><span class="metric-number">${percent(weather[key])}</span></div>
+        </div>`).join("");
+    }
+
+    function renderOutbreakYears() {
+      const base = VALIDATION.filter(row => row.variant === "weather_only");
+      const years = [...new Set(base.map(row => row.year))];
+      document.getElementById("outbreakYearChart").innerHTML = years.map(year => {
+        const rows = base.filter(row => row.year === year);
+        const outbreaks = rows.reduce((sum, row) => sum + row.outbreak, 0);
+        return `<div class="year-row"><strong>${year}</strong><div class="year-track"><div class="year-outbreak" style="width:${outbreaks / rows.length * 100}%"></div></div><span class="year-count">${outbreaks} / ${rows.length}</span></div>`;
+      }).join("");
+    }
+
+    function coverageCard(label, actual, target, variant) {
+      return `<div class="coverage-card"><span class="pill">${variant}</span><strong style="margin-top:9px">${label}: ${percent(actual)}</strong><div class="coverage-scale"><div class="coverage-actual" style="width:${actual * 100}%"></div><span class="coverage-target" style="left:${target * 100}%"></span></div><p>Target ${percent(target, 0)} · gap ${percent(actual - target)}</p></div>`;
+    }
+
+    function renderCoverage() {
+      const weather = MODEL.weather_only_case_forecast_metrics;
+      const delayed = MODEL.weather_plus_delayed_cases_case_forecast_metrics;
+      const cases = MODEL.weather_plus_recent_cases_case_forecast_metrics;
+      document.getElementById("coverageChart").innerHTML = [
+        coverageCard("P80", cases.p80_coverage, .8, "Recent cases"),
+        coverageCard("P90", cases.p90_coverage, .9, "Recent cases"),
+        coverageCard("P80", delayed.p80_coverage, .8, "Delayed cases"),
+        coverageCard("P90", delayed.p90_coverage, .9, "Delayed cases"),
+        coverageCard("P80", weather.p80_coverage, .8, "Weather only"),
+        coverageCard("P90", weather.p90_coverage, .9, "Weather only")
+      ].join("");
+    }
+
+    function confusionCounts(metrics) {
+      const rows = VALIDATION.filter(row => row.variant === "weather_only");
+      const positives = rows.reduce((sum, row) => sum + row.outbreak, 0);
+      const negatives = rows.length - positives;
+      const tp = Math.round(metrics.recall * positives);
+      const fn = positives - tp;
+      const predictedPositive = Math.round(tp / metrics.precision);
+      const fp = predictedPositive - tp;
+      const tn = negatives - fp;
+      return { tp, fn, fp, tn };
+    }
+
+    function matrixCard(key, metrics) {
+      const counts = confusionCounts(metrics);
+      const gates = { weather_only: MODEL.weather_only_alert_gate, weather_plus_delayed_cases: MODEL.weather_plus_delayed_cases_alert_gate, weather_plus_recent_cases: MODEL.weather_plus_recent_cases_alert_gate };
+      return `<article class="card"><div class="chart-title-row"><div><h3>${variants[key].short}</h3><p>Recall-policy confusion matrix · 125 weeks</p></div><span class="pill">gate ${fmt(gates[key], 2)}</span></div><div class="matrix"><div class="matrix-cell good"><strong>${counts.tp}</strong><span>Outbreaks caught · TP</span></div><div class="matrix-cell warn"><strong>${counts.fp}</strong><span>False alerts · FP</span></div><div class="matrix-cell warn"><strong>${counts.fn}</strong><span>Outbreaks missed · FN</span></div><div class="matrix-cell good"><strong>${counts.tn}</strong><span>Normal weeks cleared · TN</span></div></div></article>`;
+    }
+
+    function renderMatrices() {
+      document.getElementById("confusionMatrices").innerHTML = matrixCard("weather_only", MODEL.weather_only_metrics) + matrixCard("weather_plus_delayed_cases", MODEL.weather_plus_delayed_cases_metrics) + matrixCard("weather_plus_recent_cases", MODEL.weather_plus_recent_cases_metrics);
+    }
+
+    let activeVariant = "weather_plus_delayed_cases";
+    let activeYear = "all";
+    let plottedRows = [];
+    let plottedPoints = [];
+    const canvas = document.getElementById("validationChart");
+    const tooltip = document.getElementById("chartTooltip");
+
+    function drawValidationChart() {
+      plottedRows = VALIDATION.filter(row => row.variant === activeVariant && (activeYear === "all" || String(row.year) === activeYear));
+      const wrapper = canvas.parentElement;
+      const width = Math.max(300, wrapper.clientWidth);
+      const height = window.innerWidth <= 680 ? 350 : 410;
+      const ratio = Math.max(1, window.devicePixelRatio || 1);
+      canvas.width = width * ratio;
+      canvas.height = height * ratio;
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      const ctx = canvas.getContext("2d");
+      ctx.scale(ratio, ratio);
+      ctx.clearRect(0, 0, width, height);
+      const pad = { left: 52, right: 18, top: 22, bottom: 42 };
+      const plotWidth = width - pad.left - pad.right;
+      const plotHeight = height - pad.top - pad.bottom;
+      const maxValue = Math.ceil(Math.max(...plottedRows.flatMap(row => [row.actual, row.p90, row.threshold])) * 1.08 / 25) * 25;
+      const x = index => pad.left + (plottedRows.length === 1 ? 0 : index / (plottedRows.length - 1) * plotWidth);
+      const y = value => pad.top + plotHeight - value / maxValue * plotHeight;
+
+      ctx.font = "12px Inter, system-ui, sans-serif";
+      ctx.fillStyle = "#61727b";
+      ctx.strokeStyle = "#e4e0d7";
+      ctx.lineWidth = 1;
+      for (let tick = 0; tick <= 4; tick++) {
+        const value = maxValue * tick / 4;
+        const py = y(value);
+        ctx.beginPath(); ctx.moveTo(pad.left, py); ctx.lineTo(width - pad.right, py); ctx.stroke();
+        ctx.fillText(String(Math.round(value)), 8, py + 4);
+      }
+
+      const labelEvery = Math.max(1, Math.ceil(plottedRows.length / 7));
+      plottedRows.forEach((row, index) => {
+        if (index % labelEvery === 0 || index === plottedRows.length - 1) {
+          const label = row.date.slice(0, 7);
+          ctx.save(); ctx.translate(x(index), height - 14); ctx.rotate(-.35); ctx.fillText(label, -22, 0); ctx.restore();
+        }
+      });
+
+      ctx.beginPath();
+      plottedRows.forEach((row, index) => index === 0 ? ctx.moveTo(x(index), y(row.p90)) : ctx.lineTo(x(index), y(row.p90)));
+      [...plottedRows].reverse().forEach((row, reverseIndex) => {
+        const index = plottedRows.length - 1 - reverseIndex;
+        ctx.lineTo(x(index), y(row.p80));
+      });
+      ctx.closePath(); ctx.fillStyle = "rgba(44,139,134,.13)"; ctx.fill();
+
+      const drawLine = (field, color, lineWidth, dash = []) => {
+        ctx.beginPath();
+        ctx.strokeStyle = color; ctx.lineWidth = lineWidth; ctx.setLineDash(dash);
+        plottedRows.forEach((row, index) => index === 0 ? ctx.moveTo(x(index), y(row[field])) : ctx.lineTo(x(index), y(row[field])));
+        ctx.stroke(); ctx.setLineDash([]);
+      };
+      drawLine("threshold", "#d39b35", 2, [7, 5]);
+      drawLine("p50", "#2c8b86", 2.5);
+      drawLine("actual", "#152c3b", 3);
+
+      plottedPoints = plottedRows.map((row, index) => ({ row, x: x(index), y: y(row.actual) }));
+      plottedPoints.forEach(point => {
+        ctx.beginPath(); ctx.arc(point.x, point.y, point.row.outbreak ? 3.1 : 2.1, 0, Math.PI * 2);
+        ctx.fillStyle = point.row.outbreak ? "#e76f51" : "#152c3b"; ctx.fill();
+      });
+      document.getElementById("chartSummary").textContent = `${variants[activeVariant].label} · ${activeYear === "all" ? "2024–May 2026" : activeYear} · ${plottedRows.length} weeks`;
+    }
+
+    function showTooltip(event) {
+      if (!plottedPoints.length) return;
+      const rect = canvas.getBoundingClientRect();
+      const px = event.clientX - rect.left;
+      const nearest = plottedPoints.reduce((best, point) => Math.abs(point.x - px) < Math.abs(best.x - px) ? point : best, plottedPoints[0]);
+      const row = nearest.row;
+      tooltip.innerHTML = `<strong>${escapeHtml(row.date)}</strong>Actual ${fmt(row.actual, 0)} · P50 ${fmt(row.p50, 1)}<br>P80 ${fmt(row.p80, 1)} · P90 ${fmt(row.p90, 1)}<br>Threshold ${fmt(row.threshold, 1)} · ${row.outbreak ? "outbreak" : "normal"}`;
+      tooltip.style.display = "block";
+      tooltip.style.left = `${Math.min(rect.width - 190, Math.max(4, nearest.x - 80))}px`;
+      tooltip.style.top = `${Math.max(4, nearest.y - 94)}px`;
+    }
+
+    canvas.addEventListener("mousemove", showTooltip);
+    canvas.addEventListener("click", showTooltip);
+    canvas.addEventListener("mouseleave", () => tooltip.style.display = "none");
+    document.querySelectorAll("[data-variant]").forEach(button => button.addEventListener("click", () => {
+      activeVariant = button.dataset.variant;
+      document.querySelectorAll("[data-variant]").forEach(candidate => candidate.setAttribute("aria-pressed", String(candidate === button)));
+      tooltip.style.display = "none";
+      drawValidationChart();
+    }));
+    document.getElementById("yearSelect").addEventListener("change", event => { activeYear = event.target.value; tooltip.style.display = "none"; drawValidationChart(); });
+    let resizeTimer;
+    window.addEventListener("resize", () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(drawValidationChart, 100); });
+
+    function renderLive() {
+      const container = document.getElementById("livePredictions");
+      if (!LIVE.length) {
+        container.innerHTML = "<p>No champion prediction rows have been committed yet.</p>";
+        return;
+      }
+      const max = Math.max(...LIVE.flatMap(row => [row.predicted_cases_p90, row.historical_outbreak_threshold_cases])) * 1.15;
+      container.innerHTML = LIVE.map(row => {
+        const alert = String(row.outbreak_alert).toLowerCase() === "true";
+        const point = (value, css) => `<span class="range-point ${css}" style="left:${Math.min(98, value / max * 100)}%"></span>`;
+        const labels = `<div class="range-labels"><span>P50 ${fmt(row.predicted_cases_p50,1)}</span><span>P80 ${fmt(row.predicted_cases_p80,1)}</span><span>P90 ${fmt(row.predicted_cases_p90,1)}</span><span>Threshold ${fmt(row.historical_outbreak_threshold_cases,1)}</span></div>`;
+        const reportAnchor = row.case_report_anchor_week ? `<span class="pill">Report anchor ${escapeHtml(row.case_report_anchor_week)} · ${fmt(row.case_report_age_weeks,0)} weeks behind target</span>` : "";
+        return `<div class="live-row"><div class="live-top"><div><div class="live-date">Week of ${escapeHtml(row.week_start_date)}</div><div style="color:var(--muted);font-size:.84rem">${Number(row.lead_weeks) === 0 ? "Current-week estimate" : `${row.lead_weeks}-week-ahead forecast`}</div></div><span class="live-status ${alert ? "" : "no-alert"}">${alert ? "Recall alert on" : "No recall alert"}</span></div><div class="range">${point(row.predicted_cases_p50,"p50")}${point(row.predicted_cases_p80,"p80")}${point(row.predicted_cases_p90,"p90")}${point(row.historical_outbreak_threshold_cases,"threshold")}</div>${labels}<div class="live-meta"><span class="pill">Probability ${percent(row.outbreak_probability)}</span><span class="pill">Gate ${percent(row.alert_gate,0)}</span><span class="pill">${escapeHtml(row.model_variant)}</span><span class="pill">${escapeHtml(row.case_forecast_reliability)}</span>${reportAnchor}</div></div>`;
+      }).join("");
+    }
+
+    renderMaeChart();
+    renderClassifierChart();
+    renderOutbreakYears();
+    renderCoverage();
+    renderMatrices();
+    renderLive();
+    drawValidationChart();
+  </script>
+</body>
+</html>

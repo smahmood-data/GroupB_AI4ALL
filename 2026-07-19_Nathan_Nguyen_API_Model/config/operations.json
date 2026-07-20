@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "label_stabilization_weeks": 4,
+  "minimum_new_finalized_weeks": 13,
+  "target_recall": 0.8,
+  "prediction_weeks_ahead": 1,
+  "delayed_case_model": {
+    "minimum_report_age_weeks": 4,
+    "maximum_report_age_weeks": 12,
+    "validation_report_age_weeks": 8
+  },
+  "puerto_rico": {
+    "catalog_id": "cc2f8668-991c-428a-a58b-9a9f89905bb0",
+    "timezone": "America/Puerto_Rico",
+    "weather_points": [
+      {"code": "san_juan", "name": "San Juan", "latitude": 18.4655, "longitude": -66.1057},
+      {"code": "arecibo", "name": "Arecibo", "latitude": 18.4724, "longitude": -66.7157},
+      {"code": "mayaguez", "name": "Mayagüez", "latitude": 18.2011, "longitude": -67.1396},
+      {"code": "ponce", "name": "Ponce", "latitude": 18.0111, "longitude": -66.6141},
+      {"code": "caguas", "name": "Caguas", "latitude": 18.2341, "longitude": -66.0485},
+      {"code": "fajardo", "name": "Fajardo", "latitude": 18.3258, "longitude": -65.6524}
+    ]
+  },
+  "promotion_guardrails": {
+    "precision_tolerance": 0.03,
+    "recall_tolerance": 0.03,
+    "pr_auc_tolerance": 0.02,
+    "brier_tolerance": 0.02,
+    "case_mae_relative_tolerance": 0.10,
+    "outbreak_mae_relative_tolerance": 0.15,
+    "persistence_relative_tolerance": 0.05
+  }
+}

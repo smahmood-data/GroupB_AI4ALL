@@ -1,4 +1,6 @@
-# Puerto Rico Dengue Forecasting
+# 2026-07-19 — Nathan Nguyen API Model
+
+## Puerto Rico Dengue Forecasting
 
 This folder contains a Puerto Rico-wide dengue forecasting system built from
 official case reports and near-real-time weather data. It produces two separate

@@ -31,5 +31,5 @@ __pycache__/
 # Remove these rules if you intentionally version artifacts.
 
 #streamlit-app model.plk
-*.pkl
-streamlit-app/model/
+#*.pkl
+#streamlit-app/model/

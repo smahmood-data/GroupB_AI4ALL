@@ -1,2 +1,2 @@
-*.pkl
-streamlit-app/model/
+#*.pkl
+#streamlit-app/model/

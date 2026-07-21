@@ -29,3 +29,7 @@ __pycache__/
 
 # Models and outputs you do not want tracked by default
 # Remove these rules if you intentionally version artifacts.
+
+#streamlit-app model.plk
+#*.pkl
+#streamlit-app/model/

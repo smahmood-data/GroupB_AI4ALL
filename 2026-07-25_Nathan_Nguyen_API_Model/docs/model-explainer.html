@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="en" data-theme="nord">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How the dengue forecasting model works</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daisyui@5.5.19/daisyui.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daisyui@5.5.19/themes.css">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.2.4/dist/index.global.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    :where(.grid, .flex) > * { min-width: 0; }
+    :where(p, h1, h2, h3, h4, li, td, th, figcaption, .badge, .label) {
+      overflow-wrap: anywhere;
+    }
+    :where(svg) { max-width: 100%; height: auto; }
+    .arch-svg text {
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      fill: #25364a;
+    }
+    .arch-svg .box { fill: #f8fafc; stroke: #7391aa; stroke-width: 2; }
+    .arch-svg .input { fill: #e8f3ff; stroke: #3978a8; stroke-width: 2; }
+    .arch-svg .forecast { fill: #e8f8ef; stroke: #3a8a5b; stroke-width: 2; }
+    .arch-svg .alert-box { fill: #fff5dc; stroke: #b77b16; stroke-width: 2; }
+    .arch-svg .line { stroke: #5f7890; stroke-width: 2.5; }
+    .arch-svg .arrow { fill: #5f7890; }
+  </style>
+</head>
+<body class="bg-base-200 text-base-content">
+  <main class="mx-auto max-w-7xl p-4 md:p-8 lg:p-10">
+    <section class="hero rounded-box bg-base-100 shadow-sm">
+      <div class="hero-content py-10 text-center">
+        <div class="max-w-4xl">
+          <div class="badge badge-primary badge-outline mb-4">Plain-language model guide</div>
+          <div class="alert alert-success alert-soft mb-5 text-left">
+            <span><strong>Looking for the new API-only Puerto Rico model?</strong> Open the <a class="link font-bold" href="puerto-rico-api-model-explainer.html">operational model explainer with interactive results charts</a>.</span>
+          </div>
+          <h1 class="text-4xl font-bold md:text-5xl">How the dengue forecast works</h1>
+          <p class="mx-auto mt-5 max-w-3xl text-lg opacity-75">
+            The model studies past dengue cases, weather, and seasonality. It produces one
+            output optimized for accurate weekly case counts and a second output that is
+            more willing to warn about possible outbreaks.
+          </p>
+          <div class="alert alert-info alert-soft mx-auto mt-6 max-w-3xl text-left">
+            <span><strong>The key idea:</strong> predicting the number of cases and catching outbreaks are related, but they are not the same job. The notebook keeps them separate.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div class="stat rounded-box bg-base-100 shadow-sm">
+        <div class="stat-title">Best overall MAE</div>
+        <div class="stat-value text-primary">11.09</div>
+        <div class="stat-desc">About 5% better than 11.68</div>
+      </div>
+      <div class="stat rounded-box bg-base-100 shadow-sm">
+        <div class="stat-title">Outbreaks caught</div>
+        <div class="stat-value text-warning">51.6%</div>
+        <div class="stat-desc">Recall-focused alert policy</div>
+      </div>
+      <div class="stat rounded-box bg-base-100 shadow-sm">
+        <div class="stat-title">Alerts that were correct</div>
+        <div class="stat-value text-warning">31.6%</div>
+        <div class="stat-desc">About 32 correct per 100 alerts</div>
+      </div>
+      <div class="stat rounded-box bg-base-100 shadow-sm">
+        <div class="stat-title">Outbreak-week MAE</div>
+        <div class="stat-value text-success">22.11</div>
+        <div class="stat-desc">Down from 31.69 with the alert policy</div>
+      </div>
+    </section>
+
+    <section class="card card-border mt-6 bg-base-100">
+      <div class="card-body">
+        <h2 class="card-title text-2xl">The whole architecture at a glance</h2>
+        <p class="opacity-70">Follow the arrows from raw weekly information to the three outputs that are compared in the notebook.</p>
+        <figure class="mt-4">
+          <svg class="arch-svg w-full" viewBox="0 0 1160 760" role="img" aria-labelledby="arch-title arch-desc">
+            <title id="arch-title">Dengue model architecture</title>
+            <desc id="arch-desc">Weather and past cases are cleaned, turned into memory features, and passed to a single-stage baseline and a two-stage outbreak model with separate forecast and alert policies.</desc>
+
+            <rect class="input" x="90" y="20" width="300" height="82" rx="16"/>
+            <text x="240" y="52" text-anchor="middle" font-size="18" font-weight="700">Weather and season</text>
+            <text x="240" y="77" text-anchor="middle" font-size="14">Temperature · rain · humidity · vegetation</text>
+
+            <rect class="input" x="770" y="20" width="300" height="82" rx="16"/>
+            <text x="920" y="52" text-anchor="middle" font-size="18" font-weight="700">Past case counts</text>
+            <text x="920" y="77" text-anchor="middle" font-size="14">Recent weeks · recent averages · last year</text>
+
+            <line class="line" x1="240" y1="102" x2="430" y2="153"/>
+            <line class="line" x1="920" y1="102" x2="730" y2="153"/>
+            <polygon class="arrow" points="423,145 435,150 426,158"/>
+            <polygon class="arrow" points="734,145 725,158 737,153"/>
+
+            <rect class="box" x="400" y="154" width="360" height="90" rx="16"/>
+            <text x="580" y="186" text-anchor="middle" font-size="18" font-weight="700">Clean and build “memory”</text>
+            <text x="580" y="212" text-anchor="middle" font-size="14">Fill missing values using the past only</text>
+            <text x="580" y="232" text-anchor="middle" font-size="14">Create weather delays and case-history summaries</text>
+
+            <line class="line" x1="580" y1="244" x2="580" y2="284"/>
+            <polygon class="arrow" points="573,278 587,278 580,289"/>
+            <rect class="box" x="400" y="289" width="360" height="72" rx="16"/>
+            <text x="580" y="319" text-anchor="middle" font-size="18" font-weight="700">Train only on earlier years</text>
+            <text x="580" y="344" text-anchor="middle" font-size="14">Later years are held back for an honest test</text>
+
+            <line class="line" x1="580" y1="361" x2="580" y2="394"/>
+            <line class="line" x1="210" y1="394" x2="950" y2="394"/>
+            <line class="line" x1="210" y1="394" x2="210" y2="428"/>
+            <line class="line" x1="950" y1="394" x2="950" y2="428"/>
+            <polygon class="arrow" points="203,422 217,422 210,433"/>
+            <polygon class="arrow" points="943,422 957,422 950,433"/>
+
+            <rect class="forecast" x="40" y="433" width="340" height="112" rx="16"/>
+            <text x="210" y="466" text-anchor="middle" font-size="19" font-weight="700">Single-stage baseline</text>
+            <text x="210" y="493" text-anchor="middle" font-size="14">One model directly predicts weekly cases</text>
+            <text x="210" y="518" text-anchor="middle" font-size="14">Simple comparison point · MAE 11.68</text>
+
+            <rect class="box" x="740" y="433" width="420" height="112" rx="16"/>
+            <text x="950" y="466" text-anchor="middle" font-size="19" font-weight="700">Two-stage outbreak model</text>
+            <text x="950" y="493" text-anchor="middle" font-size="14">First estimates outbreak likelihood</text>
+            <text x="950" y="518" text-anchor="middle" font-size="14">Then chooses the normal-case or outbreak-case specialist</text>
+
+            <line class="line" x1="950" y1="545" x2="950" y2="578"/>
+            <line class="line" x1="750" y1="578" x2="1070" y2="578"/>
+            <line class="line" x1="750" y1="578" x2="750" y2="611"/>
+            <line class="line" x1="1070" y1="578" x2="1070" y2="611"/>
+            <polygon class="arrow" points="743,605 757,605 750,616"/>
+            <polygon class="arrow" points="1063,605 1077,605 1070,616"/>
+
+            <rect class="forecast" x="590" y="616" width="320" height="102" rx="16"/>
+            <text x="750" y="648" text-anchor="middle" font-size="18" font-weight="700">MAE-focused forecast</text>
+            <text x="750" y="674" text-anchor="middle" font-size="14">Avoids costly false outbreak switches</text>
+            <text x="750" y="698" text-anchor="middle" font-size="14" font-weight="700">Best overall MAE: 11.09</text>
+
+            <rect class="alert-box" x="930" y="616" width="230" height="102" rx="16"/>
+            <text x="1045" y="648" text-anchor="middle" font-size="18" font-weight="700">Recall-focused alert</text>
+            <text x="1045" y="674" text-anchor="middle" font-size="14">Warns more readily</text>
+            <text x="1045" y="698" text-anchor="middle" font-size="14" font-weight="700">Catches 51.6%</text>
+
+            <line class="line" x1="210" y1="545" x2="210" y2="675"/>
+            <polygon class="arrow" points="203,669 217,669 210,680"/>
+            <rect class="forecast" x="40" y="680" width="340" height="50" rx="14"/>
+            <text x="210" y="711" text-anchor="middle" font-size="16" font-weight="700">Reference forecast used to judge improvements</text>
+          </svg>
+          <figcaption class="mt-3 text-sm opacity-65">
+            Each tested year is predicted one week at a time. A prediction becomes part of the next week’s case history, so the model cannot quietly use the real future answer.
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="mt-6 grid gap-4 lg:grid-cols-2">
+      <article class="card card-border bg-base-100">
+        <div class="card-body">
+          <div class="badge badge-success badge-soft">Model 1</div>
+          <h2 class="card-title text-2xl">Single-stage model</h2>
+          <p>
+            This model learns one direct connection between the available information and
+            the number of cases expected that week.
+          </p>
+          <ol class="list-decimal space-y-2 pl-5">
+            <li>Read the weather, season, and earlier case history.</li>
+            <li>Find patterns that previously led to low or high case counts.</li>
+            <li>Return one weekly case estimate.</li>
+            <li>Use that estimate when preparing the following week.</li>
+          </ol>
+          <div class="alert alert-success alert-soft mt-3">
+            <span><strong>Strength:</strong> stable and comparatively simple. It is the baseline every more complicated model must beat.</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card card-border bg-base-100">
+        <div class="card-body">
+          <div class="badge badge-warning badge-soft">Model 2</div>
+          <h2 class="card-title text-2xl">Two-stage outbreak model</h2>
+          <p>
+            This model first asks, “Does this look like an outbreak week?” It then chooses
+            between two case-count specialists.
+          </p>
+          <ol class="list-decimal space-y-2 pl-5">
+            <li>Estimate how outbreak-like the week appears.</li>
+            <li>Adjust that score using earlier years so it behaves more like a real probability.</li>
+            <li>Ask both specialists for a case estimate: one trained on ordinary weeks and one trained on high-case weeks.</li>
+            <li>Use a decision line to choose one specialist’s answer.</li>
+          </ol>
+          <div class="alert alert-warning alert-soft mt-3">
+            <span><strong>Why no averaging?</strong> MAE rewards a middle answer. Averaging an ordinary estimate with an outbreak estimate can land in an unhelpful middle ground.</span>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="card card-border mt-6 bg-base-100">
+      <div class="card-body">
+        <h2 class="card-title text-2xl">How the notebook decides that a week is an outbreak</h2>
+        <div class="grid gap-4 lg:grid-cols-3">
+          <div class="rounded-box bg-base-200 p-5">
+            <div class="text-3xl font-bold text-primary">1</div>
+            <h3 class="mt-2 font-bold">Look at the same season</h3>
+            <p class="mt-1 opacity-75">For week 30, use historical weeks 28–32. The window wraps correctly around New Year.</p>
+          </div>
+          <div class="rounded-box bg-base-200 p-5">
+            <div class="text-3xl font-bold text-primary">2</div>
+            <h3 class="mt-2 font-bold">Find the upper quarter</h3>
+            <p class="mt-1 opacity-75">The level exceeded by only the highest 25% of those historical case counts becomes that season’s outbreak line.</p>
+          </div>
+          <div class="rounded-box bg-base-200 p-5">
+            <div class="text-3xl font-bold text-primary">3</div>
+            <h3 class="mt-2 font-bold">Compare the current week</h3>
+            <p class="mt-1 opacity-75">If the real count reaches or exceeds that training-only line, evaluation marks it as an actual outbreak week.</p>
+          </div>
+        </div>
+        <div class="alert alert-info alert-soft mt-4">
+          <span>This is a statistical project definition, not an official public-health declaration. Crucially, the held-back test year never helps set its own outbreak line.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="card card-border mt-6 bg-base-100">
+      <div class="card-body">
+        <h2 class="card-title text-2xl">Why the outbreak specialist has enough examples</h2>
+        <p>
+          Training only on the highest 25% left too few examples. The revised specialist
+          also learns from “near-outbreak” weeks in the highest 40% for that season.
+          Genuine outbreak weeks receive twice the importance during training.
+        </p>
+        <div class="mt-4 grid gap-4 md:grid-cols-2">
+          <div class="rounded-box border border-base-content/10 p-5">
+            <h3 class="font-bold">Earlier design</h3>
+            <div class="mt-2 text-4xl font-bold opacity-60">≈25%</div>
+            <p class="mt-2 opacity-70">Only clear outbreak rows trained the specialist.</p>
+          </div>
+          <div class="rounded-box border border-primary/30 bg-primary/5 p-5">
+            <h3 class="font-bold">Revised design</h3>
+            <div class="mt-2 text-4xl font-bold text-primary">≈40%</div>
+            <p class="mt-2 opacity-70">Near-outbreak rows add support; true outbreaks still matter most.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mt-6 overflow-x-auto rounded-box border border-base-content/10 bg-base-100">
+      <div class="p-6 pb-2">
+        <h2 class="text-2xl font-bold">What the results say</h2>
+        <p class="mt-2 opacity-70">Lower MAE is better. The best choice depends on whether ordinary weeks or outbreak weeks matter more.</p>
+      </div>
+      <table class="table table-zebra">
+        <thead>
+          <tr>
+            <th>Output</th>
+            <th>Overall MAE</th>
+            <th>Ordinary-week MAE</th>
+            <th>Outbreak-week MAE</th>
+            <th>Best use</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Single-stage</strong></td>
+            <td>11.68</td>
+            <td>5.92</td>
+            <td>31.69</td>
+            <td>Simple baseline</td>
+          </tr>
+          <tr>
+            <td><strong>Two-stage MAE policy</strong> <span class="badge badge-success badge-soft">Best overall</span></td>
+            <td><strong>11.09</strong></td>
+            <td><strong>4.51</strong></td>
+            <td>33.93</td>
+            <td>Weekly case-count prediction</td>
+          </tr>
+          <tr>
+            <td><strong>Two-stage recall policy</strong> <span class="badge badge-warning badge-soft">Best in outbreaks</span></td>
+            <td>11.68</td>
+            <td>8.68</td>
+            <td><strong>22.11</strong></td>
+            <td>Outbreak warning and peak sensitivity</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="mt-6 grid gap-4 lg:grid-cols-3">
+      <article class="card card-border bg-base-100">
+        <div class="card-body">
+          <h2 class="card-title">Overall winner</h2>
+          <div class="text-4xl font-bold text-success">11.09</div>
+          <p>The MAE-focused policy improves overall error by about 5% and ordinary-week error by about 24%.</p>
+        </div>
+      </article>
+      <article class="card card-border bg-base-100">
+        <div class="card-body">
+          <h2 class="card-title">Outbreak-week winner</h2>
+          <div class="text-4xl font-bold text-warning">22.11</div>
+          <p>The recall policy lowers outbreak-week error by about 30% compared with the single-stage model.</p>
+        </div>
+      </article>
+      <article class="card card-border bg-base-100">
+        <div class="card-body">
+          <h2 class="card-title">The cost</h2>
+          <div class="text-4xl font-bold">8.68</div>
+          <p>The recall policy performs worse during ordinary weeks because it switches into outbreak mode more readily.</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="card card-border mt-6 bg-base-100">
+      <div class="card-body">
+        <h2 class="card-title text-2xl">How good are the outbreak alerts?</h2>
+        <div class="grid gap-4 md:grid-cols-2">
+          <div class="rounded-box bg-warning/10 p-5">
+            <div class="text-sm font-semibold uppercase tracking-wide opacity-65">Recall</div>
+            <div class="mt-1 text-5xl font-bold text-warning">51.6%</div>
+            <p class="mt-2">Out of 100 actual outbreak weeks, the alert policy would catch about 52.</p>
+          </div>
+          <div class="rounded-box bg-warning/10 p-5">
+            <div class="text-sm font-semibold uppercase tracking-wide opacity-65">Precision</div>
+            <div class="mt-1 text-5xl font-bold text-warning">31.6%</div>
+            <p class="mt-2">Out of 100 warnings, about 32 would correspond to actual outbreak weeks.</p>
+          </div>
+        </div>
+        <div class="alert alert-warning alert-soft mt-4">
+          <span><strong>Honest conclusion:</strong> the alert output is useful as a research signal, but it still misses nearly half of outbreak weeks and produces many false alarms. It is not ready to drive public-health action by itself.</span>
+        </div>
+        <div class="collapse collapse-arrow mt-4 bg-base-200">
+          <input type="checkbox">
+          <div class="collapse-title font-semibold">Show the two technical probability checks</div>
+          <div class="collapse-content">
+            <p><strong>PR-AUC: 0.300.</strong> This checks whether true outbreaks tend to receive higher scores than ordinary weeks when outbreaks are uncommon.</p>
+            <p class="mt-2"><strong>Brier score: 0.196.</strong> This checks how close the probability numbers are to what actually happened. Lower is better.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mt-6 overflow-x-auto rounded-box border border-base-content/10 bg-base-100">
+      <div class="p-6 pb-2">
+        <h2 class="text-2xl font-bold">Performance by city</h2>
+        <p class="mt-2 opacity-70">San Juan remains substantially harder to predict, especially during large spikes.</p>
+      </div>
+      <table class="table table-zebra">
+        <thead>
+          <tr><th>City</th><th>Single-stage MAE</th><th>Two-stage MAE policy</th><th>Recall policy</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Iquitos</strong></td><td>7.58</td><td><strong>6.79</strong></td><td>9.66</td></tr>
+          <tr><td><strong>San Juan</strong></td><td>15.78</td><td>15.39</td><td><strong>13.70</strong></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card card-border mt-6 bg-base-100">
+      <div class="card-body">
+        <h2 class="card-title text-2xl">What happens when predicting a new week?</h2>
+        <ul class="steps steps-vertical w-full lg:steps-horizontal">
+          <li class="step step-primary">Collect weather</li>
+          <li class="step step-primary">Add past-case memory</li>
+          <li class="step step-primary">Estimate outbreak likelihood</li>
+          <li class="step step-primary">Choose a specialist</li>
+          <li class="step step-primary">Predict cases</li>
+          <li class="step step-primary">Carry prediction forward</li>
+        </ul>
+        <div class="mt-5 grid gap-4 md:grid-cols-2">
+          <div class="alert alert-success alert-soft">
+            <span><strong>No future-answer shortcut:</strong> later test weeks receive earlier predictions, not hidden real case counts.</span>
+          </div>
+          <div class="alert alert-success alert-soft">
+            <span><strong>No future-weather filling:</strong> missing values are filled using training history and earlier observations only.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mt-6 grid gap-4 lg:grid-cols-2">
+      <article class="card card-border bg-base-100">
+        <div class="card-body">
+          <h2 class="card-title text-success">What is working well</h2>
+          <ul class="list-disc space-y-2 pl-5">
+            <li>The validation process respects time instead of randomly mixing weeks.</li>
+            <li>Seasonal outbreak lines are more meaningful than one city-wide cutoff.</li>
+            <li>The outbreak specialist now has more training support.</li>
+            <li>The best case-count MAE improved from 11.68 to 11.09.</li>
+            <li>The recall policy is markedly better during outbreak weeks.</li>
+          </ul>
+        </div>
+      </article>
+      <article class="card card-border bg-base-100">
+        <div class="card-body">
+          <h2 class="card-title text-warning">What still needs work</h2>
+          <ul class="list-disc space-y-2 pl-5">
+            <li>Outbreak alerts catch only about half of the outbreak weeks.</li>
+            <li>Most warnings are false positives.</li>
+            <li>San Juan’s largest spikes remain difficult.</li>
+            <li>The data are small, so results change considerably between years.</li>
+            <li>The outbreak label is statistical, not an official epidemiological definition.</li>
+          </ul>
+        </div>
+      </article>
+    </section>
+
+    <section class="card card-border mt-6 bg-base-100">
+      <div class="card-body">
+        <div class="badge badge-primary badge-soft">New operational layer</div>
+        <h2 class="card-title text-2xl">From the city experiment to Puerto Rico-wide forecasts and alerts</h2>
+        <p>
+          The MAE results above still describe the original San Juan and Iquitos
+          case-count experiment. The continuously updated system is a separate
+          Puerto Rico-wide model because island totals are a different prediction
+          target and should not be fed into the old city model. It now answers two
+          questions: <strong>how many cases are likely</strong> and
+          <strong>whether the week looks outbreak-like</strong>.
+        </p>
+
+        <div class="mt-4 grid gap-4 md:grid-cols-3">
+          <div class="stat rounded-box bg-base-200">
+            <div class="stat-title">Official history</div>
+            <div class="stat-value text-primary">385</div>
+            <div class="stat-desc">Complete weeks through May 18, 2026</div>
+          </div>
+          <div class="stat rounded-box bg-base-200">
+            <div class="stat-title">Weather-only recall</div>
+            <div class="stat-value text-warning">91.8%</div>
+            <div class="stat-desc">Time-held-out research result</div>
+          </div>
+          <div class="stat rounded-box bg-base-200">
+            <div class="stat-title">Weather-only precision</div>
+            <div class="stat-value text-warning">79.5%</div>
+            <div class="stat-desc">Time-held-out research result</div>
+          </div>
+        </div>
+
+        <ul class="steps steps-vertical mt-6 w-full lg:steps-horizontal">
+          <li class="step step-primary">Official PR cases</li>
+          <li class="step step-primary">Six island weather points</li>
+          <li class="step step-primary">Hold out later years</li>
+          <li class="step step-primary">Forecast P50 / P80 / P90</li>
+          <li class="step step-primary">Classify outbreak risk</li>
+          <li class="step step-primary">Monitor final outcomes</li>
+        </ul>
+
+        <div class="mt-5 grid gap-4 lg:grid-cols-2">
+          <div class="alert alert-info alert-soft">
+            <span><strong>Actual outbreak week:</strong> official weekly PCR + IgM cases meet or exceed the historical 75th percentile for that part of the year. During testing, only earlier years define that line.</span>
+          </div>
+          <div class="alert alert-warning alert-soft">
+            <span><strong>Why weather-only may be used:</strong> the case-aware model requires all eight exact previous weeks. Delayed reports trigger an explicit fallback instead of guessed case values.</span>
+          </div>
+        </div>
+
+        <div class="mt-5 overflow-x-auto">
+          <table class="table table-zebra">
+            <thead>
+              <tr><th>Operational variant</th><th>Precision</th><th>Recall</th><th>F1</th><th>PR-AUC</th><th>Brier</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Weather only</strong></td><td>79.5%</td><td>91.8%</td><td>0.852</td><td>0.761</td><td>0.172</td></tr>
+              <tr><td><strong>Weather + recent cases</strong></td><td>85.4%</td><td>90.7%</td><td>0.880</td><td>0.847</td><td>0.159</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mt-6 rounded-box bg-base-200 p-5">
+          <h3 class="text-xl font-bold">Weekly case-count architecture</h3>
+          <p class="mt-2">
+            Three regressors produce a median estimate (<strong>P50</strong>) and
+            two cautious upper estimates (<strong>P80</strong> and
+            <strong>P90</strong>). P50 is scored with MAE. When exact recent case
+            reports exist, the model predicts the <em>change from last week</em>
+            and adds that change to the last known count. This is easier than
+            relearning the epidemic's current level from scratch.
+          </p>
+          <div class="mt-4 grid gap-3 md:grid-cols-3">
+            <div class="rounded-box bg-base-100 p-4"><strong>P50</strong><br><span class="opacity-70">Middle estimate used for MAE</span></div>
+            <div class="rounded-box bg-base-100 p-4"><strong>P80</strong><br><span class="opacity-70">Higher planning estimate</span></div>
+            <div class="rounded-box bg-base-100 p-4"><strong>P90</strong><br><span class="opacity-70">More cautious upper estimate</span></div>
+          </div>
+        </div>
+
+        <div class="mt-5 overflow-x-auto">
+          <table class="table table-zebra">
+            <thead>
+              <tr><th>Case-count variant</th><th>Overall MAE</th><th>Ordinary-week MAE</th><th>Outbreak-week MAE</th><th>Persistence reference*</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Weather only</strong></td><td>59.81</td><td>14.24</td><td>72.96</td><td>10.90</td></tr>
+              <tr><td><strong>Weather + exact recent cases</strong> <span class="badge badge-success badge-soft">Best</span></td><td><strong>10.69</strong></td><td><strong>6.96</strong></td><td><strong>11.77</strong></td><td>10.90</td></tr>
+            </tbody>
+          </table>
+          <p class="mt-2 text-sm opacity-70">*Persistence repeats last week's count, so it cannot be used when the official case feed is delayed.</p>
+        </div>
+
+        <div class="mt-5 grid gap-4 lg:grid-cols-2">
+          <div class="alert alert-success alert-soft">
+            <span><strong>What worked:</strong> with exact recent reports, the model's 10.69 MAE slightly beats the 10.90 persistence baseline of simply repeating last week's count.</span>
+          </div>
+          <div class="alert alert-error alert-soft">
+            <span><strong>Important limitation:</strong> without recent reports, weather alone has 59.81 MAE. That fallback is labeled <code>limited_no_exact_recent_cases</code> and its case number should be treated cautiously.</span>
+          </div>
+        </div>
+
+        <div class="alert alert-warning alert-soft mt-5">
+          <span><strong>The upper ranges are not fully calibrated yet:</strong> P80 contained 68.8% of held-out outcomes and P90 contained 76.0%, rather than 80% and 90%. They are useful research signals, not guaranteed bounds.</span>
+        </div>
+
+        <div class="alert alert-success alert-soft mt-5">
+          <span><strong>Guarded automation:</strong> GitHub Actions checks weekly, but model retraining waits for 13 new finalized weeks. A candidate is promoted only if precision, recall, PR-AUC, probability accuracy, overall case MAE, and outbreak-week MAE stay within the approved limits.</span>
+        </div>
+      </div>
+    </section>
+
+    <footer class="mt-8 text-center text-sm opacity-60">
+      <p>Historical MAE results use expanding-year folds; Puerto Rico-wide classifier and case-count results use 125 later, time-held-out weeks.</p>
+      <p class="mt-1">Design source: DaisyUI/Tailwind fallback because the project is a Jupyter notebook with no application design system.</p>
+    </footer>
+  </main>
+</body>
+</html>

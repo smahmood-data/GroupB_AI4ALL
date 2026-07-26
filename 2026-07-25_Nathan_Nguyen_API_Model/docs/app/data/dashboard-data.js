@@ -1,0 +1,2786 @@
+window.DENGUE_DASHBOARD_DATA = {
+  "schemaVersion": 1,
+  "geography": {
+    "code": "pr",
+    "name": "Puerto Rico"
+  },
+  "issuedAt": "2026-07-22T02:28:01.754462+00:00",
+  "asOfDate": "2026-07-21",
+  "publication": {
+    "date": "2026-07-22",
+    "researchUseOnly": true,
+    "officialSourceUrl": "https://datos.salud.pr.gov"
+  },
+  "signal": {
+    "currentWeek": {
+      "weekStart": "2026-07-20",
+      "leadWeeks": 0,
+      "timeScope": "current_week",
+      "cases": {
+        "p50": 11.0,
+        "p80": 33.2,
+        "p90": 51.0,
+        "seasonalThreshold": 40.0,
+        "riskLevel": "possible_upper_tail",
+        "reliability": "moderate_delayed_case_history"
+      },
+      "outbreak": {
+        "probability": 0.7472529535045064,
+        "alertGate": 0.75,
+        "alert": false,
+        "definition": "seasonal_training_q75"
+      }
+    },
+    "nextWeek": {
+      "weekStart": "2026-07-27",
+      "leadWeeks": 1,
+      "timeScope": "forecast_week",
+      "cases": {
+        "p50": 11.0,
+        "p80": 33.2,
+        "p90": 51.0,
+        "seasonalThreshold": 40.0,
+        "riskLevel": "possible_upper_tail",
+        "reliability": "moderate_delayed_case_history"
+      },
+      "outbreak": {
+        "probability": 0.7519141429626308,
+        "alertGate": 0.75,
+        "alert": true,
+        "definition": "seasonal_training_q75"
+      }
+    }
+  },
+  "history": [
+    {
+      "weekStart": "2019-01-07",
+      "totalCases": 1,
+      "pcrCases": 1,
+      "igmCases": 0,
+      "hospitalizedCases": 1
+    },
+    {
+      "weekStart": "2019-01-14",
+      "totalCases": 1,
+      "pcrCases": 0,
+      "igmCases": 1,
+      "hospitalizedCases": 0
+    },
+    {
+      "weekStart": "2019-01-21",
+      "totalCases": 1,
+      "pcrCases": 0,
+      "igmCases": 1,
+      "hospitalizedCases": 0
+    },
+    {
+      "weekStart": "2019-01-28",
+      "totalCases": 0,
+      "pcrCases": 0,
+      "igmCases": 0,
+      "hospitalizedCases": 0
+    },
+    {
+      "weekStart": "2019-02-04",
+      "totalCases": 0,
+      "pcrCases": 0,
+      "igmCases": 0,
+      "hospitalizedCases": 0
+    },
+    {
+      "weekStart": "2019-02-11",
+      "totalCases": 0,
+      "pcrCases": 0,
+      "igmCases": 0,
+      "hospitalizedCases": 0
+    },
+    {
+      "weekStart": "2019-02-18",
+      "totalCases": 2,
+      "pcrCases": 1,
+      "igmCases": 1,
+      "hospitalizedCases": 0
+    },
+    {
+      "weekStart": "2019-02-25",
+      "totalCases": 0,
+      "pcrCases": 0,
+      "igmCases": 0,
+      "hospitalizedCases": 0
+    },
+    {
+      "weekStart": "2019-03-04",
+      "totalCases": 0,
+      "pcrCases": 0,
+      "igmCases": 0,
+      "hospitalizedCases": 0
+    },
+    {
+      "weekStart": "2019-03-11",
+      "totalCases": 0,
+      "pcrCases": 0,
+      "igmCases": 0,
+      "hospitalizedCases": 0
+    },
+    {
+      "weekStart": "2019-03-18",
+      "totalCases": 0,
+      "pcrCases": 0,
+      "igmCases": 0,
+      "hospitalizedCases": 0
+    },
+    {
+      "weekStart": "2019-03-25",
+      "totalCases": 1,
+      "pcrCases": 0,
+      "igmCases": 1,
+      "hospitalizedCases": 0
+    },
+    {
+      "weekStart": "2019-04-01",
+      "totalCases": 0,
+      "pcrCases": 0,
+      "igmCases": 0,
+      "hospitalizedCases": 0
+    },
+    {
+      "weekStart": "2019-04-08",
+      "totalCases": 0,
+      "pcrCases": 0,
+      "igmCases": 0,
+      "hospitalizedCases": 0
+    },
+    {
+      "weekStart": "2019-04-15",
+      "totalCases": 0,
+      "pcrCases": 0,
+      "igmCases": 0,
+      "hospitalizedCases": 0
+    },
+    {
+      "weekStart": "2019-04-22",
+      "totalCases": 0,
+      "pcrCases": 0,
+      "igmCases": 0,
+      "hospitalizedCases": 0
+    },
+    {
+      "weekStart": "2019-04-29",
+      "totalCases": 0,
+      "pcrCases": 0,
+      "igmCases": 0,
+      "hospitalizedCases": 0
+    },
+    {
+      "weekStart": "2019-05-06",
+      "totalCases": 1,
+      "pcrCases": 0,
+      "igmCases": 1,
+      "hospitalizedCases": 1
+    },
+    {
+      "weekStart": "2019-05-13",
+      "totalCases": 1,
+      "pcrCases": 0,
+      "igmCases": 1,
+      "hospitalizedCases": 0
+    },
+    {
+      "weekStart": "2019-05-20",
+      "totalCases": 1,
+      "pcrCases": 0,
+      "igmCases": 1,
+      "hospitalizedCases": 0
+    },
+    {
+      "weekStart": "2019-05-27",
+      "totalCases": 0,
+      "pcrCases": 0,
+      "igmCases": 0,
+      "hospitalizedCases": 0
+    },
+    {
+      "weekStart": "2019-06-03",
+      "totalCases": 0,
+      "pcrCases": 0,
+      "igmCases": 0,
+      "hospitalizedCases": 0
+    },
+    {
+      "weekStart": "2019-06-10",
+      "totalCases": 0,
+      "pcrCases": 0,
+      "igmCases": 0,
+      "hospitalizedCases": 0
+    },
+    {
+      "weekStart": "2019-06-17",
+      "totalCases": 1,
+      "pcrCases": 0,
+      "igmCases": 1,
+      "hospitalizedCases": 0
+    },
+    {
+      "weekStart": "2019-06-24",
+      "totalCases": 0,
+      "pcrCases": 0,
+      "igmCases": 0,
+      "hospitalizedCases": 0
+    },
+    {
+      "weekStart": "2019-07-01",
+      "totalCases": 1,
+      "pcrCases": 0,
+      "igmCases": 1,
+      "hospitalizedCases": 0
+    },
+    {
+      "weekStart": "2019-07-08",
+      "totalCases": 1,
+      "pcrCases": 0,
+      "igmCases": 1,
+      "hospitalizedCases": 0
+    },
+    {
+      "weekStart": "2019-07-15",
+      "totalCases": 1,
+      "pcrCases": 1,
+      "igmCases": 0,
+      "hospitalizedCases": 1
+    },
+    {
+      "weekStart": "2019-07-22",
+      "totalCases": 0,
+      "pcrCases": 0,
+      "igmCases": 0,
+      "hospitalizedCases": 0
+    },
+    {
+      "weekStart": "2019-07-29",
+      "totalCases": 1,
+      "pcrCases": 1,
+      "igmCases": 0,
+      "hospitalizedCases": 0
+    },
+    {
+      "weekStart": "2019-08-05",
+      "totalCases": 1,
+      "pcrCases": 1,
+      "igmCases": 0,
+      "hospitalizedCases": 0
+    },
+    {
+      "weekStart": "2019-08-12",
+      "totalCases": 0,
+      "pcrCases": 0,
+      "igmCases": 0,
+      "hospitalizedCases": 0
+    },
+    {
+      "weekStart": "2019-08-19",
+      "totalCases": 1,
+      "pcrCases": 1,
+      "igmCases": 0,
+      "hospitalizedCases": 1
+    },
+    {
+      "weekStart": "2019-08-26",
+      "totalCases": 1,
+      "pcrCases": 1,
+      "igmCases": 0,
+      "hospitalizedCases": 1
+    },
+    {
+      "weekStart": "2019-09-02",
+      "totalCases": 3,
+      "pcrCases": 3,
+      "igmCases": 0,
+      "hospitalizedCases": 1
+    },
+    {
+      "weekStart": "2019-09-09",
+      "totalCases": 2,
+      "pcrCases": 1,
+      "igmCases": 1,
+      "hospitalizedCases": 1
+    },
+    {
+      "weekStart": "2019-09-16",
+      "totalCases": 1,
+      "pcrCases": 1,
+      "igmCases": 0,
+      "hospitalizedCases": 0
+    },
+    {
+      "weekStart": "2019-09-23",
+      "totalCases": 7,
+      "pcrCases": 6,
+      "igmCases": 1,
+      "hospitalizedCases": 2
+    },
+    {
+      "weekStart": "2019-09-30",
+      "totalCases": 2,
+      "pcrCases": 2,
+      "igmCases": 0,
+      "hospitalizedCases": 1
+    },
+    {
+      "weekStart": "2019-10-07",
+      "totalCases": 4,
+      "pcrCases": 2,
+      "igmCases": 2,
+      "hospitalizedCases": 1
+    },
+    {
+      "weekStart": "2019-10-14",
+      "totalCases": 3,
+      "pcrCases": 3,
+      "igmCases": 0,
+      "hospitalizedCases": 3
+    },
+    {
+      "weekStart": "2019-10-21",
+      "totalCases": 1,
+      "pcrCases": 0,
+      "igmCases": 1,
+      "hospitalizedCases": 0
+    },
+    {
+      "weekStart": "2019-10-28",
+      "totalCases": 2,
+      "pcrCases": 0,
+      "igmCases": 2,
+      "hospitalizedCases": 1
+    },
+    {
+      "weekStart": "2019-11-04",
+      "totalCases": 4,
+      "pcrCases": 2,
+      "igmCases": 2,
+      "hospitalizedCases": 2
+    },
+    {
+      "weekStart": "2019-11-11",
+      "totalCases": 4,
+      "pcrCases": 4,
+      "igmCases": 0,
+      "hospitalizedCases": 2
+    },
+    {
+      "weekStart": "2019-11-18",
+      "totalCases": 3,
+      "pcrCases": 2,
+      "igmCases": 1,
+      "hospitalizedCases": 1
+    },
+    {
+      "weekStart": "2019-11-25",
+      "totalCases": 4,
+      "pcrCases": 4,
+      "igmCases": 0,
+      "hospitalizedCases": 0
+    },
+    {
+      "weekStart": "2019-12-02",
+      "totalCases": 10,
+      "pcrCases": 9,
+      "igmCases": 1,
+      "hospitalizedCases": 5
+    },
+    {
+      "weekStart": "2019-12-09",
+      "totalCases": 11,
+      "pcrCases": 8,
+      "igmCases": 3,
+      "hospitalizedCases": 6
+    },
+    {
+      "weekStart": "2019-12-16",
+      "totalCases": 7,
+      "pcrCases": 7,
+      "igmCases": 0,
+      "hospitalizedCases": 3
+    },
+    {
+      "weekStart": "2019-12-23",
+      "totalCases": 15,
+      "pcrCases": 14,
+      "igmCases": 1,
+      "hospitalizedCases": 6
+    },
+    {
+      "weekStart": "2019-12-30",
+      "totalCases": 11,
+      "pcrCases": 11,
+      "igmCases": 0,
+      "hospitalizedCases": 5
+    },
+    {
+      "weekStart": "2020-01-06",
+      "totalCases": 12,
+      "pcrCases": 10,
+      "igmCases": 2,
+      "hospitalizedCases": 7
+    },
+    {
+      "weekStart": "2020-01-13",
+      "totalCases": 20,
+      "pcrCases": 18,
+      "igmCases": 2,
+      "hospitalizedCases": 8
+    },
+    {
+      "weekStart": "2020-01-20",
+      "totalCases": 20,
+      "pcrCases": 17,
+      "igmCases": 3,
+      "hospitalizedCases": 8
+    },
+    {
+      "weekStart": "2020-01-27",
+      "totalCases": 24,
+      "pcrCases": 22,
+      "igmCases": 2,
+      "hospitalizedCases": 8
+    },
+    {
+      "weekStart": "2020-02-03",
+      "totalCases": 20,
+      "pcrCases": 20,
+      "igmCases": 0,
+      "hospitalizedCases": 3
+    },
+    {
+      "weekStart": "2020-02-10",
+      "totalCases": 23,
+      "pcrCases": 21,
+      "igmCases": 2,
+      "hospitalizedCases": 11
+    },
+    {
+      "weekStart": "2020-02-17",
+      "totalCases": 24,
+      "pcrCases": 22,
+      "igmCases": 2,
+      "hospitalizedCases": 2
+    },
+    {
+      "weekStart": "2020-02-24",
+      "totalCases": 19,
+      "pcrCases": 19,
+      "igmCases": 0,
+      "hospitalizedCases": 6
+    },
+    {
+      "weekStart": "2020-03-02",
+      "totalCases": 13,
+      "pcrCases": 11,
+      "igmCases": 2,
+      "hospitalizedCases": 6
+    },
+    {
+      "weekStart": "2020-03-09",
+      "totalCases": 8,
+      "pcrCases": 7,
+      "igmCases": 1,
+      "hospitalizedCases": 1
+    },
+    {
+      "weekStart": "2020-03-16",
+      "totalCases": 8,
+      "pcrCases": 7,
+      "igmCases": 1,
+      "hospitalizedCases": 4
+    },
+    {
+      "weekStart": "2020-03-23",
+      "totalCases": 7,
+      "pcrCases": 7,
+      "igmCases": 0,
+      "hospitalizedCases": 3
+    },
+    {
+      "weekStart": "2020-03-30",
+      "totalCases": 9,
+      "pcrCases": 8,
+      "igmCases": 1,
+      "hospitalizedCases": 4
+    },
+    {
+      "weekStart": "2020-04-06",
+      "totalCases": 11,
+      "pcrCases": 10,
+      "igmCases": 1,
+      "hospitalizedCases": 5
+    },
+    {
+      "weekStart": "2020-04-13",
+      "totalCases": 16,
+      "pcrCases": 14,
+      "igmCases": 2,
+      "hospitalizedCases": 5
+    },
+    {
+      "weekStart": "2020-04-20",
+      "totalCases": 18,
+      "pcrCases": 15,
+      "igmCases": 3,
+      "hospitalizedCases": 4
+    },
+    {
+      "weekStart": "2020-04-27",
+      "totalCases": 12,
+      "pcrCases": 8,
+      "igmCases": 4,
+      "hospitalizedCases": 6
+    },
+    {
+      "weekStart": "2020-05-04",
+      "totalCases": 19,
+      "pcrCases": 15,
+      "igmCases": 4,
+      "hospitalizedCases": 8
+    },
+    {
+      "weekStart": "2020-05-11",
+      "totalCases": 13,
+      "pcrCases": 12,
+      "igmCases": 1,
+      "hospitalizedCases": 1
+    },
+    {
+      "weekStart": "2020-05-18",
+      "totalCases": 9,
+      "pcrCases": 9,
+      "igmCases": 0,
+      "hospitalizedCases": 2
+    },
+    {
+      "weekStart": "2020-05-25",
+      "totalCases": 11,
+      "pcrCases": 10,
+      "igmCases": 1,
+      "hospitalizedCases": 1
+    },
+    {
+      "weekStart": "2020-06-01",
+      "totalCases": 11,
+      "pcrCases": 10,
+      "igmCases": 1,
+      "hospitalizedCases": 0
+    },
+    {
+      "weekStart": "2020-06-08",
+      "totalCases": 7,
+      "pcrCases": 6,
+      "igmCases": 1,
+      "hospitalizedCases": 3
+    },
+    {
+      "weekStart": "2020-06-15",
+      "totalCases": 13,
+      "pcrCases": 13,
+      "igmCases": 0,
+      "hospitalizedCases": 4
+    },
+    {
+      "weekStart": "2020-06-22",
+      "totalCases": 4,
+      "pcrCases": 4,
+      "igmCases": 0,
+      "hospitalizedCases": 3
+    },
+    {
+      "weekStart": "2020-06-29",
+      "totalCases": 12,
+      "pcrCases": 9,
+      "igmCases": 3,
+      "hospitalizedCases": 3
+    },
+    {
+      "weekStart": "2020-07-06",
+      "totalCases": 7,
+      "pcrCases": 7,
+      "igmCases": 0,
+      "hospitalizedCases": 3
+    },
+    {
+      "weekStart": "2020-07-13",
+      "totalCases": 6,
+      "pcrCases": 6,
+      "igmCases": 0,
+      "hospitalizedCases": 1
+    },
+    {
+      "weekStart": "2020-07-20",
+      "totalCases": 4,
+      "pcrCases": 4,
+      "igmCases": 0,
+      "hospitalizedCases": 1
+    },
+    {
+      "weekStart": "2020-07-27",
+      "totalCases": 10,
+      "pcrCases": 10,
+      "igmCases": 0,
+      "hospitalizedCases": 6
+    },
+    {
+      "weekStart": "2020-08-03",
+      "totalCases": 9,
+      "pcrCases": 8,
+      "igmCases": 1,
+      "hospitalizedCases": 2
+    },
+    {
+      "weekStart": "2020-08-10",
+      "totalCases": 15,
+      "pcrCases": 12,
+      "igmCases": 3,
+      "hospitalizedCases": 6
+    },
+    {
+      "weekStart": "2020-08-17",
+      "totalCases": 13,
+      "pcrCases": 11,
+      "igmCases": 2,
+      "hospitalizedCases": 8
+    },
+    {
+      "weekStart": "2020-08-24",
+      "totalCases": 12,
+      "pcrCases": 11,
+      "igmCases": 1,
+      "hospitalizedCases": 4
+    },
+    {
+      "weekStart": "2020-08-31",
+      "totalCases": 17,
+      "pcrCases": 17,
+      "igmCases": 0,
+      "hospitalizedCases": 10
+    },
+    {
+      "weekStart": "2020-09-07",
+      "totalCases": 16,
+      "pcrCases": 15,
+      "igmCases": 1,
+      "hospitalizedCases": 8
+    },
+    {
+      "weekStart": "2020-09-14",
+      "totalCases": 14,
+      "pcrCases": 14,
+      "igmCases": 0,
+      "hospitalizedCases": 6
+    },
+    {
+      "weekStart": "2020-09-21",
+      "totalCases": 27,
+      "pcrCases": 24,
+      "igmCases": 3,
+      "hospitalizedCases": 15
+    },
+    {
+      "weekStart": "2020-09-28",
+      "totalCases": 25,
+      "pcrCases": 23,
+      "igmCases": 2,
+      "hospitalizedCases": 9
+    },
+    {
+      "weekStart": "2020-10-05",
+      "totalCases": 29,
+      "pcrCases": 27,
+      "igmCases": 2,
+      "hospitalizedCases": 13
+    },
+    {
+      "weekStart": "2020-10-12",
+      "totalCases": 36,
+      "pcrCases": 34,
+      "igmCases": 2,
+      "hospitalizedCases": 17
+    },
+    {
+      "weekStart": "2020-10-19",
+      "totalCases": 36,
+      "pcrCases": 33,
+      "igmCases": 3,
+      "hospitalizedCases": 21
+    },
+    {
+      "weekStart": "2020-10-26",
+      "totalCases": 31,
+      "pcrCases": 28,
+      "igmCases": 3,
+      "hospitalizedCases": 12
+    },
+    {
+      "weekStart": "2020-11-02",
+      "totalCases": 42,
+      "pcrCases": 35,
+      "igmCases": 7,
+      "hospitalizedCases": 14
+    },
+    {
+      "weekStart": "2020-11-09",
+      "totalCases": 39,
+      "pcrCases": 30,
+      "igmCases": 9,
+      "hospitalizedCases": 13
+    },
+    {
+      "weekStart": "2020-11-16",
+      "totalCases": 32,
+      "pcrCases": 22,
+      "igmCases": 10,
+      "hospitalizedCases": 9
+    },
+    {
+      "weekStart": "2020-11-23",
+      "totalCases": 29,
+      "pcrCases": 24,
+      "igmCases": 5,
+      "hospitalizedCases": 12
+    },
+    {
+      "weekStart": "2020-11-30",
+      "totalCases": 32,
+      "pcrCases": 28,
+      "igmCases": 4,
+      "hospitalizedCases": 17
+    },
+    {
+      "weekStart": "2020-12-07",
+      "totalCases": 29,
+      "pcrCases": 27,
+      "igmCases": 2,
+      "hospitalizedCases": 8
+    },
+    {
+      "weekStart": "2020-12-14",
+      "totalCases": 36,
+      "pcrCases": 34,
+      "igmCases": 2,
+      "hospitalizedCases": 12
+    },
+    {
+      "weekStart": "2020-12-21",
+      "totalCases": 35,
+      "pcrCases": 35,
+      "igmCases": 0,
+      "hospitalizedCases": 13
+    },
+    {
+      "weekStart": "2020-12-28",
+      "totalCases": 29,
+      "pcrCases": 29,
+      "igmCases": 0,
+      "hospitalizedCases": 9
+    },
+    {
+      "weekStart": "2021-01-04",
+      "totalCases": 32,
+      "pcrCases": 31,
+      "igmCases": 1,
+      "hospitalizedCases": 16
+    },
+    {
+      "weekStart": "2021-01-11",
+      "totalCases": 23,
+      "pcrCases": 22,
+      "igmCases": 1,
+      "hospitalizedCases": 7
+    },
+    {
+      "weekStart": "2021-01-18",
+      "totalCases": 27,
+      "pcrCases": 24,
+      "igmCases": 3,
+      "hospitalizedCases": 10
+    },
+    {
+      "weekStart": "2021-01-25",
+      "totalCases": 25,
+      "pcrCases": 20,
+      "igmCases": 5,
+      "hospitalizedCases": 9
+    },
+    {
+      "weekStart": "2021-02-01",
+      "totalCases": 23,
+      "pcrCases": 23,
+      "igmCases": 0,
+      "hospitalizedCases": 9
+    },
+    {
+      "weekStart": "2021-02-08",
+      "totalCases": 23,
+      "pcrCases": 21,
+      "igmCases": 2,
+      "hospitalizedCases": 10
+    },
+    {
+      "weekStart": "2021-02-15",
+      "totalCases": 17,
+      "pcrCases": 16,
+      "igmCases": 1,
+      "hospitalizedCases": 4
+    },
+    {
+      "weekStart": "2021-02-22",
+      "totalCases": 16,
+      "pcrCases": 16,
+      "igmCases": 0,
+      "hospitalizedCases": 8
+    },
+    {
+      "weekStart": "2021-03-01",
+      "totalCases": 30,
+      "pcrCases": 30,
+      "igmCases": 0,
+      "hospitalizedCases": 10
+    },
+    {
+      "weekStart": "2021-03-08",
+      "totalCases": 19,
+      "pcrCases": 19,
+      "igmCases": 0,
+      "hospitalizedCases": 9
+    },
+    {
+      "weekStart": "2021-03-15",
+      "totalCases": 9,
+      "pcrCases": 8,
+      "igmCases": 1,
+      "hospitalizedCases": 2
+    },
+    {
+      "weekStart": "2021-03-22",
+      "totalCases": 6,
+      "pcrCases": 6,
+      "igmCases": 0,
+      "hospitalizedCases": 2
+    },
+    {
+      "weekStart": "2021-03-29",
+      "totalCases": 10,
+      "pcrCases": 9,
+      "igmCases": 1,
+      "hospitalizedCases": 6
+    },
+    {
+      "weekStart": "2021-04-05",
+      "totalCases": 6,
+      "pcrCases": 4,
+      "igmCases": 2,
+      "hospitalizedCases": 2
+    },
+    {
+      "weekStart": "2021-04-12",
+      "totalCases": 5,
+      "pcrCases": 5,
+      "igmCases": 0,
+      "hospitalizedCases": 2
+    },
+    {
+      "weekStart": "2021-04-19",
+      "totalCases": 8,
+      "pcrCases": 8,
+      "igmCases": 0,
+      "hospitalizedCases": 2
+    },
+    {
+      "weekStart": "2021-04-26",
+      "totalCases": 9,
+      "pcrCases": 8,
+      "igmCases": 1,
+      "hospitalizedCases": 5
+    },
+    {
+      "weekStart": "2021-05-03",
+      "totalCases": 4,
+      "pcrCases": 3,
+      "igmCases": 1,
+      "hospitalizedCases": 1
+    },
+    {
+      "weekStart": "2021-05-10",
+      "totalCases": 10,
+      "pcrCases": 9,
+      "igmCases": 1,
+      "hospitalizedCases": 5
+    },
+    {
+      "weekStart": "2021-05-17",
+      "totalCases": 13,
+      "pcrCases": 11,
+      "igmCases": 2,
+      "hospitalizedCases": 7
+    },
+    {
+      "weekStart": "2021-05-24",
+      "totalCases": 12,
+      "pcrCases": 12,
+      "igmCases": 0,
+      "hospitalizedCases": 4
+    },
+    {
+      "weekStart": "2021-05-31",
+      "totalCases": 13,
+      "pcrCases": 12,
+      "igmCases": 1,
+      "hospitalizedCases": 6
+    },
+    {
+      "weekStart": "2021-06-07",
+      "totalCases": 7,
+      "pcrCases": 7,
+      "igmCases": 0,
+      "hospitalizedCases": 3
+    },
+    {
+      "weekStart": "2021-06-14",
+      "totalCases": 7,
+      "pcrCases": 4,
+      "igmCases": 3,
+      "hospitalizedCases": 1
+    },
+    {
+      "weekStart": "2021-06-21",
+      "totalCases": 5,
+      "pcrCases": 5,
+      "igmCases": 0,
+      "hospitalizedCases": 3
+    },
+    {
+      "weekStart": "2021-06-28",
+      "totalCases": 13,
+      "pcrCases": 11,
+      "igmCases": 2,
+      "hospitalizedCases": 7
+    },
+    {
+      "weekStart": "2021-07-05",
+      "totalCases": 19,
+      "pcrCases": 17,
+      "igmCases": 2,
+      "hospitalizedCases": 7
+    },
+    {
+      "weekStart": "2021-07-12",
+      "totalCases": 11,
+      "pcrCases": 9,
+      "igmCases": 2,
+      "hospitalizedCases": 7
+    },
+    {
+      "weekStart": "2021-07-19",
+      "totalCases": 10,
+      "pcrCases": 8,
+      "igmCases": 2,
+      "hospitalizedCases": 4
+    },
+    {
+      "weekStart": "2021-07-26",
+      "totalCases": 5,
+      "pcrCases": 5,
+      "igmCases": 0,
+      "hospitalizedCases": 1
+    },
+    {
+      "weekStart": "2021-08-02",
+      "totalCases": 11,
+      "pcrCases": 8,
+      "igmCases": 3,
+      "hospitalizedCases": 8
+    },
+    {
+      "weekStart": "2021-08-09",
+      "totalCases": 15,
+      "pcrCases": 11,
+      "igmCases": 4,
+      "hospitalizedCases": 4
+    },
+    {
+      "weekStart": "2021-08-16",
+      "totalCases": 8,
+      "pcrCases": 8,
+      "igmCases": 0,
+      "hospitalizedCases": 4
+    },
+    {
+      "weekStart": "2021-08-23",
+      "totalCases": 10,
+      "pcrCases": 8,
+      "igmCases": 2,
+      "hospitalizedCases": 6
+    },
+    {
+      "weekStart": "2021-08-30",
+      "totalCases": 11,
+      "pcrCases": 8,
+      "igmCases": 3,
+      "hospitalizedCases": 8
+    },
+    {
+      "weekStart": "2021-09-06",
+      "totalCases": 7,
+      "pcrCases": 5,
+      "igmCases": 2,
+      "hospitalizedCases": 2
+    },
+    {
+      "weekStart": "2021-09-13",
+      "totalCases": 12,
+      "pcrCases": 10,
+      "igmCases": 2,
+      "hospitalizedCases": 5
+    },
+    {
+      "weekStart": "2021-09-20",
+      "totalCases": 10,
+      "pcrCases": 7,
+      "igmCases": 3,
+      "hospitalizedCases": 6
+    },
+    {
+      "weekStart": "2021-09-27",
+      "totalCases": 9,
+      "pcrCases": 7,
+      "igmCases": 2,
+      "hospitalizedCases": 5
+    },
+    {
+      "weekStart": "2021-10-04",
+      "totalCases": 9,
+      "pcrCases": 8,
+      "igmCases": 1,
+      "hospitalizedCases": 3
+    },
+    {
+      "weekStart": "2021-10-11",
+      "totalCases": 17,
+      "pcrCases": 15,
+      "igmCases": 2,
+      "hospitalizedCases": 8
+    },
+    {
+      "weekStart": "2021-10-18",
+      "totalCases": 7,
+      "pcrCases": 6,
+      "igmCases": 1,
+      "hospitalizedCases": 2
+    },
+    {
+      "weekStart": "2021-10-25",
+      "totalCases": 8,
+      "pcrCases": 8,
+      "igmCases": 0,
+      "hospitalizedCases": 3
+    },
+    {
+      "weekStart": "2021-11-01",
+      "totalCases": 7,
+      "pcrCases": 6,
+      "igmCases": 1,
+      "hospitalizedCases": 5
+    },
+    {
+      "weekStart": "2021-11-08",
+      "totalCases": 12,
+      "pcrCases": 12,
+      "igmCases": 0,
+      "hospitalizedCases": 4
+    },
+    {
+      "weekStart": "2021-11-15",
+      "totalCases": 5,
+      "pcrCases": 4,
+      "igmCases": 1,
+      "hospitalizedCases": 1
+    },
+    {
+      "weekStart": "2021-11-22",
+      "totalCases": 18,
+      "pcrCases": 17,
+      "igmCases": 1,
+      "hospitalizedCases": 7
+    },
+    {
+      "weekStart": "2021-11-29",
+      "totalCases": 9,
+      "pcrCases": 8,
+      "igmCases": 1,
+      "hospitalizedCases": 5
+    },
+    {
+      "weekStart": "2021-12-06",
+      "totalCases": 10,
+      "pcrCases": 10,
+      "igmCases": 0,
+      "hospitalizedCases": 2
+    },
+    {
+      "weekStart": "2021-12-13",
+      "totalCases": 15,
+      "pcrCases": 14,
+      "igmCases": 1,
+      "hospitalizedCases": 4
+    },
+    {
+      "weekStart": "2021-12-20",
+      "totalCases": 6,
+      "pcrCases": 6,
+      "igmCases": 0,
+      "hospitalizedCases": 2
+    },
+    {
+      "weekStart": "2021-12-27",
+      "totalCases": 4,
+      "pcrCases": 3,
+      "igmCases": 1,
+      "hospitalizedCases": 2
+    },
+    {
+      "weekStart": "2022-01-03",
+      "totalCases": 9,
+      "pcrCases": 9,
+      "igmCases": 0,
+      "hospitalizedCases": 3
+    },
+    {
+      "weekStart": "2022-01-10",
+      "totalCases": 14,
+      "pcrCases": 11,
+      "igmCases": 3,
+      "hospitalizedCases": 5
+    },
+    {
+      "weekStart": "2022-01-17",
+      "totalCases": 13,
+      "pcrCases": 11,
+      "igmCases": 2,
+      "hospitalizedCases": 9
+    },
+    {
+      "weekStart": "2022-01-24",
+      "totalCases": 3,
+      "pcrCases": 3,
+      "igmCases": 0,
+      "hospitalizedCases": 0
+    },
+    {
+      "weekStart": "2022-01-31",
+      "totalCases": 10,
+      "pcrCases": 8,
+      "igmCases": 2,
+      "hospitalizedCases": 5
+    },
+    {
+      "weekStart": "2022-02-07",
+      "totalCases": 7,
+      "pcrCases": 7,
+      "igmCases": 0,
+      "hospitalizedCases": 3
+    },
+    {
+      "weekStart": "2022-02-14",
+      "totalCases": 6,
+      "pcrCases": 5,
+      "igmCases": 1,
+      "hospitalizedCases": 1
+    },
+    {
+      "weekStart": "2022-02-21",
+      "totalCases": 7,
+      "pcrCases": 6,
+      "igmCases": 1,
+      "hospitalizedCases": 2
+    },
+    {
+      "weekStart": "2022-02-28",
+      "totalCases": 10,
+      "pcrCases": 7,
+      "igmCases": 3,
+      "hospitalizedCases": 4
+    },
+    {
+      "weekStart": "2022-03-07",
+      "totalCases": 5,
+      "pcrCases": 3,
+      "igmCases": 2,
+      "hospitalizedCases": 5
+    },
+    {
+      "weekStart": "2022-03-14",
+      "totalCases": 12,
+      "pcrCases": 9,
+      "igmCases": 3,
+      "hospitalizedCases": 5
+    },
+    {
+      "weekStart": "2022-03-21",
+      "totalCases": 9,
+      "pcrCases": 6,
+      "igmCases": 3,
+      "hospitalizedCases": 3
+    },
+    {
+      "weekStart": "2022-03-28",
+      "totalCases": 4,
+      "pcrCases": 3,
+      "igmCases": 1,
+      "hospitalizedCases": 2
+    },
+    {
+      "weekStart": "2022-04-04",
+      "totalCases": 5,
+      "pcrCases": 5,
+      "igmCases": 0,
+      "hospitalizedCases": 2
+    },
+    {
+      "weekStart": "2022-04-11",
+      "totalCases": 4,
+      "pcrCases": 3,
+      "igmCases": 1,
+      "hospitalizedCases": 1
+    },
+    {
+      "weekStart": "2022-04-18",
+      "totalCases": 11,
+      "pcrCases": 6,
+      "igmCases": 5,
+      "hospitalizedCases": 4
+    },
+    {
+      "weekStart": "2022-04-25",
+      "totalCases": 7,
+      "pcrCases": 5,
+      "igmCases": 2,
+      "hospitalizedCases": 1
+    },
+    {
+      "weekStart": "2022-05-02",
+      "totalCases": 2,
+      "pcrCases": 2,
+      "igmCases": 0,
+      "hospitalizedCases": 0
+    },
+    {
+      "weekStart": "2022-05-09",
+      "totalCases": 7,
+      "pcrCases": 5,
+      "igmCases": 2,
+      "hospitalizedCases": 3
+    },
+    {
+      "weekStart": "2022-05-16",
+      "totalCases": 6,
+      "pcrCases": 4,
+      "igmCases": 2,
+      "hospitalizedCases": 3
+    },
+    {
+      "weekStart": "2022-05-23",
+      "totalCases": 7,
+      "pcrCases": 3,
+      "igmCases": 4,
+      "hospitalizedCases": 1
+    },
+    {
+      "weekStart": "2022-05-30",
+      "totalCases": 3,
+      "pcrCases": 2,
+      "igmCases": 1,
+      "hospitalizedCases": 1
+    },
+    {
+      "weekStart": "2022-06-06",
+      "totalCases": 4,
+      "pcrCases": 4,
+      "igmCases": 0,
+      "hospitalizedCases": 2
+    },
+    {
+      "weekStart": "2022-06-13",
+      "totalCases": 3,
+      "pcrCases": 3,
+      "igmCases": 0,
+      "hospitalizedCases": 3
+    },
+    {
+      "weekStart": "2022-06-20",
+      "totalCases": 2,
+      "pcrCases": 2,
+      "igmCases": 0,
+      "hospitalizedCases": 1
+    },
+    {
+      "weekStart": "2022-06-27",
+      "totalCases": 4,
+      "pcrCases": 4,
+      "igmCases": 0,
+      "hospitalizedCases": 2
+    },
+    {
+      "weekStart": "2022-07-04",
+      "totalCases": 6,
+      "pcrCases": 4,
+      "igmCases": 2,
+      "hospitalizedCases": 1
+    },
+    {
+      "weekStart": "2022-07-11",
+      "totalCases": 5,
+      "pcrCases": 3,
+      "igmCases": 2,
+      "hospitalizedCases": 1
+    },
+    {
+      "weekStart": "2022-07-18",
+      "totalCases": 10,
+      "pcrCases": 7,
+      "igmCases": 3,
+      "hospitalizedCases": 4
+    },
+    {
+      "weekStart": "2022-07-25",
+      "totalCases": 5,
+      "pcrCases": 5,
+      "igmCases": 0,
+      "hospitalizedCases": 2
+    },
+    {
+      "weekStart": "2022-08-01",
+      "totalCases": 9,
+      "pcrCases": 9,
+      "igmCases": 0,
+      "hospitalizedCases": 6
+    },
+    {
+      "weekStart": "2022-08-08",
+      "totalCases": 11,
+      "pcrCases": 11,
+      "igmCases": 0,
+      "hospitalizedCases": 3
+    },
+    {
+      "weekStart": "2022-08-15",
+      "totalCases": 20,
+      "pcrCases": 16,
+      "igmCases": 4,
+      "hospitalizedCases": 6
+    },
+    {
+      "weekStart": "2022-08-22",
+      "totalCases": 18,
+      "pcrCases": 16,
+      "igmCases": 2,
+      "hospitalizedCases": 11
+    },
+    {
+      "weekStart": "2022-08-29",
+      "totalCases": 21,
+      "pcrCases": 20,
+      "igmCases": 1,
+      "hospitalizedCases": 6
+    },
+    {
+      "weekStart": "2022-09-05",
+      "totalCases": 28,
+      "pcrCases": 28,
+      "igmCases": 0,
+      "hospitalizedCases": 9
+    },
+    {
+      "weekStart": "2022-09-12",
+      "totalCases": 22,
+      "pcrCases": 16,
+      "igmCases": 6,
+      "hospitalizedCases": 5
+    },
+    {
+      "weekStart": "2022-09-19",
+      "totalCases": 33,
+      "pcrCases": 31,
+      "igmCases": 2,
+      "hospitalizedCases": 8
+    },
+    {
+      "weekStart": "2022-09-26",
+      "totalCases": 39,
+      "pcrCases": 37,
+      "igmCases": 2,
+      "hospitalizedCases": 7
+    },
+    {
+      "weekStart": "2022-10-03",
+      "totalCases": 48,
+      "pcrCases": 40,
+      "igmCases": 8,
+      "hospitalizedCases": 20
+    },
+    {
+      "weekStart": "2022-10-10",
+      "totalCases": 46,
+      "pcrCases": 42,
+      "igmCases": 4,
+      "hospitalizedCases": 12
+    },
+    {
+      "weekStart": "2022-10-17",
+      "totalCases": 48,
+      "pcrCases": 39,
+      "igmCases": 9,
+      "hospitalizedCases": 19
+    },
+    {
+      "weekStart": "2022-10-24",
+      "totalCases": 52,
+      "pcrCases": 46,
+      "igmCases": 6,
+      "hospitalizedCases": 24
+    },
+    {
+      "weekStart": "2022-10-31",
+      "totalCases": 51,
+      "pcrCases": 44,
+      "igmCases": 7,
+      "hospitalizedCases": 23
+    },
+    {
+      "weekStart": "2022-11-07",
+      "totalCases": 69,
+      "pcrCases": 61,
+      "igmCases": 8,
+      "hospitalizedCases": 23
+    },
+    {
+      "weekStart": "2022-11-14",
+      "totalCases": 59,
+      "pcrCases": 51,
+      "igmCases": 8,
+      "hospitalizedCases": 24
+    },
+    {
+      "weekStart": "2022-11-21",
+      "totalCases": 66,
+      "pcrCases": 60,
+      "igmCases": 6,
+      "hospitalizedCases": 22
+    },
+    {
+      "weekStart": "2022-11-28",
+      "totalCases": 70,
+      "pcrCases": 65,
+      "igmCases": 5,
+      "hospitalizedCases": 19
+    },
+    {
+      "weekStart": "2022-12-05",
+      "totalCases": 62,
+      "pcrCases": 57,
+      "igmCases": 5,
+      "hospitalizedCases": 28
+    },
+    {
+      "weekStart": "2022-12-12",
+      "totalCases": 42,
+      "pcrCases": 40,
+      "igmCases": 2,
+      "hospitalizedCases": 18
+    },
+    {
+      "weekStart": "2022-12-19",
+      "totalCases": 40,
+      "pcrCases": 39,
+      "igmCases": 1,
+      "hospitalizedCases": 11
+    },
+    {
+      "weekStart": "2022-12-26",
+      "totalCases": 31,
+      "pcrCases": 28,
+      "igmCases": 3,
+      "hospitalizedCases": 12
+    },
+    {
+      "weekStart": "2023-01-02",
+      "totalCases": 28,
+      "pcrCases": 24,
+      "igmCases": 4,
+      "hospitalizedCases": 15
+    },
+    {
+      "weekStart": "2023-01-09",
+      "totalCases": 36,
+      "pcrCases": 31,
+      "igmCases": 5,
+      "hospitalizedCases": 14
+    },
+    {
+      "weekStart": "2023-01-16",
+      "totalCases": 27,
+      "pcrCases": 23,
+      "igmCases": 4,
+      "hospitalizedCases": 9
+    },
+    {
+      "weekStart": "2023-01-23",
+      "totalCases": 25,
+      "pcrCases": 20,
+      "igmCases": 5,
+      "hospitalizedCases": 7
+    },
+    {
+      "weekStart": "2023-01-30",
+      "totalCases": 25,
+      "pcrCases": 18,
+      "igmCases": 7,
+      "hospitalizedCases": 9
+    },
+    {
+      "weekStart": "2023-02-06",
+      "totalCases": 24,
+      "pcrCases": 14,
+      "igmCases": 10,
+      "hospitalizedCases": 10
+    },
+    {
+      "weekStart": "2023-02-13",
+      "totalCases": 16,
+      "pcrCases": 14,
+      "igmCases": 2,
+      "hospitalizedCases": 3
+    },
+    {
+      "weekStart": "2023-02-20",
+      "totalCases": 22,
+      "pcrCases": 21,
+      "igmCases": 1,
+      "hospitalizedCases": 6
+    },
+    {
+      "weekStart": "2023-02-27",
+      "totalCases": 15,
+      "pcrCases": 13,
+      "igmCases": 2,
+      "hospitalizedCases": 6
+    },
+    {
+      "weekStart": "2023-03-06",
+      "totalCases": 11,
+      "pcrCases": 8,
+      "igmCases": 3,
+      "hospitalizedCases": 5
+    },
+    {
+      "weekStart": "2023-03-13",
+      "totalCases": 14,
+      "pcrCases": 13,
+      "igmCases": 1,
+      "hospitalizedCases": 6
+    },
+    {
+      "weekStart": "2023-03-20",
+      "totalCases": 14,
+      "pcrCases": 11,
+      "igmCases": 3,
+      "hospitalizedCases": 5
+    },
+    {
+      "weekStart": "2023-03-27",
+      "totalCases": 12,
+      "pcrCases": 8,
+      "igmCases": 4,
+      "hospitalizedCases": 6
+    },
+    {
+      "weekStart": "2023-04-03",
+      "totalCases": 10,
+      "pcrCases": 6,
+      "igmCases": 4,
+      "hospitalizedCases": 5
+    },
+    {
+      "weekStart": "2023-04-10",
+      "totalCases": 6,
+      "pcrCases": 4,
+      "igmCases": 2,
+      "hospitalizedCases": 0
+    },
+    {
+      "weekStart": "2023-04-17",
+      "totalCases": 5,
+      "pcrCases": 3,
+      "igmCases": 2,
+      "hospitalizedCases": 3
+    },
+    {
+      "weekStart": "2023-04-24",
+      "totalCases": 5,
+      "pcrCases": 4,
+      "igmCases": 1,
+      "hospitalizedCases": 2
+    },
+    {
+      "weekStart": "2023-05-01",
+      "totalCases": 7,
+      "pcrCases": 5,
+      "igmCases": 2,
+      "hospitalizedCases": 2
+    },
+    {
+      "weekStart": "2023-05-08",
+      "totalCases": 5,
+      "pcrCases": 3,
+      "igmCases": 2,
+      "hospitalizedCases": 2
+    },
+    {
+      "weekStart": "2023-05-15",
+      "totalCases": 7,
+      "pcrCases": 4,
+      "igmCases": 3,
+      "hospitalizedCases": 4
+    },
+    {
+      "weekStart": "2023-05-22",
+      "totalCases": 11,
+      "pcrCases": 7,
+      "igmCases": 4,
+      "hospitalizedCases": 1
+    },
+    {
+      "weekStart": "2023-05-29",
+      "totalCases": 8,
+      "pcrCases": 5,
+      "igmCases": 3,
+      "hospitalizedCases": 5
+    },
+    {
+      "weekStart": "2023-06-05",
+      "totalCases": 13,
+      "pcrCases": 10,
+      "igmCases": 3,
+      "hospitalizedCases": 6
+    },
+    {
+      "weekStart": "2023-06-12",
+      "totalCases": 14,
+      "pcrCases": 9,
+      "igmCases": 5,
+      "hospitalizedCases": 3
+    },
+    {
+      "weekStart": "2023-06-19",
+      "totalCases": 9,
+      "pcrCases": 8,
+      "igmCases": 1,
+      "hospitalizedCases": 3
+    },
+    {
+      "weekStart": "2023-06-26",
+      "totalCases": 4,
+      "pcrCases": 3,
+      "igmCases": 1,
+      "hospitalizedCases": 1
+    },
+    {
+      "weekStart": "2023-07-03",
+      "totalCases": 5,
+      "pcrCases": 5,
+      "igmCases": 0,
+      "hospitalizedCases": 3
+    },
+    {
+      "weekStart": "2023-07-10",
+      "totalCases": 15,
+      "pcrCases": 10,
+      "igmCases": 5,
+      "hospitalizedCases": 4
+    },
+    {
+      "weekStart": "2023-07-17",
+      "totalCases": 17,
+      "pcrCases": 9,
+      "igmCases": 8,
+      "hospitalizedCases": 3
+    },
+    {
+      "weekStart": "2023-07-24",
+      "totalCases": 21,
+      "pcrCases": 11,
+      "igmCases": 10,
+      "hospitalizedCases": 8
+    },
+    {
+      "weekStart": "2023-07-31",
+      "totalCases": 37,
+      "pcrCases": 22,
+      "igmCases": 15,
+      "hospitalizedCases": 10
+    },
+    {
+      "weekStart": "2023-08-07",
+      "totalCases": 34,
+      "pcrCases": 16,
+      "igmCases": 18,
+      "hospitalizedCases": 11
+    },
+    {
+      "weekStart": "2023-08-14",
+      "totalCases": 16,
+      "pcrCases": 9,
+      "igmCases": 7,
+      "hospitalizedCases": 5
+    },
+    {
+      "weekStart": "2023-08-21",
+      "totalCases": 17,
+      "pcrCases": 13,
+      "igmCases": 4,
+      "hospitalizedCases": 6
+    },
+    {
+      "weekStart": "2023-08-28",
+      "totalCases": 24,
+      "pcrCases": 14,
+      "igmCases": 10,
+      "hospitalizedCases": 11
+    },
+    {
+      "weekStart": "2023-09-04",
+      "totalCases": 43,
+      "pcrCases": 28,
+      "igmCases": 15,
+      "hospitalizedCases": 22
+    },
+    {
+      "weekStart": "2023-09-11",
+      "totalCases": 44,
+      "pcrCases": 30,
+      "igmCases": 14,
+      "hospitalizedCases": 24
+    },
+    {
+      "weekStart": "2023-09-18",
+      "totalCases": 31,
+      "pcrCases": 23,
+      "igmCases": 8,
+      "hospitalizedCases": 22
+    },
+    {
+      "weekStart": "2023-09-25",
+      "totalCases": 36,
+      "pcrCases": 27,
+      "igmCases": 9,
+      "hospitalizedCases": 25
+    },
+    {
+      "weekStart": "2023-10-02",
+      "totalCases": 28,
+      "pcrCases": 23,
+      "igmCases": 5,
+      "hospitalizedCases": 16
+    },
+    {
+      "weekStart": "2023-10-09",
+      "totalCases": 38,
+      "pcrCases": 32,
+      "igmCases": 6,
+      "hospitalizedCases": 23
+    },
+    {
+      "weekStart": "2023-10-16",
+      "totalCases": 34,
+      "pcrCases": 30,
+      "igmCases": 4,
+      "hospitalizedCases": 19
+    },
+    {
+      "weekStart": "2023-10-23",
+      "totalCases": 35,
+      "pcrCases": 29,
+      "igmCases": 6,
+      "hospitalizedCases": 24
+    },
+    {
+      "weekStart": "2023-10-30",
+      "totalCases": 39,
+      "pcrCases": 34,
+      "igmCases": 5,
+      "hospitalizedCases": 15
+    },
+    {
+      "weekStart": "2023-11-06",
+      "totalCases": 43,
+      "pcrCases": 35,
+      "igmCases": 8,
+      "hospitalizedCases": 27
+    },
+    {
+      "weekStart": "2023-11-13",
+      "totalCases": 49,
+      "pcrCases": 41,
+      "igmCases": 8,
+      "hospitalizedCases": 26
+    },
+    {
+      "weekStart": "2023-11-20",
+      "totalCases": 50,
+      "pcrCases": 38,
+      "igmCases": 12,
+      "hospitalizedCases": 32
+    },
+    {
+      "weekStart": "2023-11-27",
+      "totalCases": 44,
+      "pcrCases": 37,
+      "igmCases": 7,
+      "hospitalizedCases": 29
+    },
+    {
+      "weekStart": "2023-12-04",
+      "totalCases": 57,
+      "pcrCases": 46,
+      "igmCases": 11,
+      "hospitalizedCases": 38
+    },
+    {
+      "weekStart": "2023-12-11",
+      "totalCases": 50,
+      "pcrCases": 38,
+      "igmCases": 12,
+      "hospitalizedCases": 33
+    },
+    {
+      "weekStart": "2023-12-18",
+      "totalCases": 61,
+      "pcrCases": 54,
+      "igmCases": 7,
+      "hospitalizedCases": 42
+    },
+    {
+      "weekStart": "2023-12-25",
+      "totalCases": 46,
+      "pcrCases": 43,
+      "igmCases": 3,
+      "hospitalizedCases": 26
+    },
+    {
+      "weekStart": "2024-01-01",
+      "totalCases": 52,
+      "pcrCases": 44,
+      "igmCases": 8,
+      "hospitalizedCases": 34
+    },
+    {
+      "weekStart": "2024-01-08",
+      "totalCases": 45,
+      "pcrCases": 39,
+      "igmCases": 6,
+      "hospitalizedCases": 32
+    },
+    {
+      "weekStart": "2024-01-15",
+      "totalCases": 58,
+      "pcrCases": 47,
+      "igmCases": 11,
+      "hospitalizedCases": 33
+    },
+    {
+      "weekStart": "2024-01-22",
+      "totalCases": 63,
+      "pcrCases": 55,
+      "igmCases": 8,
+      "hospitalizedCases": 44
+    },
+    {
+      "weekStart": "2024-01-29",
+      "totalCases": 67,
+      "pcrCases": 56,
+      "igmCases": 11,
+      "hospitalizedCases": 45
+    },
+    {
+      "weekStart": "2024-02-05",
+      "totalCases": 55,
+      "pcrCases": 44,
+      "igmCases": 11,
+      "hospitalizedCases": 33
+    },
+    {
+      "weekStart": "2024-02-12",
+      "totalCases": 47,
+      "pcrCases": 36,
+      "igmCases": 11,
+      "hospitalizedCases": 27
+    },
+    {
+      "weekStart": "2024-02-19",
+      "totalCases": 53,
+      "pcrCases": 44,
+      "igmCases": 9,
+      "hospitalizedCases": 40
+    },
+    {
+      "weekStart": "2024-02-26",
+      "totalCases": 69,
+      "pcrCases": 63,
+      "igmCases": 6,
+      "hospitalizedCases": 41
+    },
+    {
+      "weekStart": "2024-03-04",
+      "totalCases": 62,
+      "pcrCases": 58,
+      "igmCases": 4,
+      "hospitalizedCases": 37
+    },
+    {
+      "weekStart": "2024-03-11",
+      "totalCases": 53,
+      "pcrCases": 43,
+      "igmCases": 10,
+      "hospitalizedCases": 31
+    },
+    {
+      "weekStart": "2024-03-18",
+      "totalCases": 43,
+      "pcrCases": 39,
+      "igmCases": 4,
+      "hospitalizedCases": 24
+    },
+    {
+      "weekStart": "2024-03-25",
+      "totalCases": 65,
+      "pcrCases": 57,
+      "igmCases": 8,
+      "hospitalizedCases": 35
+    },
+    {
+      "weekStart": "2024-04-01",
+      "totalCases": 78,
+      "pcrCases": 61,
+      "igmCases": 17,
+      "hospitalizedCases": 40
+    },
+    {
+      "weekStart": "2024-04-08",
+      "totalCases": 66,
+      "pcrCases": 61,
+      "igmCases": 5,
+      "hospitalizedCases": 44
+    },
+    {
+      "weekStart": "2024-04-15",
+      "totalCases": 65,
+      "pcrCases": 50,
+      "igmCases": 15,
+      "hospitalizedCases": 28
+    },
+    {
+      "weekStart": "2024-04-22",
+      "totalCases": 58,
+      "pcrCases": 34,
+      "igmCases": 24,
+      "hospitalizedCases": 26
+    },
+    {
+      "weekStart": "2024-04-29",
+      "totalCases": 74,
+      "pcrCases": 54,
+      "igmCases": 20,
+      "hospitalizedCases": 36
+    },
+    {
+      "weekStart": "2024-05-06",
+      "totalCases": 68,
+      "pcrCases": 55,
+      "igmCases": 13,
+      "hospitalizedCases": 37
+    },
+    {
+      "weekStart": "2024-05-13",
+      "totalCases": 83,
+      "pcrCases": 65,
+      "igmCases": 18,
+      "hospitalizedCases": 48
+    },
+    {
+      "weekStart": "2024-05-20",
+      "totalCases": 106,
+      "pcrCases": 92,
+      "igmCases": 14,
+      "hospitalizedCases": 69
+    },
+    {
+      "weekStart": "2024-05-27",
+      "totalCases": 124,
+      "pcrCases": 113,
+      "igmCases": 11,
+      "hospitalizedCases": 73
+    },
+    {
+      "weekStart": "2024-06-03",
+      "totalCases": 95,
+      "pcrCases": 78,
+      "igmCases": 17,
+      "hospitalizedCases": 60
+    },
+    {
+      "weekStart": "2024-06-10",
+      "totalCases": 87,
+      "pcrCases": 71,
+      "igmCases": 16,
+      "hospitalizedCases": 56
+    },
+    {
+      "weekStart": "2024-06-17",
+      "totalCases": 117,
+      "pcrCases": 92,
+      "igmCases": 25,
+      "hospitalizedCases": 59
+    },
+    {
+      "weekStart": "2024-06-24",
+      "totalCases": 119,
+      "pcrCases": 99,
+      "igmCases": 20,
+      "hospitalizedCases": 62
+    },
+    {
+      "weekStart": "2024-07-01",
+      "totalCases": 144,
+      "pcrCases": 128,
+      "igmCases": 16,
+      "hospitalizedCases": 74
+    },
+    {
+      "weekStart": "2024-07-08",
+      "totalCases": 127,
+      "pcrCases": 115,
+      "igmCases": 12,
+      "hospitalizedCases": 74
+    },
+    {
+      "weekStart": "2024-07-15",
+      "totalCases": 165,
+      "pcrCases": 129,
+      "igmCases": 36,
+      "hospitalizedCases": 88
+    },
+    {
+      "weekStart": "2024-07-22",
+      "totalCases": 153,
+      "pcrCases": 122,
+      "igmCases": 31,
+      "hospitalizedCases": 93
+    },
+    {
+      "weekStart": "2024-07-29",
+      "totalCases": 147,
+      "pcrCases": 122,
+      "igmCases": 25,
+      "hospitalizedCases": 78
+    },
+    {
+      "weekStart": "2024-08-05",
+      "totalCases": 129,
+      "pcrCases": 112,
+      "igmCases": 17,
+      "hospitalizedCases": 78
+    },
+    {
+      "weekStart": "2024-08-12",
+      "totalCases": 157,
+      "pcrCases": 124,
+      "igmCases": 33,
+      "hospitalizedCases": 72
+    },
+    {
+      "weekStart": "2024-08-19",
+      "totalCases": 163,
+      "pcrCases": 127,
+      "igmCases": 36,
+      "hospitalizedCases": 83
+    },
+    {
+      "weekStart": "2024-08-26",
+      "totalCases": 141,
+      "pcrCases": 117,
+      "igmCases": 24,
+      "hospitalizedCases": 73
+    },
+    {
+      "weekStart": "2024-09-02",
+      "totalCases": 147,
+      "pcrCases": 123,
+      "igmCases": 24,
+      "hospitalizedCases": 81
+    },
+    {
+      "weekStart": "2024-09-09",
+      "totalCases": 177,
+      "pcrCases": 136,
+      "igmCases": 41,
+      "hospitalizedCases": 100
+    },
+    {
+      "weekStart": "2024-09-16",
+      "totalCases": 178,
+      "pcrCases": 140,
+      "igmCases": 38,
+      "hospitalizedCases": 98
+    },
+    {
+      "weekStart": "2024-09-23",
+      "totalCases": 204,
+      "pcrCases": 159,
+      "igmCases": 45,
+      "hospitalizedCases": 106
+    },
+    {
+      "weekStart": "2024-09-30",
+      "totalCases": 214,
+      "pcrCases": 164,
+      "igmCases": 50,
+      "hospitalizedCases": 101
+    },
+    {
+      "weekStart": "2024-10-07",
+      "totalCases": 191,
+      "pcrCases": 163,
+      "igmCases": 28,
+      "hospitalizedCases": 101
+    },
+    {
+      "weekStart": "2024-10-14",
+      "totalCases": 187,
+      "pcrCases": 142,
+      "igmCases": 45,
+      "hospitalizedCases": 100
+    },
+    {
+      "weekStart": "2024-10-21",
+      "totalCases": 170,
+      "pcrCases": 136,
+      "igmCases": 34,
+      "hospitalizedCases": 91
+    },
+    {
+      "weekStart": "2024-10-28",
+      "totalCases": 172,
+      "pcrCases": 135,
+      "igmCases": 37,
+      "hospitalizedCases": 74
+    },
+    {
+      "weekStart": "2024-11-04",
+      "totalCases": 141,
+      "pcrCases": 109,
+      "igmCases": 32,
+      "hospitalizedCases": 69
+    },
+    {
+      "weekStart": "2024-11-11",
+      "totalCases": 156,
+      "pcrCases": 123,
+      "igmCases": 33,
+      "hospitalizedCases": 73
+    },
+    {
+      "weekStart": "2024-11-18",
+      "totalCases": 126,
+      "pcrCases": 109,
+      "igmCases": 17,
+      "hospitalizedCases": 58
+    },
+    {
+      "weekStart": "2024-11-25",
+      "totalCases": 161,
+      "pcrCases": 131,
+      "igmCases": 30,
+      "hospitalizedCases": 66
+    },
+    {
+      "weekStart": "2024-12-02",
+      "totalCases": 170,
+      "pcrCases": 133,
+      "igmCases": 37,
+      "hospitalizedCases": 84
+    },
+    {
+      "weekStart": "2024-12-09",
+      "totalCases": 152,
+      "pcrCases": 119,
+      "igmCases": 33,
+      "hospitalizedCases": 78
+    },
+    {
+      "weekStart": "2024-12-16",
+      "totalCases": 156,
+      "pcrCases": 132,
+      "igmCases": 24,
+      "hospitalizedCases": 74
+    },
+    {
+      "weekStart": "2024-12-23",
+      "totalCases": 128,
+      "pcrCases": 100,
+      "igmCases": 28,
+      "hospitalizedCases": 63
+    },
+    {
+      "weekStart": "2024-12-30",
+      "totalCases": 125,
+      "pcrCases": 98,
+      "igmCases": 27,
+      "hospitalizedCases": 67
+    },
+    {
+      "weekStart": "2025-01-06",
+      "totalCases": 120,
+      "pcrCases": 96,
+      "igmCases": 24,
+      "hospitalizedCases": 70
+    },
+    {
+      "weekStart": "2025-01-13",
+      "totalCases": 131,
+      "pcrCases": 103,
+      "igmCases": 28,
+      "hospitalizedCases": 72
+    },
+    {
+      "weekStart": "2025-01-20",
+      "totalCases": 133,
+      "pcrCases": 98,
+      "igmCases": 35,
+      "hospitalizedCases": 68
+    },
+    {
+      "weekStart": "2025-01-27",
+      "totalCases": 129,
+      "pcrCases": 98,
+      "igmCases": 31,
+      "hospitalizedCases": 65
+    },
+    {
+      "weekStart": "2025-02-03",
+      "totalCases": 104,
+      "pcrCases": 80,
+      "igmCases": 24,
+      "hospitalizedCases": 64
+    },
+    {
+      "weekStart": "2025-02-10",
+      "totalCases": 92,
+      "pcrCases": 62,
+      "igmCases": 30,
+      "hospitalizedCases": 45
+    },
+    {
+      "weekStart": "2025-02-17",
+      "totalCases": 92,
+      "pcrCases": 60,
+      "igmCases": 32,
+      "hospitalizedCases": 47
+    },
+    {
+      "weekStart": "2025-02-24",
+      "totalCases": 89,
+      "pcrCases": 62,
+      "igmCases": 27,
+      "hospitalizedCases": 43
+    },
+    {
+      "weekStart": "2025-03-03",
+      "totalCases": 76,
+      "pcrCases": 59,
+      "igmCases": 17,
+      "hospitalizedCases": 44
+    },
+    {
+      "weekStart": "2025-03-10",
+      "totalCases": 68,
+      "pcrCases": 53,
+      "igmCases": 15,
+      "hospitalizedCases": 43
+    },
+    {
+      "weekStart": "2025-03-17",
+      "totalCases": 72,
+      "pcrCases": 50,
+      "igmCases": 22,
+      "hospitalizedCases": 36
+    },
+    {
+      "weekStart": "2025-03-24",
+      "totalCases": 45,
+      "pcrCases": 37,
+      "igmCases": 8,
+      "hospitalizedCases": 22
+    },
+    {
+      "weekStart": "2025-03-31",
+      "totalCases": 57,
+      "pcrCases": 35,
+      "igmCases": 22,
+      "hospitalizedCases": 36
+    },
+    {
+      "weekStart": "2025-04-07",
+      "totalCases": 47,
+      "pcrCases": 32,
+      "igmCases": 15,
+      "hospitalizedCases": 29
+    },
+    {
+      "weekStart": "2025-04-14",
+      "totalCases": 48,
+      "pcrCases": 37,
+      "igmCases": 11,
+      "hospitalizedCases": 19
+    },
+    {
+      "weekStart": "2025-04-21",
+      "totalCases": 45,
+      "pcrCases": 30,
+      "igmCases": 15,
+      "hospitalizedCases": 22
+    },
+    {
+      "weekStart": "2025-04-28",
+      "totalCases": 46,
+      "pcrCases": 31,
+      "igmCases": 15,
+      "hospitalizedCases": 30
+    },
+    {
+      "weekStart": "2025-05-05",
+      "totalCases": 41,
+      "pcrCases": 29,
+      "igmCases": 12,
+      "hospitalizedCases": 24
+    },
+    {
+      "weekStart": "2025-05-12",
+      "totalCases": 50,
+      "pcrCases": 31,
+      "igmCases": 19,
+      "hospitalizedCases": 28
+    },
+    {
+      "weekStart": "2025-05-19",
+      "totalCases": 41,
+      "pcrCases": 26,
+      "igmCases": 15,
+      "hospitalizedCases": 22
+    },
+    {
+      "weekStart": "2025-05-26",
+      "totalCases": 44,
+      "pcrCases": 32,
+      "igmCases": 12,
+      "hospitalizedCases": 29
+    },
+    {
+      "weekStart": "2025-06-02",
+      "totalCases": 44,
+      "pcrCases": 25,
+      "igmCases": 19,
+      "hospitalizedCases": 23
+    },
+    {
+      "weekStart": "2025-06-09",
+      "totalCases": 70,
+      "pcrCases": 45,
+      "igmCases": 25,
+      "hospitalizedCases": 42
+    },
+    {
+      "weekStart": "2025-06-16",
+      "totalCases": 63,
+      "pcrCases": 39,
+      "igmCases": 24,
+      "hospitalizedCases": 27
+    },
+    {
+      "weekStart": "2025-06-23",
+      "totalCases": 46,
+      "pcrCases": 24,
+      "igmCases": 22,
+      "hospitalizedCases": 28
+    },
+    {
+      "weekStart": "2025-06-30",
+      "totalCases": 52,
+      "pcrCases": 35,
+      "igmCases": 17,
+      "hospitalizedCases": 31
+    },
+    {
+      "weekStart": "2025-07-07",
+      "totalCases": 54,
+      "pcrCases": 35,
+      "igmCases": 19,
+      "hospitalizedCases": 31
+    },
+    {
+      "weekStart": "2025-07-14",
+      "totalCases": 58,
+      "pcrCases": 44,
+      "igmCases": 14,
+      "hospitalizedCases": 35
+    },
+    {
+      "weekStart": "2025-07-21",
+      "totalCases": 42,
+      "pcrCases": 31,
+      "igmCases": 11,
+      "hospitalizedCases": 23
+    },
+    {
+      "weekStart": "2025-07-28",
+      "totalCases": 38,
+      "pcrCases": 26,
+      "igmCases": 12,
+      "hospitalizedCases": 25
+    },
+    {
+      "weekStart": "2025-08-04",
+      "totalCases": 56,
+      "pcrCases": 35,
+      "igmCases": 21,
+      "hospitalizedCases": 32
+    },
+    {
+      "weekStart": "2025-08-11",
+      "totalCases": 46,
+      "pcrCases": 29,
+      "igmCases": 17,
+      "hospitalizedCases": 24
+    },
+    {
+      "weekStart": "2025-08-18",
+      "totalCases": 43,
+      "pcrCases": 28,
+      "igmCases": 15,
+      "hospitalizedCases": 28
+    },
+    {
+      "weekStart": "2025-08-25",
+      "totalCases": 43,
+      "pcrCases": 28,
+      "igmCases": 15,
+      "hospitalizedCases": 19
+    },
+    {
+      "weekStart": "2025-09-01",
+      "totalCases": 43,
+      "pcrCases": 35,
+      "igmCases": 8,
+      "hospitalizedCases": 27
+    },
+    {
+      "weekStart": "2025-09-08",
+      "totalCases": 40,
+      "pcrCases": 32,
+      "igmCases": 8,
+      "hospitalizedCases": 27
+    },
+    {
+      "weekStart": "2025-09-15",
+      "totalCases": 43,
+      "pcrCases": 27,
+      "igmCases": 16,
+      "hospitalizedCases": 24
+    },
+    {
+      "weekStart": "2025-09-22",
+      "totalCases": 32,
+      "pcrCases": 26,
+      "igmCases": 6,
+      "hospitalizedCases": 18
+    },
+    {
+      "weekStart": "2025-09-29",
+      "totalCases": 52,
+      "pcrCases": 31,
+      "igmCases": 21,
+      "hospitalizedCases": 28
+    },
+    {
+      "weekStart": "2025-10-06",
+      "totalCases": 69,
+      "pcrCases": 45,
+      "igmCases": 24,
+      "hospitalizedCases": 37
+    },
+    {
+      "weekStart": "2025-10-13",
+      "totalCases": 75,
+      "pcrCases": 63,
+      "igmCases": 12,
+      "hospitalizedCases": 46
+    },
+    {
+      "weekStart": "2025-10-20",
+      "totalCases": 55,
+      "pcrCases": 43,
+      "igmCases": 12,
+      "hospitalizedCases": 26
+    },
+    {
+      "weekStart": "2025-10-27",
+      "totalCases": 51,
+      "pcrCases": 36,
+      "igmCases": 15,
+      "hospitalizedCases": 22
+    },
+    {
+      "weekStart": "2025-11-03",
+      "totalCases": 52,
+      "pcrCases": 35,
+      "igmCases": 17,
+      "hospitalizedCases": 31
+    },
+    {
+      "weekStart": "2025-11-10",
+      "totalCases": 54,
+      "pcrCases": 40,
+      "igmCases": 14,
+      "hospitalizedCases": 31
+    },
+    {
+      "weekStart": "2025-11-17",
+      "totalCases": 70,
+      "pcrCases": 58,
+      "igmCases": 12,
+      "hospitalizedCases": 54
+    },
+    {
+      "weekStart": "2025-11-24",
+      "totalCases": 51,
+      "pcrCases": 31,
+      "igmCases": 20,
+      "hospitalizedCases": 23
+    },
+    {
+      "weekStart": "2025-12-01",
+      "totalCases": 48,
+      "pcrCases": 31,
+      "igmCases": 17,
+      "hospitalizedCases": 28
+    },
+    {
+      "weekStart": "2025-12-08",
+      "totalCases": 55,
+      "pcrCases": 43,
+      "igmCases": 12,
+      "hospitalizedCases": 36
+    },
+    {
+      "weekStart": "2025-12-15",
+      "totalCases": 43,
+      "pcrCases": 27,
+      "igmCases": 16,
+      "hospitalizedCases": 23
+    },
+    {
+      "weekStart": "2025-12-22",
+      "totalCases": 31,
+      "pcrCases": 19,
+      "igmCases": 12,
+      "hospitalizedCases": 17
+    },
+    {
+      "weekStart": "2025-12-29",
+      "totalCases": 29,
+      "pcrCases": 16,
+      "igmCases": 13,
+      "hospitalizedCases": 11
+    },
+    {
+      "weekStart": "2026-01-05",
+      "totalCases": 60,
+      "pcrCases": 40,
+      "igmCases": 20,
+      "hospitalizedCases": 37
+    },
+    {
+      "weekStart": "2026-01-12",
+      "totalCases": 57,
+      "pcrCases": 41,
+      "igmCases": 16,
+      "hospitalizedCases": 34
+    },
+    {
+      "weekStart": "2026-01-19",
+      "totalCases": 31,
+      "pcrCases": 20,
+      "igmCases": 11,
+      "hospitalizedCases": 15
+    },
+    {
+      "weekStart": "2026-01-26",
+      "totalCases": 46,
+      "pcrCases": 31,
+      "igmCases": 15,
+      "hospitalizedCases": 17
+    },
+    {
+      "weekStart": "2026-02-02",
+      "totalCases": 41,
+      "pcrCases": 34,
+      "igmCases": 7,
+      "hospitalizedCases": 25
+    },
+    {
+      "weekStart": "2026-02-09",
+      "totalCases": 26,
+      "pcrCases": 20,
+      "igmCases": 6,
+      "hospitalizedCases": 14
+    },
+    {
+      "weekStart": "2026-02-16",
+      "totalCases": 22,
+      "pcrCases": 20,
+      "igmCases": 2,
+      "hospitalizedCases": 14
+    },
+    {
+      "weekStart": "2026-02-23",
+      "totalCases": 24,
+      "pcrCases": 21,
+      "igmCases": 3,
+      "hospitalizedCases": 18
+    },
+    {
+      "weekStart": "2026-03-02",
+      "totalCases": 22,
+      "pcrCases": 17,
+      "igmCases": 5,
+      "hospitalizedCases": 14
+    },
+    {
+      "weekStart": "2026-03-09",
+      "totalCases": 30,
+      "pcrCases": 25,
+      "igmCases": 5,
+      "hospitalizedCases": 16
+    },
+    {
+      "weekStart": "2026-03-16",
+      "totalCases": 27,
+      "pcrCases": 22,
+      "igmCases": 5,
+      "hospitalizedCases": 16
+    },
+    {
+      "weekStart": "2026-03-23",
+      "totalCases": 28,
+      "pcrCases": 22,
+      "igmCases": 6,
+      "hospitalizedCases": 13
+    },
+    {
+      "weekStart": "2026-03-30",
+      "totalCases": 17,
+      "pcrCases": 14,
+      "igmCases": 3,
+      "hospitalizedCases": 8
+    },
+    {
+      "weekStart": "2026-04-06",
+      "totalCases": 21,
+      "pcrCases": 18,
+      "igmCases": 3,
+      "hospitalizedCases": 13
+    },
+    {
+      "weekStart": "2026-04-13",
+      "totalCases": 22,
+      "pcrCases": 20,
+      "igmCases": 2,
+      "hospitalizedCases": 10
+    },
+    {
+      "weekStart": "2026-04-20",
+      "totalCases": 16,
+      "pcrCases": 16,
+      "igmCases": 0,
+      "hospitalizedCases": 10
+    },
+    {
+      "weekStart": "2026-04-27",
+      "totalCases": 23,
+      "pcrCases": 21,
+      "igmCases": 2,
+      "hospitalizedCases": 15
+    },
+    {
+      "weekStart": "2026-05-04",
+      "totalCases": 19,
+      "pcrCases": 18,
+      "igmCases": 1,
+      "hospitalizedCases": 6
+    },
+    {
+      "weekStart": "2026-05-11",
+      "totalCases": 18,
+      "pcrCases": 18,
+      "igmCases": 0,
+      "hospitalizedCases": 4
+    },
+    {
+      "weekStart": "2026-05-18",
+      "totalCases": 11,
+      "pcrCases": 10,
+      "igmCases": 1,
+      "hospitalizedCases": 1
+    }
+  ],
+  "freshness": {
+    "level": "stale",
+    "latestOfficialCaseWeek": "2026-05-18",
+    "officialCaseAgeWeeks": 9.0,
+    "caseSourcePublicationDate": "2026-06-04T15:56:55.527867Z",
+    "sourceCheckedAt": "2026-07-22T02:27:48.532222+00:00",
+    "sourceStatus": "ok",
+    "weatherDaysAvailable": 7,
+    "forecastInputDays": 5
+  },
+  "model": {
+    "version": "pr-94b935faed22",
+    "variant": "weather_plus_delayed_cases",
+    "trainingDataCutoff": "2026-05-18",
+    "inputVintageBasis": "prospective_persisted_issue_time_inputs",
+    "heldOut": {
+      "caseMae": 23.992,
+      "normalWeekMae": 12.964285714285714,
+      "outbreakWeekMae": 27.17525773195876,
+      "precision": 0.8,
+      "recall": 0.9072164948453608,
+      "f1": 0.8502415458937198,
+      "prAuc": 0.78769330035575,
+      "brier": 0.1720393369322587,
+      "basis": "historical_proxy_expanding_time_validation",
+      "caseTestWeeks": 125,
+      "lowerHighEstimateCoverage": 0.76,
+      "upperHighEstimateCoverage": 0.808
+    },
+    "prospective": {
+      "evaluatedRows": 0,
+      "message": "No persisted-input predictions have finalized outcomes yet; prospective validation starts with this pipeline version",
+      "basis": "prospective_persisted_issue_time_inputs"
+    }
+  }
+};

@@ -1,0 +1,20 @@
+{
+  "checked_at_utc": "2026-07-22T02:27:48.532222+00:00",
+  "peru": {
+    "checked_at_utc": "2026-07-22T02:27:49.568765+00:00",
+    "error": "Unable to download official case data from https://www.datosabiertos.gob.pe/api/3/action/package_show?id=2c3b2955-6252-4b9d-abd3-caeb61ccda39: HTTP Error 403: Forbidden",
+    "status": "unavailable"
+  },
+  "puerto_rico": {
+    "case_vintage_created": false,
+    "case_vintage_id": "pr-case-89881c6ed7305aef",
+    "case_vintage_path": "data/operational/vintages/cases/2026-06-04_pr-case-89881c6ed7305aef.csv",
+    "latest_complete_week": "2026-05-18",
+    "new_or_revised_weeks": 0,
+    "normalized_weeks": 385,
+    "publication_date": "2026-06-04T15:56:55.527867Z",
+    "retrieved_at_utc": "2026-07-22T02:27:48.443392+00:00",
+    "source_file_id": "2450f009-9079-4bdb-8799-1600bdd4fce1",
+    "status": "ok"
+  }
+}

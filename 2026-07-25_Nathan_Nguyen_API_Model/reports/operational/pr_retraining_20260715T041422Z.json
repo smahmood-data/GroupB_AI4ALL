@@ -1,0 +1,38 @@
+{
+  "candidate": {
+    "case_source_publication_date": "2026-06-04T15:56:55.527867Z",
+    "created_at_utc": "2026-07-15T04:14:21.973472+00:00",
+    "geography": "pr",
+    "geography_name": "Puerto Rico",
+    "model_schema_version": 2,
+    "model_version": "pr-dc00d998e3fd",
+    "outbreak_definition": "seasonal_prior_years_q75",
+    "training_data_cutoff": "2026-05-18",
+    "training_rows": 385,
+    "training_weather_cache_state": "live_api",
+    "weather_only_alert_gate": 0.74,
+    "weather_only_metrics": {
+      "brier": 0.17218870199273453,
+      "f1": 0.8516746411483254,
+      "held_out_rows": 125.0,
+      "pr_auc": 0.7614869596487461,
+      "precision": 0.7946428571428571,
+      "recall": 0.9175257731958762
+    },
+    "weather_plus_recent_cases_alert_gate": 0.78,
+    "weather_plus_recent_cases_metrics": {
+      "brier": 0.1593307863997724,
+      "f1": 0.88,
+      "held_out_rows": 125.0,
+      "pr_auc": 0.8473899208329043,
+      "precision": 0.8543689320388349,
+      "recall": 0.9072164948453608
+    }
+  },
+  "evaluated_at_utc": "2026-07-15T04:14:22.085318+00:00",
+  "previous_champion": null,
+  "promoted": true,
+  "reasons": [
+    "bootstrap: no champion exists"
+  ]
+}

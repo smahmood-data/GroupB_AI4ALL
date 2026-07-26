@@ -1,0 +1,10 @@
+{
+  "evaluated_rows": 0,
+  "evaluation_basis": "all_versioned_predictions; use prospective_information_available for the leakage-resistant deployment score",
+  "message": "No target weeks are finalized yet",
+  "prospective_information_available": {
+    "evaluated_rows": 0,
+    "evaluation_basis": "prospective_persisted_issue_time_inputs",
+    "message": "No persisted-input predictions have finalized outcomes yet; prospective validation starts with this pipeline version"
+  }
+}

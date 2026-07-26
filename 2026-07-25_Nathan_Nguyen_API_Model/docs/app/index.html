@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A bilingual research dashboard for Puerto Rico-wide weekly dengue case forecasts and outbreak signals.">
+  <meta name="theme-color" content="#123d3a">
+  <title>Dengue Signal Puerto Rico</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./data/dashboard-data.js"></script>
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main" data-i18n="skip">Skip to the dashboard</a>
+
+  <header class="site-header">
+    <a class="brand" href="./" aria-label="Dengue Signal Puerto Rico home">
+      <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+      <span>
+        <strong>Dengue Signal</strong>
+        <small>Puerto Rico</small>
+      </span>
+    </a>
+
+    <div class="header-actions">
+      <div class="segmented" role="group" data-i18n-aria-label="languageLabel">
+        <button class="segment language-button is-active" type="button" data-language="en" aria-pressed="true">EN</button>
+        <button class="segment language-button" type="button" data-language="es" aria-pressed="false">ES</button>
+      </div>
+      <a class="header-link" href="../puerto-rico-api-model-focused.html" data-i18n="modelExplainer">Model explainer</a>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="research-strip" data-i18n-aria-label="researchNoticeLabel">
+      <div class="research-inner">
+        <span class="research-tag" data-i18n="researchTag">Research signal</span>
+        <p data-i18n="researchNotice">Not an official outbreak declaration or medical guidance.</p>
+        <a href="https://www.salud.pr.gov/CMS/354" target="_blank" rel="noreferrer" data-i18n="officialGuidance">Official guidance ↗</a>
+      </div>
+    </section>
+
+    <div id="loadingState" class="loading-state" role="status">
+      <span class="loading-dot"></span>
+      <span data-i18n="loading">Loading the latest Puerto Rico signal…</span>
+    </div>
+
+    <div id="errorState" class="error-state" role="alert" hidden>
+      <strong data-i18n="errorTitle">The latest signal is unavailable.</strong>
+      <p data-i18n="errorBody">We could not load the public forecast snapshot. Please try again later.</p>
+    </div>
+
+    <div id="dashboard" hidden>
+      <section id="freshnessBanner" class="freshness-banner">
+        <div class="freshness-icon" aria-hidden="true">!</div>
+        <div>
+          <strong id="freshnessBannerTitle"></strong>
+          <p id="freshnessBannerBody"></p>
+        </div>
+        <a href="#freshness" data-i18n="seeFreshness">See data freshness</a>
+      </section>
+
+      <section class="hero shell" aria-labelledby="signalHeading">
+        <div class="hero-copy">
+          <div class="eyebrow-row">
+            <span class="eyebrow" data-i18n="islandWide">Puerto Rico · island-wide</span>
+            <span id="forecastWeek" class="date-label"></span>
+          </div>
+          <h1 id="signalHeading"></h1>
+          <p id="signalSummary" class="hero-summary"></p>
+          <p id="probabilityExplanation" class="hero-evidence"></p>
+        </div>
+
+        <div class="signal-orbit">
+          <div class="orbit-ring outer"></div>
+          <div class="orbit-ring inner"></div>
+          <div id="signalDisc" class="signal-disc">
+            <span data-i18n="outbreakChance">Chance of an outbreak</span>
+            <strong id="probabilityValue">—</strong>
+            <small id="probabilityWeek">—</small>
+          </div>
+        </div>
+      </section>
+
+      <section class="key-grid shell" data-i18n-aria-label="latestDetailsLabel">
+        <article class="key-card cases-card">
+          <div>
+            <span class="card-kicker" data-i18n="estimatedCases">Starting estimate from the latest report</span>
+            <p id="caseForecastWeek" class="forecast-period">—</p>
+            <h2><span id="p50Value">—</span> <small data-i18n="cases">cases</small></h2>
+            <p id="mainEstimateDefinition" class="metric-explanation"></p>
+          </div>
+          <div class="forecast-value-grid">
+            <div>
+              <span data-i18n="highEstimateRange">Higher estimate range</span>
+              <strong id="highRangeValue">—</strong>
+              <p id="highRangeDefinition"></p>
+            </div>
+            <div>
+              <span data-i18n="outbreakCutoff">Outbreak cutoff</span>
+              <strong id="unusualLevelValue">—</strong>
+              <p id="unusualLevelDefinition"></p>
+            </div>
+          </div>
+          <div class="range-visual" aria-hidden="true">
+            <span class="range-line"></span>
+            <span id="p50Dot" class="range-dot p50"></span>
+            <span id="highRangeBand" class="range-band"></span>
+            <span id="thresholdMarker" class="threshold-marker"></span>
+          </div>
+        </article>
+
+        <article class="key-card source-card">
+          <span class="card-kicker" data-i18n="dataCurrentness">How current are the data?</span>
+          <h2 id="dataAgeHeading">—</h2>
+          <p id="dataAgeExplanation"></p>
+          <a class="text-link" href="#freshness" data-i18n="checkDates">Check all dates →</a>
+        </article>
+      </section>
+
+      <section id="trend" class="section shell">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker" data-i18n="trendKicker">Weekly picture</span>
+            <h2 data-i18n="trendTitle">Reported cases and the latest forecast</h2>
+          </div>
+          <p data-i18n="trendDescription">Official reports end before the forecast because case reporting is delayed. The gap is shown intentionally.</p>
+        </div>
+
+        <article class="chart-card">
+          <div class="chart-controls">
+            <div class="control-group">
+              <span data-i18n="showLabel">Show</span>
+              <div class="segmented" role="group" data-i18n-aria-label="metricLabel">
+                <button class="segment metric-button is-active" type="button" data-metric="cases" aria-pressed="true" data-i18n="cases">Cases</button>
+                <button class="segment metric-button" type="button" data-metric="hospitalized" aria-pressed="false" data-i18n="hospitalizations">Hospitalizations</button>
+              </div>
+            </div>
+            <div class="control-group">
+              <span data-i18n="timeRangeLabel">Time range</span>
+              <div class="segmented" role="group" data-i18n-aria-label="timeRangeLabel">
+                <button class="segment range-button" type="button" data-range="13" aria-pressed="false" data-i18n="threeMonths">3 months</button>
+                <button class="segment range-button is-active" type="button" data-range="52" aria-pressed="true" data-i18n="oneYear">1 year</button>
+                <button class="segment range-button" type="button" data-range="all" aria-pressed="false" data-i18n="allHistory">All history</button>
+              </div>
+            </div>
+          </div>
+          <div class="chart-header">
+            <div class="legend" data-i18n-aria-label="chartLegend">
+              <span class="legend-item actual" data-i18n="reportedCases">Reported cases</span>
+              <span id="forecastLegend" class="legend-item forecast" data-i18n="mostLikelyEstimate">Starting estimate</span>
+              <span id="rangeLegend" class="legend-item range" data-i18n="higherPossibleRange">Higher estimate range</span>
+            </div>
+            <span id="chartDateRange" class="chart-date-range"></span>
+          </div>
+          <div class="chart-wrap">
+            <canvas id="trendChart" role="img" tabindex="0" aria-label="Interactive weekly dengue chart"></canvas>
+          </div>
+          <div id="selectedWeekCard" class="selected-week-card" aria-live="polite">
+            <div>
+              <span class="card-kicker" data-i18n="selectedWeek">Selected week</span>
+              <strong id="selectedWeekDate">—</strong>
+            </div>
+            <div class="selected-values">
+              <div><span id="selectedPrimaryLabel">—</span><strong id="selectedPrimaryValue">—</strong></div>
+              <div id="selectedSecondaryBlock"><span id="selectedSecondaryLabel">—</span><strong id="selectedSecondaryValue">—</strong></div>
+              <div id="selectedTertiaryBlock"><span id="selectedTertiaryLabel">—</span><strong id="selectedTertiaryValue">—</strong></div>
+            </div>
+            <p id="selectedWeekNote"></p>
+          </div>
+          <p class="chart-instruction" data-i18n="chartInstruction">Drag across the chart or tap a week to see its exact values.</p>
+          <p id="chartSummary" class="sr-only"></p>
+          <details class="data-table-details">
+            <summary data-i18n="showTable">Show the chart as a table</summary>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col" data-i18n="week">Week</th>
+                    <th scope="col" data-i18n="reportedCases">Reported cases</th>
+                    <th scope="col" data-i18n="hospitalizations">Hospitalizations</th>
+                    <th scope="col" data-i18n="mostLikelyEstimate">Starting estimate</th>
+                    <th scope="col" data-i18n="higherPossibleRange">Higher estimate range</th>
+                  </tr>
+                </thead>
+                <tbody id="chartTableBody"></tbody>
+              </table>
+            </div>
+          </details>
+        </article>
+      </section>
+
+      <section id="freshness" class="section shell">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker" data-i18n="freshnessKicker">Trust the timestamp</span>
+            <h2 data-i18n="freshnessTitle">What the model knew when it predicted</h2>
+          </div>
+          <p data-i18n="freshnessDescription">A signal is only as useful as the information available at the time. We never silently present old inputs as current.</p>
+        </div>
+
+        <div class="freshness-grid">
+          <article class="freshness-card">
+            <span data-i18n="latestCaseWeek">Latest official case week</span>
+            <strong id="latestCaseWeek">—</strong>
+            <small id="caseAgeText"></small>
+          </article>
+          <article class="freshness-card">
+            <span data-i18n="weatherCoverage">Weather coverage</span>
+            <strong id="weatherDays">—</strong>
+            <small data-i18n="weatherCaption">days available for the current issue</small>
+          </article>
+          <article class="freshness-card">
+            <span data-i18n="forecastIssued">Forecast issued</span>
+            <strong id="issuedDate">—</strong>
+            <small id="sourceStatusText"></small>
+          </article>
+          <article class="freshness-card">
+            <span data-i18n="trainingCutoff">Training data cutoff</span>
+            <strong id="trainingCutoff">—</strong>
+            <small data-i18n="trainingCaption">new labels require guarded retraining</small>
+          </article>
+        </div>
+      </section>
+
+      <section class="method-strip shell">
+        <div>
+          <span class="section-kicker" data-i18n="methodKicker">Understand the model</span>
+          <h2 data-i18n="methodTitle">See the data, architecture, and validation results.</h2>
+        </div>
+        <a class="primary-link" href="../puerto-rico-api-model-focused.html" data-i18n="openExplainer">Open the focused model explainer →</a>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer shell">
+    <div>
+      <strong>Dengue Signal Puerto Rico</strong>
+      <p data-i18n="footerDescription">An experimental forecasting project using public health and weather data.</p>
+    </div>
+    <div class="footer-links">
+      <a href="https://datos.salud.pr.gov" target="_blank" rel="noreferrer" data-i18n="dataSource">Puerto Rico health data ↗</a>
+      <a href="../puerto-rico-api-model-focused.html" data-i18n="methodology">Methodology</a>
+    </div>
+  </footer>
+
+  <dialog id="howItWorksDialog" class="explainer-dialog">
+    <button class="dialog-close" type="button" data-dialog-close data-i18n-aria-label="closeLabel">×</button>
+    <span class="section-kicker" data-i18n="dialogKicker">How the estimate is made</span>
+    <h2 data-i18n="dialogTitle">Three kinds of information shape the weekly estimate.</h2>
+    <div class="dialog-steps">
+      <article>
+        <span>1</span>
+        <div><strong data-i18n="dialogCasesTitle">Reported cases</strong><p data-i18n="dialogCasesBody">Official Puerto Rico reports show how dengue activity changed in earlier weeks.</p></div>
+      </article>
+      <article>
+        <span>2</span>
+        <div><strong data-i18n="dialogWeatherTitle">Weather and season</strong><p data-i18n="dialogWeatherBody">Rain, temperature, humidity, wind, and the time of year help identify conditions linked with dengue.</p></div>
+      </article>
+      <article>
+        <span>3</span>
+        <div><strong data-i18n="dialogRangeTitle">A range, not one certainty</strong><p data-i18n="dialogRangeBody">The app shows a starting estimate and a higher range because the future cannot be known exactly.</p></div>
+      </article>
+    </div>
+  </dialog>
+
+  <noscript>
+    <div class="noscript-message">This dashboard needs JavaScript to load and explain the latest forecast.</div>
+  </noscript>
+</body>
+</html>

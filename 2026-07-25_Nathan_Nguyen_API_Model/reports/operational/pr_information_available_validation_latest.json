@@ -1,0 +1,105 @@
+{
+  "candidate_model_version": "pr-94b935faed22",
+  "does_not_promote_model": true,
+  "evaluated_at_utc": "2026-07-22T02:27:00.928768+00:00",
+  "headline_validation_basis": "finalized_historical_weather_proxy",
+  "information_available_validation": {
+    "archived_weather_model": "ecmwf_ifs",
+    "case_availability_basis": {
+      "weather_only": "no_case_input",
+      "weather_plus_delayed_cases": "simulated_fixed_report_delay",
+      "weather_plus_recent_cases": "conditional_exact_history_not_vintage_verified"
+    },
+    "comparison_note": "Archived metrics use only fully covered weeks; headline proxy metrics use the full historical validation sample, so differences are not a paired estimate of weather-provider impact",
+    "case_forecast_metrics": {
+      "weather_only": {
+        "held_out_rows": 72.0,
+        "mae": 62.25364743580277,
+        "median_absolute_error": 52.02409595185287,
+        "normal_week_mae": 14.785689420910016,
+        "outbreak_week_mae": 73.7114304049148,
+        "p50_threshold_precision": 0.8863636363636364,
+        "p50_threshold_recall": 0.6724137931034483,
+        "p50_used_persistence_fallback": false,
+        "p80_coverage": 0.5555555555555556,
+        "p80_pinball_loss": 46.019276522717746,
+        "p90_coverage": 0.5555555555555556,
+        "p90_pinball_loss": 43.58657156556434,
+        "persistence_mae": 11.76388888888889,
+        "validation_input_basis": "archived_issue_time_weather"
+      },
+      "weather_plus_delayed_cases": {
+        "held_out_rows": 72.0,
+        "mae": 25.09722222222222,
+        "median_absolute_error": 22.0,
+        "normal_week_mae": 9.5,
+        "outbreak_week_mae": 28.862068965517242,
+        "p50_threshold_precision": 0.9649122807017544,
+        "p50_threshold_recall": 0.9482758620689655,
+        "p50_used_persistence_fallback": true,
+        "p80_coverage": 0.6527777777777778,
+        "p80_pinball_loss": 15.27614356641476,
+        "p90_coverage": 0.6527777777777778,
+        "p90_pinball_loss": 11.895631982418246,
+        "persistence_mae": 25.09722222222222,
+        "validation_input_basis": "archived_issue_time_weather"
+      },
+      "weather_plus_recent_cases": {
+        "held_out_rows": 72.0,
+        "mae": 11.76388888888889,
+        "median_absolute_error": 9.5,
+        "normal_week_mae": 7.0,
+        "outbreak_week_mae": 12.913793103448276,
+        "p50_threshold_precision": 0.9655172413793104,
+        "p50_threshold_recall": 0.9655172413793104,
+        "p50_used_persistence_fallback": true,
+        "p80_coverage": 0.8055555555555556,
+        "p80_pinball_loss": 5.477624627716692,
+        "p90_coverage": 0.8333333333333334,
+        "p90_pinball_loss": 4.22017918579185,
+        "persistence_mae": 11.76388888888889,
+        "validation_input_basis": "archived_issue_time_weather"
+      }
+    },
+    "classifier_metrics": {
+      "weather_only": {
+        "brier": 0.1529121082640952,
+        "f1": 0.8923076923076924,
+        "held_out_rows": 72.0,
+        "pr_auc": 0.9035282010830777,
+        "precision": 0.8055555555555556,
+        "recall": 1.0,
+        "validation_input_basis": "archived_issue_time_weather"
+      },
+      "weather_plus_delayed_cases": {
+        "brier": 0.15654858714783768,
+        "f1": 0.8709677419354839,
+        "held_out_rows": 72.0,
+        "pr_auc": 0.7845785385993665,
+        "precision": 0.8181818181818182,
+        "recall": 0.9310344827586207,
+        "validation_input_basis": "archived_issue_time_weather"
+      },
+      "weather_plus_recent_cases": {
+        "brier": 0.1551500867054193,
+        "f1": 0.896,
+        "held_out_rows": 72.0,
+        "pr_auc": 0.892576159342966,
+        "precision": 0.835820895522388,
+        "recall": 0.9655172413793104,
+        "validation_input_basis": "archived_issue_time_weather"
+      }
+    },
+    "coverage_end": "2026-05-18",
+    "coverage_start": "2024-03-18",
+    "covered_weeks": 72,
+    "eligible_archived_weeks": 114,
+    "issue_days_before_target_week": 1,
+    "issue_run_hour_utc": 0,
+    "status": "complete",
+    "uncovered_archived_weeks": 42,
+    "weather_basis": "archived_ecmwf_single_runs_issued_before_target_week",
+    "weather_cache_state": "fresh_cache+incomplete_archived_run+live_api+unavailable_archived_run"
+  },
+  "training_data_cutoff": "2026-05-18"
+}

@@ -124,6 +124,7 @@ dengue-forecasting-model/
 ├── tests/
 ├── automation/
 │   └── puerto-rico-dengue-model.yml
+├── requirements-automation.lock
 ├── requirements.txt
 └── README.md
 ```
@@ -385,9 +386,9 @@ weekly mode every Wednesday and monthly mode on the first day of each month.
 The dated folder keeps an identical reference copy at
 `automation/puerto-rico-dengue-model.yml`. Each run:
 
-1. installs the declared minimum dependencies;
+1. installs the pinned automation dependencies;
 2. runs all offline tests;
-3. executes the appropriate pipeline command; and
+3. executes the appropriate pipeline command;
 4. rebuilds the dashboard and both explainers;
 5. reruns the complete test suite; and
 6. commits only versioned operational data, reports, champion artifacts, and

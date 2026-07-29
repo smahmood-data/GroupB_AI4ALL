@@ -2,10 +2,10 @@
 
 ## Puerto Rico Dengue Forecasting App
 
-This folder is a self-contained snapshot of the Puerto Rico-wide dengue
-forecasting project as of July 25, 2026. It includes the public bilingual app,
-the focused model explainer, the operational API model, saved model artifacts,
-data snapshots, validation results, reports, and tests.
+This folder contains the July 25, 2026 iteration of the Puerto Rico-wide dengue
+forecasting project. It includes the public bilingual app, the focused model
+explainer, the operational API model, saved model artifacts, updated data
+snapshots, validation results, reports, and tests.
 
 The project is for research and educational use. An outbreak in this model
 means that weekly reported cases exceed the seasonal cutoff: the 75th
@@ -15,8 +15,8 @@ not an official government outbreak declaration.
 ## Open the app
 
 The folder-level `index.html` sends visitors directly to the public dashboard.
-After a repository administrator enables GitHub Pages from the `main` branch
-and repository root, the shareable address will be:
+After a repository administrator enables GitHub Pages with **GitHub Actions**
+as its source, the workflow publishes the site at:
 
 <https://smahmood-data.github.io/GroupB_AI4ALL/2026-07-25_Nathan_Nguyen_API_Model/>
 
@@ -49,9 +49,10 @@ The focused technical explainer will be available at:
   GitHub Actions update-and-retraining workflow.
 - `PROJECT_README.md` contains the full development documentation.
 
-All model, app, documentation, data, and test files are contained inside this
-dated subfolder. The only repository-level file is the runnable GitHub Actions
-workflow, because GitHub does not execute workflows from project subfolders.
+All model, app, documentation, data, and test files for this iteration are
+contained inside the dated subfolder. Its runnable GitHub Actions workflow is
+the only iteration-specific file at the repository level because GitHub does
+not execute workflows from project subfolders.
 
 ## Model outputs
 

@@ -4,7 +4,7 @@ window.DENGUE_DASHBOARD_DATA = {
     "code": "pr",
     "name": "Puerto Rico"
   },
-  "issuedAt": "2026-07-29T02:53:07.094586+00:00",
+  "issuedAt": "2026-07-29T16:01:24.379026+00:00",
   "asOfDate": "2026-07-29",
   "publication": {
     "date": "2026-07-29",
@@ -44,7 +44,7 @@ window.DENGUE_DASHBOARD_DATA = {
         "reliability": "moderate_delayed_case_history"
       },
       "outbreak": {
-        "probability": 0.7587377974952836,
+        "probability": 0.7659059828935815,
         "alertGate": 0.75,
         "alert": true,
         "definition": "seasonal_training_q75"
@@ -2753,7 +2753,7 @@ window.DENGUE_DASHBOARD_DATA = {
     "latestOfficialCaseWeek": "2026-05-18",
     "officialCaseAgeWeeks": 10.0,
     "caseSourcePublicationDate": "2026-06-04T15:56:55.527867Z",
-    "sourceCheckedAt": "2026-07-29T02:51:48.623836+00:00",
+    "sourceCheckedAt": "2026-07-29T15:58:46.699400+00:00",
     "sourceStatus": "ok",
     "weatherDaysAvailable": 7,
     "forecastInputDays": 4

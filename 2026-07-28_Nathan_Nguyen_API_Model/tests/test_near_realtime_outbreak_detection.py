@@ -2,9 +2,13 @@
 
 from __future__ import annotations
 
+import json
 import sys
+import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
+from urllib.error import URLError
 
 import numpy as np
 import pandas as pd
@@ -24,6 +28,7 @@ from near_realtime_outbreak_detection import (  # noqa: E402
     aggregate_daily_to_weeks,
     case_forecast_weather_feature_columns,
     choose_recall_gate,
+    fetch_json_with_cache,
     live_case_features,
     parse_open_meteo_daily,
     weather_feature_columns,
@@ -32,6 +37,71 @@ from near_realtime_outbreak_detection import (  # noqa: E402
 
 class NearRealtimeOutbreakTests(unittest.TestCase):
     """Protect the temporal and data-quality rules used by the live pipeline."""
+
+    def test_weather_request_retries_after_a_temporary_timeout(self) -> None:
+        """A brief API outage should recover without cancelling the forecast."""
+
+        class JsonResponse:
+            """Minimal context-managed response matching ``urlopen``."""
+
+            def __enter__(self) -> JsonResponse:
+                return self
+
+            def __exit__(self, *_args: object) -> None:
+                return None
+
+            def read(self) -> bytes:
+                return json.dumps({"daily": {"time": []}}).encode("utf-8")
+
+        with tempfile.TemporaryDirectory() as directory:
+            with (
+                patch(
+                    "near_realtime_outbreak_detection.urlopen",
+                    side_effect=[URLError("temporary TLS timeout"), JsonResponse()],
+                ) as mocked_urlopen,
+                patch(
+                    "near_realtime_outbreak_detection.time.sleep"
+                ) as mocked_sleep,
+            ):
+                response = fetch_json_with_cache(
+                    "https://example.test/weather",
+                    {"latitude": 18.2},
+                    Path(directory),
+                    "retry-test",
+                    max_cache_age_hours=0,
+                    retry_backoff_seconds=0.01,
+                )
+
+        self.assertEqual(response.cache_state, "live_api")
+        self.assertEqual(response.payload, {"daily": {"time": []}})
+        self.assertEqual(mocked_urlopen.call_count, 2)
+        mocked_sleep.assert_called_once_with(0.01)
+
+    def test_weather_request_fails_after_three_attempts_without_cache(self) -> None:
+        """A sustained outage must stop clearly rather than loop forever."""
+
+        with tempfile.TemporaryDirectory() as directory:
+            with (
+                patch(
+                    "near_realtime_outbreak_detection.urlopen",
+                    side_effect=URLError("service unavailable"),
+                ) as mocked_urlopen,
+                patch("near_realtime_outbreak_detection.time.sleep"),
+            ):
+                with self.assertRaisesRegex(
+                    RuntimeError,
+                    "Unable to retrieve https://example.test/weather",
+                ):
+                    fetch_json_with_cache(
+                        "https://example.test/weather",
+                        {},
+                        Path(directory),
+                        "retry-test",
+                        max_cache_age_hours=0,
+                        retry_backoff_seconds=0,
+                    )
+
+        self.assertEqual(mocked_urlopen.call_count, 3)
 
     def test_daily_payload_is_aggregated_into_a_complete_week(self) -> None:
         times = pd.date_range("2026-07-06", periods=7, freq="D")

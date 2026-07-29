@@ -281,6 +281,8 @@ def fetch_json_with_cache(
     max_cache_age_hours: float | None,
     refresh: bool = False,
     timeout_seconds: int = 60,
+    retry_attempts: int = 3,
+    retry_backoff_seconds: float = 2.0,
 ) -> CachedJsonResponse:
     """Fetch JSON while preserving a transparent, dated local fallback.
 
@@ -310,32 +312,59 @@ def fetch_json_with_cache(
     request_url = f"{url}?{urlencode(parameters)}"
     request = Request(request_url, headers={"User-Agent": "dengue-forecasting-model/1.0"})
 
-    try:
-        with urlopen(request, timeout=timeout_seconds) as response:
-            payload = json.loads(response.read().decode("utf-8"))
+    # A hosted automation runner can occasionally encounter a temporary DNS,
+    # TLS, or provider-side timeout even when the API itself is healthy.  Retry
+    # a small, fixed number of times so one brief network interruption does not
+    # cancel the entire weekly forecast.  The retry count is bounded so a real
+    # outage still fails clearly instead of leaving the workflow hanging.
+    attempts = max(1, int(retry_attempts))
+    last_error: Exception | None = None
+    for attempt_number in range(1, attempts + 1):
+        try:
+            with urlopen(request, timeout=timeout_seconds) as response:
+                payload = json.loads(response.read().decode("utf-8"))
 
-        # Open-Meteo may return structured JSON errors.  Treat them as failures
-        # instead of allowing a later feature-building error to hide the cause.
-        if isinstance(payload, dict) and payload.get("error"):
-            raise RuntimeError(payload.get("reason", "Open-Meteo returned an error"))
+            # Open-Meteo may return structured JSON errors.  Treat them as
+            # failures instead of allowing a later feature-building error to
+            # hide the cause.
+            if isinstance(payload, dict) and payload.get("error"):
+                raise RuntimeError(
+                    payload.get("reason", "Open-Meteo returned an error")
+                )
 
-        cache_path.write_text(json.dumps(payload), encoding="utf-8")
-        return CachedJsonResponse(
-            payload=payload,
-            cache_state="live_api",
-            fetched_at_utc=datetime.now(timezone.utc).isoformat(),
-        )
-    except (HTTPError, URLError, TimeoutError, json.JSONDecodeError, RuntimeError) as exc:
-        if cache_path.exists():
+            cache_path.write_text(json.dumps(payload), encoding="utf-8")
             return CachedJsonResponse(
-                payload=json.loads(cache_path.read_text(encoding="utf-8")),
-                cache_state="stale_fallback",
-                fetched_at_utc=datetime.fromtimestamp(
-                    cache_path.stat().st_mtime,
-                    tz=timezone.utc,
-                ).isoformat(),
+                payload=payload,
+                cache_state="live_api",
+                fetched_at_utc=datetime.now(timezone.utc).isoformat(),
             )
-        raise RuntimeError(f"Unable to retrieve {url}: {exc}") from exc
+        except (
+            HTTPError,
+            URLError,
+            TimeoutError,
+            json.JSONDecodeError,
+            RuntimeError,
+        ) as exc:
+            last_error = exc
+            if attempt_number < attempts:
+                # Linear backoff keeps the delay predictable: the default
+                # waits two seconds after attempt one and four seconds after
+                # attempt two.  Tests can set this value to zero.
+                time.sleep(retry_backoff_seconds * attempt_number)
+
+    # Only use an expired cache after every live attempt fails.  The returned
+    # state explicitly identifies stale data so downstream pages cannot label
+    # it as a fresh API response.
+    if cache_path.exists():
+        return CachedJsonResponse(
+            payload=json.loads(cache_path.read_text(encoding="utf-8")),
+            cache_state="stale_fallback",
+            fetched_at_utc=datetime.fromtimestamp(
+                cache_path.stat().st_mtime,
+                tz=timezone.utc,
+            ).isoformat(),
+        )
+    raise RuntimeError(f"Unable to retrieve {url}: {last_error}") from last_error
 
 
 def parse_open_meteo_daily(payload: dict[str, Any], source: str) -> pd.DataFrame:

@@ -18,11 +18,11 @@ The folder-level `index.html` sends visitors directly to the public dashboard.
 After a repository administrator enables GitHub Pages with **GitHub Actions**
 as its source, the workflow publishes the site at:
 
-<https://smahmood-data.github.io/GroupB_AI4ALL/2026-07-25_Nathan_Nguyen_API_Model/>
+<https://smahmood-data.github.io/GroupB_AI4ALL/2026-07-28_Nathan_Nguyen_API_Model/>
 
 The focused technical explainer will be available at:
 
-<https://smahmood-data.github.io/GroupB_AI4ALL/2026-07-25_Nathan_Nguyen_API_Model/docs/puerto-rico-api-model-focused.html>
+<https://smahmood-data.github.io/GroupB_AI4ALL/2026-07-28_Nathan_Nguyen_API_Model/docs/puerto-rico-api-model-focused.html>
 
 ## What is included
 

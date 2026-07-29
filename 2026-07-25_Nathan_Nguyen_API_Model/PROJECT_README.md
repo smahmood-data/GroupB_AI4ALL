@@ -23,10 +23,10 @@ python src/generate_public_dashboard.py
 python -m http.server 8000 --directory docs
 ```
 
-Then open `http://localhost:8000/app/`. The weekly GitHub Actions workflow
-regenerates the snapshot after a successful operational update. Email signup is
-not shown because the app does not yet have a secure subscription and delivery
-backend.
+Then open `http://localhost:8000/app/`. The GitHub Actions workflow regenerates
+the snapshot after a successful weekly update or guarded retraining check.
+Email signup is not shown because the app does not yet have a secure
+subscription and delivery backend.
 
 For a server-free local preview, open `docs/app/index.html` directly. The
 generated `dashboard-data.js` snapshot allows the app to work from a local file
@@ -122,9 +122,8 @@ dengue-forecasting-model/
 │   ├── official_case_data.py
 │   └── puerto_rico_operational.py
 ├── tests/
-├── .github/workflows/
-│   ├── monthly-guarded-retraining.yml
-│   └── weekly-operational-update.yml
+├── automation/
+│   └── puerto-rico-dengue-model.yml
 ├── requirements.txt
 └── README.md
 ```
@@ -381,16 +380,24 @@ Useful reproducibility options are `--as-of YYYY-MM-DD` and `--refresh`.
 
 ### GitHub Actions and bot commits
 
-`weekly-operational-update.yml` runs every Wednesday and
-`monthly-guarded-retraining.yml` runs on the first day of each month. The
-monthly workflow also refreshes the archived issue-time weather audit before
-guarded retraining. Each job:
+The repository-level `.github/workflows/puerto-rico-dengue-model.yml` runs in
+weekly mode every Wednesday and monthly mode on the first day of each month.
+The dated folder keeps an identical reference copy at
+`automation/puerto-rico-dengue-model.yml`. Each run:
 
-1. installs the pinned minimum dependencies;
+1. installs the declared minimum dependencies;
 2. runs all offline tests;
 3. executes the appropriate pipeline command; and
-4. commits only versioned operational data, reports, and champion artifacts as
-   `github-actions[bot]`.
+4. rebuilds the dashboard and both explainers;
+5. reruns the complete test suite; and
+6. commits only versioned operational data, reports, champion artifacts, and
+   generated public pages as `github-actions[bot]`.
+
+The monthly run checks whether at least 13 new finalized case weeks exist.
+Until then, it records the decision and keeps the current model. When
+retraining is due, a candidate replaces the champion only if the configured
+time-based case-error and outbreak-detection limits remain acceptable. If an
+API, generator, or test fails, the run stops before any bot commit.
 
 The repository must allow GitHub Actions **read and write** workflow permission
 for bot commits. Branch rules must also allow this workflow to update the

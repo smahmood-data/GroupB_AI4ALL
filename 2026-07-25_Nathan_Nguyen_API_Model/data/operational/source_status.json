@@ -1,9 +1,15 @@
 {
-  "checked_at_utc": "2026-07-22T02:27:48.532222+00:00",
+  "checked_at_utc": "2026-07-29T01:25:50.835461+00:00",
   "peru": {
-    "checked_at_utc": "2026-07-22T02:27:49.568765+00:00",
-    "error": "Unable to download official case data from https://www.datosabiertos.gob.pe/api/3/action/package_show?id=2c3b2955-6252-4b9d-abd3-caeb61ccda39: HTTP Error 403: Forbidden",
-    "status": "unavailable"
+    "automation_status": "metadata_only_manual_csv_required",
+    "checked_at_utc": "2026-07-29T01:25:51.989717+00:00",
+    "dataset_id": "2c3b2955-6252-4b9d-abd3-caeb61ccda39",
+    "metadata_modified": "Mi\u00e9, 12/17/2025 - 09:19",
+    "resource_last_modified": "Date changed  Mi\u00e9, 12/17/2025 - 09:19",
+    "resource_name": "datos_abiertos_vigilancia_dengue_2000_2024.csv",
+    "resource_size": "103.52 MB",
+    "source": "Peru CDC/MINSA open-data catalog",
+    "source_page": "https://www.datosabiertos.gob.pe/dataset/vigilancia-epidemiol%C3%B3gica-de-dengue"
   },
   "puerto_rico": {
     "case_vintage_created": false,
@@ -13,7 +19,7 @@
     "new_or_revised_weeks": 0,
     "normalized_weeks": 385,
     "publication_date": "2026-06-04T15:56:55.527867Z",
-    "retrieved_at_utc": "2026-07-22T02:27:48.443392+00:00",
+    "retrieved_at_utc": "2026-07-29T01:25:50.648388+00:00",
     "source_file_id": "2450f009-9079-4bdb-8799-1600bdd4fce1",
     "status": "ok"
   }

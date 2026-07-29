@@ -2,10 +2,10 @@
 
 ## Puerto Rico Dengue Forecasting App
 
-This folder is a self-contained snapshot of the Puerto Rico-wide dengue
-forecasting project as of July 25, 2026. It includes the public bilingual app,
-the focused model explainer, the operational API model, saved model artifacts,
-data snapshots, validation results, reports, and tests.
+This folder contains the July 25, 2026 iteration of the Puerto Rico-wide dengue
+forecasting project. It includes the public bilingual app, the focused model
+explainer, the operational API model, saved model artifacts, updated data
+snapshots, validation results, reports, and tests.
 
 The project is for research and educational use. An outbreak in this model
 means that weekly reported cases exceed the seasonal cutoff: the 75th
@@ -15,14 +15,14 @@ not an official government outbreak declaration.
 ## Open the app
 
 The folder-level `index.html` sends visitors directly to the public dashboard.
-After a repository administrator enables GitHub Pages from the `main` branch
-and repository root, the shareable address will be:
+After a repository administrator enables GitHub Pages with **GitHub Actions**
+as its source, the workflow publishes the site at:
 
-<https://smahmood-data.github.io/GroupB_AI4ALL/2026-07-25_Nathan_Nguyen_API_Model/>
+<https://smahmood-data.github.io/GroupB_AI4ALL/2026-07-28_Nathan_Nguyen_API_Model/>
 
 The focused technical explainer will be available at:
 
-<https://smahmood-data.github.io/GroupB_AI4ALL/2026-07-25_Nathan_Nguyen_API_Model/docs/puerto-rico-api-model-focused.html>
+<https://smahmood-data.github.io/GroupB_AI4ALL/2026-07-28_Nathan_Nguyen_API_Model/docs/puerto-rico-api-model-focused.html>
 
 ## What is included
 
@@ -45,11 +45,14 @@ The focused technical explainer will be available at:
   validation reports.
 - `tests/` contains the automated model, leakage, operational-pipeline,
   explainer, and public-dashboard tests.
-- `automation/weekly-operational-update.yml` is a reference copy of the weekly
-  GitHub Actions workflow.
+- `automation/puerto-rico-dengue-model.yml` is a reference copy of the active
+  GitHub Actions update-and-retraining workflow.
 - `PROJECT_README.md` contains the full development documentation.
 
-Everything for this iteration is contained inside this dated subfolder.
+All model, app, documentation, data, and test files for this iteration are
+contained inside the dated subfolder. Its runnable GitHub Actions workflow is
+the only iteration-specific file at the repository level because GitHub does
+not execute workflows from project subfolders.
 
 ## Model outputs
 
@@ -123,13 +126,23 @@ python src/generate_api_model_explainer.py
 
 ## Scheduled updates
 
-The included workflow file is kept inside this subfolder so the entire
-iteration remains self-contained. GitHub only runs workflows placed in the
-repository-level `.github/workflows/` directory. A repository administrator
-must copy or adapt `automation/weekly-operational-update.yml` there if the
-GroupB repository should run this model automatically.
+The active workflow is
+`.github/workflows/puerto-rico-dengue-model.yml` at the repository root because
+GitHub only runs workflow files from that location. The matching reference copy
+inside this dated folder is `automation/puerto-rico-dengue-model.yml`.
 
-The model does not silently retrain itself after each prediction. Scheduled
-retraining creates a candidate model, and the current model is replaced only
-when the configured time-based safety checks remain acceptable.
+The workflow has two different schedules:
 
+1. Every Wednesday, it downloads the latest official cases and weather,
+   produces new current- and next-week forecasts, scores older forecasts whose
+   outcomes are now finalized, rebuilds the app and explainers, reruns all
+   tests, and commits the complete verified result.
+2. On the first day of each month, it performs the same update and checks
+   whether retraining is due. A candidate is trained only after at least 13 new
+   finalized case weeks are available, which is usually about once per quarter.
+
+Retraining does not automatically replace the live model. The candidate must
+pass the configured time-based accuracy and outbreak-detection limits. If it
+fails, the existing model remains active and the rejection report is saved.
+If any API, generation, or test step fails, GitHub Actions stops before the bot
+commit, so the public app keeps its previous complete snapshot.

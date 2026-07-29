@@ -272,7 +272,7 @@
   <main class="page">
     <nav class="nav">
       <div class="brand"><span class="brand-mark">PR</span><span>Dengue API model</span></div>
-      <div class="nav-links"><a href="#predictions">Predictions</a><a href="#architecture">Architecture</a><a href="#testing">Testing</a><a href="#results">Results</a><a href="#glossary">Glossary</a><a href="#files">Code</a></div>
+      <div class="nav-links"><a href="#predictions">Predictions</a><a href="#architecture">Architecture</a><a href="#updates">Updates</a><a href="#testing">Testing</a><a href="#results">Results</a><a href="#glossary">Glossary</a><a href="#files">Code</a></div>
     </nav>
 
     <header class="hero">
@@ -351,9 +351,23 @@
           <div class="stage-label"><span>6</span><strong>Publish and learn safely</strong><small>Monitoring, not self-training</small></div>
           <div class="architecture-nodes two">
             <article class="architecture-node dark"><h3>Weekly public output</h3><p>Forecast week, starting estimate, higher estimates, outbreak cutoff, outbreak probability, report age, and source dates.</p></article>
-            <article class="architecture-node dark"><h3>Later scoring and guarded retraining</h3><p>Save the input snapshot, compare predictions with later official cases, and retrain on schedule. A candidate replaces the current model only when required time-based checks do not worsen.</p></article>
+            <article class="architecture-node dark"><h3>Later scoring and guarded retraining</h3><p>Save the input snapshot, compare predictions with later official cases, and check monthly whether enough new finalized weeks exist to retrain. A candidate replaces the current model only when required time-based checks do not worsen.</p></article>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section class="section" id="updates">
+      <div class="section-head"><div><div class="kicker">Automatic operation</div><h2>How the app stays current without unsafe self-training</h2></div><p>Updating a forecast and retraining a model are separate actions. GitHub Actions runs them on controlled schedules and publishes only after the full result passes its tests.</p></div>
+      <div class="validation-steps">
+        <article class="validation-step"><strong>1 · Update every Wednesday</strong><p>Download the newest official cases and weather, preserve source versions, produce current- and next-week forecasts, and score older forecasts once their actual counts are finalized.</p></article>
+        <article class="validation-step"><strong>2 · Check monthly</strong><p>On the first day of each month, check whether at least 13 new finalized case weeks have accumulated. This usually makes actual retraining about quarterly, not monthly.</p></article>
+        <article class="validation-step"><strong>3 · Test a candidate</strong><p>When retraining is due, build a candidate using the expanded history. Compare it with the live model using later, unseen weeks and the configured case-error and outbreak-detection limits.</p></article>
+        <article class="validation-step"><strong>4 · Publish only a complete pass</strong><p>Keep the current model if the candidate fails. If the data update, page generation, or tests fail, make no bot commit, so the public app keeps its previous verified snapshot.</p></article>
+      </div>
+      <div class="grid-2" style="margin-top:16px">
+        <article class="card"><h3>Forecast update</h3><p>Uses the already approved model with newer API data. It changes the displayed forecast and monitoring results, but it does not change the learned model.</p><span class="pill">Weekly</span></article>
+        <article class="card coral"><h3>Guarded retraining</h3><p>Builds and tests a new candidate after enough finalized outcomes arrive. The candidate becomes the live model only if required results stay within the allowed limits.</p><span class="pill coral">Eligible after 13 new finalized weeks</span></article>
       </div>
     </section>
 
@@ -467,6 +481,10 @@
           <div><dt>Rolling summary</dt><dd>A statistic over a moving window, such as average rainfall over the last four weeks.</dd></div>
           <div><dt>Persistence fallback</dt><dd>A simple prediction that carries the latest known case count forward.</dd></div>
           <div><dt>Guarded promotion</dt><dd>A rule that blocks a retrained candidate from replacing the current model unless required tests remain acceptable.</dd></div>
+          <div><dt>Forecast update</dt><dd>A run that uses the current approved model with newer API data. It creates a new forecast but does not relearn the model.</dd></div>
+          <div><dt>Retraining</dt><dd>Building a new candidate model from a longer history after enough new, finalized outcomes are available.</dd></div>
+          <div><dt>Finalized case week</dt><dd>An official weekly count old enough to be used as a training outcome. This pipeline waits four weeks so early revisions are less likely.</dd></div>
+          <div><dt>Bot commit</dt><dd>An automatic saved update made by GitHub Actions only after the data, pages, and tests finish successfully.</dd></div>
           <div><dt>API</dt><dd>An application programming interface: a structured way for software to request data from another service.</dd></div>
           <div><dt>Data route</dt><dd>The version of the model selected according to whether recent, delayed, or no case reports are available.</dd></div>
           <div><dt>Input variable / feature</dt><dd>One measured value given to a model, such as rainfall from two weeks earlier.</dd></div>
@@ -479,6 +497,7 @@
       <div class="section-head"><div><div class="kicker">Relevant files</div><h2>Follow the implementation</h2></div><p>Start with the orchestrator, then inspect the operational model, input vintages, audit report, and configuration.</p></div>
       <div class="code-map">
         <a class="file" href="../src/continuous_pipeline.py"><code>src/continuous_pipeline.py</code><span>API ingestion, audit, weekly scoring, monthly retraining, and monitoring</span></a>
+        <a class="file" href="../automation/puerto-rico-dengue-model.yml"><code>automation/puerto-rico-dengue-model.yml</code><span>Reference copy of the active weekly update and guarded retraining schedule</span></a>
         <a class="file" href="../src/puerto_rico_operational.py"><code>src/puerto_rico_operational.py</code><span>Feature routing, classifiers, case regressors, archived weather, and promotion guardrails</span></a>
         <a class="file" href="../src/official_case_data.py"><code>src/official_case_data.py</code><span>Official case normalization, revisions, and immutable case vintages</span></a>
         <a class="file" href="../src/near_realtime_outbreak_detection.py"><code>src/near_realtime_outbreak_detection.py</code><span>Weekly weather summaries, earlier-week variables, probability adjustment, and outbreak alert rule</span></a>

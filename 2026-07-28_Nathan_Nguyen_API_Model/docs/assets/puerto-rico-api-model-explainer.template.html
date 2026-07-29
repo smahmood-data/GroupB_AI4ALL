@@ -380,6 +380,7 @@
         <a href="#models">Three models</a>
         <a href="#results">Results</a>
         <a href="#availability-audit">Input-time audit</a>
+        <a href="#automation">Updates</a>
         <a href="#validation">Validation</a>
         <a href="#files">Relevant files</a>
       </div>
@@ -579,6 +580,34 @@
       </article>
     </section>
 
+    <section class="section" id="automation">
+      <div class="section-head">
+        <div><div class="section-kicker">Automatic operation</div><h2>Updating and retraining are separate</h2></div>
+        <p>The scheduled workflow uses newer API data every week, but it changes the learned model only after enough finalized outcomes arrive and a candidate passes the replacement checks.</p>
+      </div>
+      <div class="grid-3">
+        <article class="card objective">
+          <div class="objective-number">01</div>
+          <h3>Weekly forecast update</h3>
+          <p>Every Wednesday, fetch the newest official cases and weather, save the input versions, produce current- and next-week forecasts, score mature predictions, and rebuild the public pages.</p>
+          <span class="pill">Uses the current approved model</span>
+        </article>
+        <article class="card objective">
+          <div class="objective-number">02</div>
+          <h3>Monthly retraining check</h3>
+          <p>On the first day of each month, check for at least 13 new finalized case weeks. That requirement means actual candidate training is usually about quarterly, not every month.</p>
+          <span class="pill">No forced training on unchanged data</span>
+        </article>
+        <article class="card objective">
+          <div class="objective-number">03</div>
+          <h3>Guarded replacement</h3>
+          <p>Compare the candidate with the live model on later, unseen weeks. Keep the live model if required case-error or outbreak-detection results worsen beyond the configured limits.</p>
+          <span class="pill">Publish only after all tests pass</span>
+        </article>
+      </div>
+      <div class="callout" style="margin-top:18px"><strong>Failure behavior</strong>If an API request, page generator, or test fails, the workflow makes no bot commit. GitHub Pages therefore keeps serving the previous complete, verified snapshot.</div>
+    </section>
+
     <section class="section" id="validation">
       <div class="section-head">
         <div><div class="section-kicker">Prediction vs. actual</div><h2>Explore every held-out week</h2></div>
@@ -659,8 +688,7 @@
             <tr><td><a class="file-link" href="../data/operational/predictions.csv">data/operational/predictions.csv</a></td><td>Versioned live P50/P80/P90 estimates, reliability, probabilities, alerts, and later outcomes</td><td>Operational prediction log</td></tr>
             <tr><td><a class="file-link" href="../data/operational/vintages/">data/operational/vintages/</a></td><td>Immutable case snapshots and exact processed feature rows preserved at each live run</td><td>Prospective input evidence</td></tr>
             <tr><td><a class="file-link" href="../reports/operational/pr_information_available_validation_latest.json">reports/operational/pr_information_available_validation_latest.json</a></td><td>Latest archived issue-time weather audit, kept separate from champion promotion metrics</td><td>Stricter historical sensitivity result</td></tr>
-            <tr><td><a class="file-link" href="../.github/workflows/weekly-operational-update.yml">.github/workflows/weekly-operational-update.yml</a></td><td>Scheduled API refresh, prediction, monitoring, tests, and bot commit</td><td>Weekly automation</td></tr>
-            <tr><td><a class="file-link" href="../.github/workflows/monthly-guarded-retraining.yml">.github/workflows/monthly-guarded-retraining.yml</a></td><td>Scheduled candidate training and guarded promotion</td><td>Monthly automation</td></tr>
+            <tr><td><a class="file-link" href="../automation/puerto-rico-dengue-model.yml">automation/puerto-rico-dengue-model.yml</a></td><td>Reference copy of the active weekly update, monthly retraining check, full tests, and bot commit workflow</td><td>Automatic operation</td></tr>
             <tr><td><a class="file-link" href="../src/generate_api_model_explainer.py">src/generate_api_model_explainer.py</a></td><td>Regenerates this page from the current champion and validation artifacts</td><td><code>build_explainer</code></td></tr>
           </tbody>
         </table>

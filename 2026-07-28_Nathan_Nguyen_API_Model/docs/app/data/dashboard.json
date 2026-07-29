@@ -1,19 +1,19 @@
-window.DENGUE_DASHBOARD_DATA = {
+{
   "schemaVersion": 1,
   "geography": {
     "code": "pr",
     "name": "Puerto Rico"
   },
-  "issuedAt": "2026-07-22T02:28:01.754462+00:00",
-  "asOfDate": "2026-07-21",
+  "issuedAt": "2026-07-29T01:26:05.860841+00:00",
+  "asOfDate": "2026-07-28",
   "publication": {
-    "date": "2026-07-22",
+    "date": "2026-07-29",
     "researchUseOnly": true,
     "officialSourceUrl": "https://datos.salud.pr.gov"
   },
   "signal": {
     "currentWeek": {
-      "weekStart": "2026-07-20",
+      "weekStart": "2026-07-27",
       "leadWeeks": 0,
       "timeScope": "current_week",
       "cases": {
@@ -25,14 +25,14 @@ window.DENGUE_DASHBOARD_DATA = {
         "reliability": "moderate_delayed_case_history"
       },
       "outbreak": {
-        "probability": 0.7472529535045064,
+        "probability": 0.7695178822499843,
         "alertGate": 0.75,
-        "alert": false,
+        "alert": true,
         "definition": "seasonal_training_q75"
       }
     },
     "nextWeek": {
-      "weekStart": "2026-07-27",
+      "weekStart": "2026-08-03",
       "leadWeeks": 1,
       "timeScope": "forecast_week",
       "cases": {
@@ -44,7 +44,7 @@ window.DENGUE_DASHBOARD_DATA = {
         "reliability": "moderate_delayed_case_history"
       },
       "outbreak": {
-        "probability": 0.7519141429626308,
+        "probability": 0.7587377974952836,
         "alertGate": 0.75,
         "alert": true,
         "definition": "seasonal_training_q75"
@@ -2751,9 +2751,9 @@ window.DENGUE_DASHBOARD_DATA = {
   "freshness": {
     "level": "stale",
     "latestOfficialCaseWeek": "2026-05-18",
-    "officialCaseAgeWeeks": 9.0,
+    "officialCaseAgeWeeks": 10.0,
     "caseSourcePublicationDate": "2026-06-04T15:56:55.527867Z",
-    "sourceCheckedAt": "2026-07-22T02:27:48.532222+00:00",
+    "sourceCheckedAt": "2026-07-29T01:25:50.835461+00:00",
     "sourceStatus": "ok",
     "weatherDaysAvailable": 7,
     "forecastInputDays": 5
@@ -2783,4 +2783,4 @@ window.DENGUE_DASHBOARD_DATA = {
       "basis": "prospective_persisted_issue_time_inputs"
     }
   }
-};
+}

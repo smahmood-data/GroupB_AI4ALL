@@ -1,8 +1,8 @@
 {
-  "checked_at_utc": "2026-07-29T15:58:46.699400+00:00",
+  "checked_at_utc": "2026-08-01T16:13:48.288233+00:00",
   "peru": {
     "automation_status": "metadata_only_manual_csv_required",
-    "checked_at_utc": "2026-07-29T15:58:47.845541+00:00",
+    "checked_at_utc": "2026-08-01T16:13:49.377730+00:00",
     "dataset_id": "2c3b2955-6252-4b9d-abd3-caeb61ccda39",
     "metadata_modified": "Mi\u00e9, 12/17/2025 - 09:19",
     "resource_last_modified": "Date changed  Mi\u00e9, 12/17/2025 - 09:19",
@@ -19,7 +19,7 @@
     "new_or_revised_weeks": 0,
     "normalized_weeks": 385,
     "publication_date": "2026-06-04T15:56:55.527867Z",
-    "retrieved_at_utc": "2026-07-29T15:58:46.645697+00:00",
+    "retrieved_at_utc": "2026-08-01T16:13:48.235849+00:00",
     "source_file_id": "2450f009-9079-4bdb-8799-1600bdd4fce1",
     "status": "ok"
   }

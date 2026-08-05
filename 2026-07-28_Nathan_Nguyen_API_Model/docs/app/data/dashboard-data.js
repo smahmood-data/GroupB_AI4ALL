@@ -4,16 +4,16 @@ window.DENGUE_DASHBOARD_DATA = {
     "code": "pr",
     "name": "Puerto Rico"
   },
-  "issuedAt": "2026-08-01T16:16:16.770141+00:00",
-  "asOfDate": "2026-08-01",
+  "issuedAt": "2026-08-05T16:09:46.171553+00:00",
+  "asOfDate": "2026-08-05",
   "publication": {
-    "date": "2026-08-01",
+    "date": "2026-08-05",
     "researchUseOnly": true,
     "officialSourceUrl": "https://datos.salud.pr.gov"
   },
   "signal": {
     "currentWeek": {
-      "weekStart": "2026-07-27",
+      "weekStart": "2026-08-03",
       "leadWeeks": 0,
       "timeScope": "current_week",
       "cases": {
@@ -25,26 +25,26 @@ window.DENGUE_DASHBOARD_DATA = {
         "reliability": "moderate_delayed_case_history"
       },
       "outbreak": {
-        "probability": 0.7798112539452394,
+        "probability": 0.7622423637377487,
         "alertGate": 0.75,
         "alert": true,
         "definition": "seasonal_training_q75"
       }
     },
     "nextWeek": {
-      "weekStart": "2026-08-03",
+      "weekStart": "2026-08-10",
       "leadWeeks": 1,
       "timeScope": "forecast_week",
       "cases": {
         "p50": 11.0,
         "p80": 33.2,
         "p90": 51.0,
-        "seasonalThreshold": 40.0,
+        "seasonalThreshold": 40.5,
         "riskLevel": "possible_upper_tail",
         "reliability": "moderate_delayed_case_history"
       },
       "outbreak": {
-        "probability": 0.7622423637377487,
+        "probability": 0.7788396355680666,
         "alertGate": 0.75,
         "alert": true,
         "definition": "seasonal_training_q75"
@@ -2751,12 +2751,12 @@ window.DENGUE_DASHBOARD_DATA = {
   "freshness": {
     "level": "stale",
     "latestOfficialCaseWeek": "2026-05-18",
-    "officialCaseAgeWeeks": 10.0,
+    "officialCaseAgeWeeks": 11.0,
     "caseSourcePublicationDate": "2026-06-04T15:56:55.527867Z",
-    "sourceCheckedAt": "2026-08-01T16:13:48.288233+00:00",
+    "sourceCheckedAt": "2026-08-05T16:09:34.621550+00:00",
     "sourceStatus": "ok",
     "weatherDaysAvailable": 7,
-    "forecastInputDays": 1
+    "forecastInputDays": 4
   },
   "model": {
     "version": "pr-94b935faed22",

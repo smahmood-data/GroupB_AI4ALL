@@ -52,3 +52,9 @@ This project was completed as part of AI4ALL 2026 (Group B, Healthcare & Life Sc
 - Sahar Abid
 - Zita Addy
 - Ella Jeon
+
+## Citations
+
+- World Health Organization. (2026, March 18). *Dengue and severe dengue.* <https://www.who.int/news-room/fact-sheets/detail/dengue-and-severe-dengue>
+- Naik, K. (2020, April 20). *What is AdaBoost* [Video]. YouTube. <https://www.youtube.com/watch?v=NLRO1-jp5F8>
+- *Multiyear climate variability and dengue.* (n.d.). <https://journals.plos.org/plosntds/article?id=10.1371/journal.pntd.0000670>

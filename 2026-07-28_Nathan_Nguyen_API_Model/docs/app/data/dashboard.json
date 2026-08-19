@@ -4,47 +4,47 @@
     "code": "pr",
     "name": "Puerto Rico"
   },
-  "issuedAt": "2026-08-12T15:14:27.579729+00:00",
-  "asOfDate": "2026-08-12",
+  "issuedAt": "2026-08-19T14:54:35.912909+00:00",
+  "asOfDate": "2026-08-19",
   "publication": {
-    "date": "2026-08-12",
+    "date": "2026-08-19",
     "researchUseOnly": true,
     "officialSourceUrl": "https://datos.salud.pr.gov"
   },
   "signal": {
     "currentWeek": {
-      "weekStart": "2026-08-10",
+      "weekStart": "2026-08-17",
       "leadWeeks": 0,
       "timeScope": "current_week",
       "cases": {
-        "p50": 11.0,
-        "p80": 33.2,
-        "p90": 51.0,
-        "seasonalThreshold": 40.5,
-        "riskLevel": "possible_upper_tail",
-        "reliability": "moderate_delayed_case_history"
-      },
-      "outbreak": {
-        "probability": 0.7788396355680666,
-        "alertGate": 0.75,
-        "alert": true,
-        "definition": "seasonal_training_q75"
-      }
-    },
-    "nextWeek": {
-      "weekStart": "2026-08-17",
-      "leadWeeks": 1,
-      "timeScope": "forecast_week",
-      "cases": {
-        "p50": 19.23140370165965,
-        "p80": 119.63514478669092,
-        "p90": 146.2790923545822,
+        "p50": 14.112689331465752,
+        "p80": 114.516430416497,
+        "p90": 141.16037798438828,
         "seasonalThreshold": 43.0,
         "riskLevel": "elevated_upper_range",
         "reliability": "limited_no_usable_case_history"
       },
       "outbreak": {
-        "probability": 0.7757731152768494,
+        "probability": 0.7759421093701557,
+        "alertGate": 0.77,
+        "alert": true,
+        "definition": "seasonal_training_q75"
+      }
+    },
+    "nextWeek": {
+      "weekStart": "2026-08-24",
+      "leadWeeks": 1,
+      "timeScope": "forecast_week",
+      "cases": {
+        "p50": 13.552130622632122,
+        "p80": 113.95587170766338,
+        "p90": 140.5998192755547,
+        "seasonalThreshold": 43.0,
+        "riskLevel": "elevated_upper_range",
+        "reliability": "limited_no_usable_case_history"
+      },
+      "outbreak": {
+        "probability": 0.7763462827620715,
         "alertGate": 0.77,
         "alert": true,
         "definition": "seasonal_training_q75"
@@ -2751,31 +2751,31 @@
   "freshness": {
     "level": "stale",
     "latestOfficialCaseWeek": "2026-05-18",
-    "officialCaseAgeWeeks": 12.0,
+    "officialCaseAgeWeeks": 13.0,
     "caseSourcePublicationDate": "2026-06-04T15:56:55.527867Z",
-    "sourceCheckedAt": "2026-08-12T15:14:20.148929+00:00",
+    "sourceCheckedAt": "2026-08-19T14:53:21.731370+00:00",
     "sourceStatus": "ok",
     "weatherDaysAvailable": 7,
     "forecastInputDays": 4
   },
   "model": {
     "version": "pr-94b935faed22",
-    "variant": "weather_plus_delayed_cases",
+    "variant": "weather_only",
     "trainingDataCutoff": "2026-05-18",
     "inputVintageBasis": "prospective_persisted_issue_time_inputs",
     "heldOut": {
-      "caseMae": 23.992,
-      "normalWeekMae": 12.964285714285714,
-      "outbreakWeekMae": 27.17525773195876,
-      "precision": 0.8,
-      "recall": 0.9072164948453608,
-      "f1": 0.8502415458937198,
-      "prAuc": 0.78769330035575,
-      "brier": 0.1720393369322587,
+      "caseMae": 56.94306677266757,
+      "normalWeekMae": 16.65634758361734,
+      "outbreakWeekMae": 68.57222282723875,
+      "precision": 0.776,
+      "recall": 1.0,
+      "f1": 0.8738738738738738,
+      "prAuc": 0.7917180390060263,
+      "brier": 0.173823474734323,
       "basis": "historical_proxy_expanding_time_validation",
       "caseTestWeeks": 125,
-      "lowerHighEstimateCoverage": 0.76,
-      "upperHighEstimateCoverage": 0.808
+      "lowerHighEstimateCoverage": 0.544,
+      "upperHighEstimateCoverage": 0.632
     },
     "prospective": {
       "evaluatedRows": 0,

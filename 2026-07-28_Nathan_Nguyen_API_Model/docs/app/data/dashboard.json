@@ -4,47 +4,47 @@
     "code": "pr",
     "name": "Puerto Rico"
   },
-  "issuedAt": "2026-08-19T14:54:35.912909+00:00",
-  "asOfDate": "2026-08-19",
+  "issuedAt": "2026-08-26T15:52:53.789657+00:00",
+  "asOfDate": "2026-08-26",
   "publication": {
-    "date": "2026-08-19",
+    "date": "2026-08-26",
     "researchUseOnly": true,
     "officialSourceUrl": "https://datos.salud.pr.gov"
   },
   "signal": {
     "currentWeek": {
-      "weekStart": "2026-08-17",
+      "weekStart": "2026-08-24",
       "leadWeeks": 0,
       "timeScope": "current_week",
       "cases": {
-        "p50": 14.112689331465752,
-        "p80": 114.516430416497,
-        "p90": 141.16037798438828,
+        "p50": 13.125013812830376,
+        "p80": 113.52875489786165,
+        "p90": 140.1727024657529,
         "seasonalThreshold": 43.0,
         "riskLevel": "elevated_upper_range",
         "reliability": "limited_no_usable_case_history"
       },
       "outbreak": {
-        "probability": 0.7759421093701557,
+        "probability": 0.775968960584425,
         "alertGate": 0.77,
         "alert": true,
         "definition": "seasonal_training_q75"
       }
     },
     "nextWeek": {
-      "weekStart": "2026-08-24",
+      "weekStart": "2026-08-31",
       "leadWeeks": 1,
       "timeScope": "forecast_week",
       "cases": {
-        "p50": 13.552130622632122,
-        "p80": 113.95587170766338,
-        "p90": 140.5998192755547,
+        "p50": 22.34612479289185,
+        "p80": 122.7498658779231,
+        "p90": 149.39381344581437,
         "seasonalThreshold": 43.0,
         "riskLevel": "elevated_upper_range",
         "reliability": "limited_no_usable_case_history"
       },
       "outbreak": {
-        "probability": 0.7763462827620715,
+        "probability": 0.7756744879823159,
         "alertGate": 0.77,
         "alert": true,
         "definition": "seasonal_training_q75"
@@ -2751,9 +2751,9 @@
   "freshness": {
     "level": "stale",
     "latestOfficialCaseWeek": "2026-05-18",
-    "officialCaseAgeWeeks": 13.0,
+    "officialCaseAgeWeeks": 14.0,
     "caseSourcePublicationDate": "2026-06-04T15:56:55.527867Z",
-    "sourceCheckedAt": "2026-08-19T14:53:21.731370+00:00",
+    "sourceCheckedAt": "2026-08-26T15:52:45.475911+00:00",
     "sourceStatus": "ok",
     "weatherDaysAvailable": 7,
     "forecastInputDays": 4

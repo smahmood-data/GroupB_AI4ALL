@@ -4,10 +4,10 @@
     "code": "pr",
     "name": "Puerto Rico"
   },
-  "issuedAt": "2026-09-01T18:32:24.205855+00:00",
-  "asOfDate": "2026-09-01",
+  "issuedAt": "2026-09-02T17:54:15.410396+00:00",
+  "asOfDate": "2026-09-02",
   "publication": {
-    "date": "2026-09-01",
+    "date": "2026-09-02",
     "researchUseOnly": true,
     "officialSourceUrl": "https://datos.salud.pr.gov"
   },
@@ -17,15 +17,15 @@
       "leadWeeks": 0,
       "timeScope": "current_week",
       "cases": {
-        "p50": 9.730681560070332,
-        "p80": 110.1344226451016,
-        "p90": 136.77837021299283,
+        "p50": 10.644432900495696,
+        "p80": 111.04817398552696,
+        "p90": 137.69212155341822,
         "seasonalThreshold": 43.0,
         "riskLevel": "elevated_upper_range",
         "reliability": "limited_no_usable_case_history"
       },
       "outbreak": {
-        "probability": 0.7764737035687101,
+        "probability": 0.776360292834951,
         "alertGate": 0.77,
         "alert": true,
         "definition": "seasonal_training_q75"
@@ -36,15 +36,15 @@
       "leadWeeks": 1,
       "timeScope": "forecast_week",
       "cases": {
-        "p50": 18.988674879338355,
-        "p80": 119.3924159643696,
-        "p90": 146.03636353226088,
+        "p50": 19.20377776261408,
+        "p80": 119.60751884764534,
+        "p90": 146.2514664155366,
         "seasonalThreshold": 43.0,
         "riskLevel": "elevated_upper_range",
         "reliability": "limited_no_usable_case_history"
       },
       "outbreak": {
-        "probability": 0.7755974656917755,
+        "probability": 0.775556838598479,
         "alertGate": 0.77,
         "alert": true,
         "definition": "seasonal_training_q75"
@@ -2753,10 +2753,10 @@
     "latestOfficialCaseWeek": "2026-05-18",
     "officialCaseAgeWeeks": 15.0,
     "caseSourcePublicationDate": "2026-06-04T15:56:55.527867Z",
-    "sourceCheckedAt": "2026-09-01T18:32:17.162957+00:00",
+    "sourceCheckedAt": "2026-09-02T17:54:07.293096+00:00",
     "sourceStatus": "ok",
     "weatherDaysAvailable": 7,
-    "forecastInputDays": 5
+    "forecastInputDays": 4
   },
   "model": {
     "version": "pr-94b935faed22",

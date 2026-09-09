@@ -4,47 +4,47 @@ window.DENGUE_DASHBOARD_DATA = {
     "code": "pr",
     "name": "Puerto Rico"
   },
-  "issuedAt": "2026-09-02T17:54:15.410396+00:00",
-  "asOfDate": "2026-09-02",
+  "issuedAt": "2026-09-09T17:51:10.729042+00:00",
+  "asOfDate": "2026-09-09",
   "publication": {
-    "date": "2026-09-02",
+    "date": "2026-09-09",
     "researchUseOnly": true,
     "officialSourceUrl": "https://datos.salud.pr.gov"
   },
   "signal": {
     "currentWeek": {
-      "weekStart": "2026-08-31",
+      "weekStart": "2026-09-07",
       "leadWeeks": 0,
       "timeScope": "current_week",
       "cases": {
-        "p50": 10.644432900495696,
-        "p80": 111.04817398552696,
-        "p90": 137.69212155341822,
+        "p50": 23.644203530105447,
+        "p80": 124.0479446151367,
+        "p90": 150.691892183028,
         "seasonalThreshold": 43.0,
         "riskLevel": "elevated_upper_range",
         "reliability": "limited_no_usable_case_history"
       },
       "outbreak": {
-        "probability": 0.776360292834951,
+        "probability": 0.7758620466563085,
         "alertGate": 0.77,
         "alert": true,
         "definition": "seasonal_training_q75"
       }
     },
     "nextWeek": {
-      "weekStart": "2026-09-07",
+      "weekStart": "2026-09-14",
       "leadWeeks": 1,
       "timeScope": "forecast_week",
       "cases": {
-        "p50": 19.20377776261408,
-        "p80": 119.60751884764534,
-        "p90": 146.2514664155366,
+        "p50": 13.154838242480398,
+        "p80": 113.55857932751164,
+        "p90": 140.20252689540294,
         "seasonalThreshold": 43.0,
         "riskLevel": "elevated_upper_range",
         "reliability": "limited_no_usable_case_history"
       },
       "outbreak": {
-        "probability": 0.775556838598479,
+        "probability": 0.7756288388655201,
         "alertGate": 0.77,
         "alert": true,
         "definition": "seasonal_training_q75"
@@ -2751,9 +2751,9 @@ window.DENGUE_DASHBOARD_DATA = {
   "freshness": {
     "level": "stale",
     "latestOfficialCaseWeek": "2026-05-18",
-    "officialCaseAgeWeeks": 15.0,
+    "officialCaseAgeWeeks": 16.0,
     "caseSourcePublicationDate": "2026-06-04T15:56:55.527867Z",
-    "sourceCheckedAt": "2026-09-02T17:54:07.293096+00:00",
+    "sourceCheckedAt": "2026-09-09T17:49:59.117707+00:00",
     "sourceStatus": "ok",
     "weatherDaysAvailable": 7,
     "forecastInputDays": 4
